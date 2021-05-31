@@ -48,6 +48,8 @@ manager.
 
 ### Requirements
 
+> Best viewed  https://github.com/pablo-blueoakdb/nbiff#requirements
+
 `Python 3` is required along with some additional libraries:
 
 ```
@@ -56,9 +58,10 @@ pip3 install PyQt5 psutil
 
 ### GNOME + Wayland support
 
+> Best viewed https://github.com/pablo-blueoakdb/nbiff#gnome--wayland-support
+
 Some **GNOME** versions require the `KStatusNotifierItem/AppIndicator
 Support` extension for **Wayland** support. 
-
 
 1. [Go to extension's webpage](https://extensions.gnome.org/extension/615/appindicator-support)
 2. [Enable](https://github.com/pablo-blueoakdb/nbiff/blob/main/doc/KStatusNotifierItem.png)
