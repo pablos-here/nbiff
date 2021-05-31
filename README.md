@@ -19,16 +19,15 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
 - Details are presented by clicking on the icon.  Tool tips are
   available when the environment supports it
   
-## Installing / Getting started
+## Installing Thunderbird version
 
 1. [Go to the release
-   page](https://github.com/pablo-blueoakdb/nbiff/releases) and note
-   the latest release is listed first.
+   page](https://github.com/pablo-blueoakdb/nbiff/releases)
 2. Expand a release's **Assets** and download either compressed
-   version of choice.
+   version of choice
 3. Unpack the source file in a directory.  A new directory will be
-   created with the version.
-4. Change directories (`cd`) to the new directory.
+   created with the version
+4. Change directories (`cd`) to the new directory
 5. Run the installer and follow the on-screen instructions:
 
 ```shell
@@ -69,7 +68,7 @@ Support` extension for **Wayland** support.
 Some projects require initial configuration (e.g. access tokens or keys, `npm i`).
 This is the section where you would document those requirements.
 
-## Known quirks
+### Known quirks
 
 There are rare times when an `.msf` is not immediately flushed to disk.
 This causes `nbiff` to believe there are still **Unread messages**
