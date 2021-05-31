@@ -31,7 +31,7 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
 
 ```shell
 #
-# Thunderbird
+# nbiff for Thunderbird
 #
 ./Install_latest.tbird
 ```
