@@ -1,0 +1,342 @@
+#!/bin/bash
+
+#
+# Copyright © 2021 Pablo Sanchez
+# 
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions: 
+# 
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software. 
+# 
+# The Software is provided "as is", without warranty of any kind,
+# express or implied, including but not limited to the warranties of
+# merchantability, fitness for a particular purpose and
+# noninfringement. In no event shall the authors or copyright holders be
+# liable for any claim, damages or other liability, whether in an action
+# of contract, tort or otherwise, arising from, out of or in connection
+# with the Software or the use or other dealings in the Software. 
+# 
+
+#
+# If cloning to create a new installer, see `initial_conf_setting()'
+#
+
+########################################################
+# Bootstrap our Globals
+########################################################
+THIS_SCRIPT=$(readlink -f "$0")
+THIS_SCRIPT_DIR=$(dirname "$THIS_SCRIPT")
+
+cd "$THIS_SCRIPT_DIR"
+if [ $? -ne 0 ] ; then
+   printf "$(basename $0) - failed to cd $THIS_SCRIPT_DIR\n"
+   exit 1
+fi
+GLOBALS=src/Globals
+if [ ! -r $GLOBALS ] ; then
+   printf "$(basename $0) - cannot access $GLOBALS\n"
+   exit 1
+fi
+. "$GLOBALS"
+if [ $? -ne 0 ] ; then
+   printf "$(basename $0) - error accessing $GLOBALS\n"
+   exit 1
+fi
+
+########################################################
+# Functions
+########################################################
+print_section_separator()
+{
+   printf -- "---\n"
+}
+
+is_install_or_upgrade()
+{
+   if [ ! -d "$INSTALL_DIR" ] ; then
+      printf "The install directory ($INSTALL_DIR) does not exist.\n"
+      printf '\n'
+      printf 'This is a new installation.\n'
+      printf '\n'
+      printf "Press ENTER to proceed with a fresh install ... "
+      read IT
+      SW='install'
+   else
+      printf "Upgrading $INSTALL_DIR\n"
+      printf "\n"
+      printf "The files in this directory will not be affected:\n"
+      printf "\n"
+      printf "\t$INSTALL_DIR/$LOCAL_DIR/\n"
+      printf '\n'
+      printf "Press ENTER to proceed with an update ... "
+      read IT
+      SW='upgrade'
+   fi
+}
+
+sw_requirements()
+{
+   print_section_separator
+   if [ -r "$ROOT_README_MD" ] ; then
+      sed -n '/^#.* Requirements/,/^##/p' $ROOT_README_MD | sed '$d'
+
+      echo "$XDG_SESSION_DESKTOP" | grep -i "ubuntu" > /dev/null 2>&1
+      IS_UBUNTU=$?
+
+      echo "$XDG_CURRENT_DESKTOP" | grep -i "gnome" > /dev/null 2>&1
+      IS_GNOME=$?
+
+      echo "$XDG_SESSION_TYPE" | grep -i "wayland" > /dev/null 2>&1
+      IS_WAYLAND=$?
+
+      # GNOME && Wayland && not Ubuntu ?
+      if [ $IS_GNOME -eq 0 -a $IS_WAYLAND -eq 0 -a $IS_UBUNTU -eq 1 ] ; then
+         sed -n '/^#.* GNOME .*Wayland/,/^##/p' $ROOT_README_MD | sed '$d'
+      fi
+   else
+      printf "Could not access $ROOT_README_MD\n"
+      printf "Cannot list software requirements\n"
+   fi
+   
+   printf "Press ENTER to continue to how to run ... "
+   read IT
+}
+
+prompt_a_profile_dir()
+{
+   PROMPT='CTRL-C to abort: '
+   printf "$PROMPT"
+
+   while [ 1 ] ; do
+      read PROFILE_DIR
+      PROFILE_DIR=$(echo $PROFILE_DIR | sed -e 's/^[ ]+//g' -e 's/[ ]+$//g' )
+      if [ -z "$PROFILE_DIR" ] ; then
+         printf "$PROMPT"
+         continue
+      fi
+      
+      if [ ! -d "$PROFILE_DIR" ] ; then
+         printf "Could not access $PROFILE_DIR\n"
+         printf "$PROMPT"
+      else
+         break
+      fi
+   done
+}
+
+profile_dir_missing()
+{
+   printf 'Could not access a Thunderbird profile in the standard location[1][2].\n'
+   printf 'See the article below on how to find it.\n'
+   printf '\n'
+   printf '\thttps://support.mozilla.org/en-US/kb/profiles-where-thunderbird-stores-user-data\n'
+   printf '\n'
+   printf "\t[1] - Legacy: $HOME/.thunderbird/xxxxxxxx.default\n"
+   printf "\t[2] - Current: $HOME/.thunderbird/xxxxxxxx.default-release\n"
+   printf '\n'
+   printf "Enter the full path name to your profile.\n"
+
+   prompt_a_profile_dir;
+}
+
+#
+# Handle the three cases:
+#
+# 1) No profile was found.  Provide tips on how to find it.
+# 2) A single profile was found.  Use it.
+# 3) More than one profile was found.  Provide .msf count to help the user
+#    determine which to use.  We default their choice to the profile with
+#    the greatest number of .msf's
+#
+get_tbird_profile_dir()
+{
+   print_section_separator
+
+   declare -a PROFILE_LIST
+   readarray -t PROFILE_LIST < <(find $HOME/.thunderbird/*.default* -maxdepth 1 -type d -name '*.default*' 2> /dev/null)
+   N=${#PROFILE_LIST[@]}
+   N_PLUS_1=$((N+1))   
+
+   if [ $N -eq 0 ] ; then
+      profile_dir_missing 
+   elif [ $N -eq 1 ] ; then
+      PROFILE_DIR="${PROFILE_LIST[0]}"
+      printf "Found Thunderbird profile $PROFILE_DIR\n"
+   else # More than one profile found
+      NUMBER_RE='^[0-9]+$'
+      printf "Select one of the profiles:\n"
+      printf "\n"
+      I=1
+      DEFAULT=1
+      PREV_MSF_COUNT=0
+      for ((I=0; $I<$N; I++)); do
+         MSF_COUNT=$(find ${PROFILE_LIST[$I]} -name '*.msf' | wc -l)
+         if [ $MSF_COUNT -gt $PREV_MSF_COUNT ] ; then
+            PREV_MSF_COUNT=$MSF_COUNT
+            DEFAULT=$((I+1))
+         fi
+         printf "%d) [%4d] ${PROFILE_LIST[$I]}\n" $(($I+1)) $MSF_COUNT
+      done
+      printf '\n'
+      printf '\t- The .msf count is in parenthesis - []\n'
+      printf "\t- More than likely, you can ignore directories with a zero count\n"
+      printf '\n'
+      printf "Options:  1 - %d or %d to enter a different directory.\n" $N $N_PLUS_1
+      while [ 1 ] ; do
+         printf "Yes boss [Default = $DEFAULT]? "
+         read IT
+         IT=$(echo $IT | sed -e 's/^[ ]+//g' -e 's/[ ]+$//g' )
+         if [ -z "$IT" ] ; then
+            PROFILE_DIR="${PROFILE_LIST[$((DEFAULT-1))]}"
+            break
+         else
+            if [[ $IT =~ $NUMBER_RE ]]  ; then # It's a number
+               if [ $IT -ge 1 -a $IT -le $N_PLUS_1 ] ; then
+                  if [ $IT -eq $N_PLUS_1 ] ; then
+                     printf '\n'
+                     printf "Enter the full path name to your profile.\n"
+                     prompt_a_profile_dir
+                  else
+                     PROFILE_DIR="${PROFILE_LIST[$((IT-1))]}"
+                  fi
+                  break
+               fi
+            fi
+            printf 'Invalid\n'
+         fi
+      done
+   fi
+}
+
+install_tree()
+{
+   print_section_separator
+   # Copy the source tree
+   printf "Installing software in $INSTALL_DIR\n"
+   cp -rad $SRC_DIR $INSTALL_DIR
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - failed to cp -radv $SRC_DIR $INSTALL_DIR\n"
+      exit 1
+   fi
+}
+
+initial_conf_setting()
+{
+   # Configure `tbird_new_msgs.conf'
+   printf "Configuring $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$TBIRD_NEW_MSGS_CONF\n"
+   printf '\n'
+   printf '\tSetting TBIRD_DIR="'$PROFILE_DIR"'\n"
+   echo 'TBIRD_DIR="'$PROFILE_DIR'"' >> $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$TBIRD_NEW_MSGS_CONF
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - failed to create TBIRD_DIR=...\n"
+      printf "$(basename $0) - undoing install"
+      rm -rf $INSTALL_DIR
+      if [ $? -ne 0 ] ; then
+         printf "$(basename $0) - failed to clean up partial install rm -rf $INSTALL_DIR\n"
+      fi
+   fi
+
+   printf '\n'
+   printf "Configuring $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF\n"
+   printf '\n'
+   printf '\tSetting DEFAULT_GEN_NEW_MSGS="'$TBIRD_NEW_MSGS"'\n"
+   echo 'DEFAULT_GEN_NEW_MSGS="'$TBIRD_NEW_MSGS'"' >> $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - failed to create DEFAULT_GEN_NEW_MSGS= ...\n"
+      printf "$(basename $0) - undoing install"
+      rm -rf $INSTALL_DIR
+      if [ $? -ne 0 ] ; then
+         printf "$(basename $0) - failed to clean up partial install rm -rf $INSTALL_DIR\n"
+      fi
+   fi
+
+   printf '\n'
+   printf 'Software installed!\n'
+   printf '\n'
+   printf "Press ENTER to view software requirements ... "
+   read IT
+}
+
+post_install_notes()
+{
+   print_section_separator
+   printf "To manually run:\n"
+   printf "\n"
+   printf "\t$INSTALL_DIR/$SYSTRAY_DIR/Run_nbiff nbiff_qt5.py &\n"
+   printf "\n"
+   printf "Tips:\n"
+   printf "\n"
+   printf "\t- Click on the systray icon for mail details\n"
+   printf "\t- Some may have a tool tip by hovering over the icon\n"
+   printf "\n"
+   printf "If all went well, set it up to autorun at login.  Web-search autorun for your\n"
+   printf "desktop environment.\n"
+   printf '\n'
+   printf "Software $SW done.\n"
+}
+
+upgrade_tree()
+{
+   print_section_separator
+   printf "Upgrading $INSTALL_DIR\n"
+
+   rsync -a --delete --exclude $LOCAL_DIR $SRC_DIR/ $INSTALL_DIR/
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - failed to rsync ...\n"
+      exit 1
+   fi
+   printf '\n'
+   printf "Upgrade complete, press ENTER to continue ... "
+   read IT
+}
+
+post_upgrade_notes()
+{
+   print_section_separator
+   printf 'To run the latest version:\n'
+   printf '\n'
+   printf '1) Click on the systray icon to quit the old version\n'
+   printf '2) Manually start the new version\n'
+   printf '\n'
+   printf "\t$INSTALL_DIR/$SYSTRAY_DIR/Run_nbiff nbiff_qt5.py &\n"
+   printf '\n'
+   printf "Software $SW done.\n"
+}
+
+########################################################
+# Main
+########################################################
+
+########################################################
+# Initialize
+########################################################
+TBIRD_INSTALL_DIR="$HOME/.thunderbird"
+
+# Override the `Global' variables
+TBIRD_NEW_MSGS_CONF="$(basename "$TBIRD_NEW_MSGS_CONF")"
+NBIFF_CONF="$(basename "$NBIFF_CONF")"
+
+########################################################
+# Main
+########################################################
+
+is_install_or_upgrade
+
+if [ "$SW" == 'install' ] ; then
+   get_tbird_profile_dir
+   install_tree
+   initial_conf_setting
+   sw_requirements
+   post_install_notes
+else
+   upgrade_tree
+   post_upgrade_notes
+fi
+
+exit 0

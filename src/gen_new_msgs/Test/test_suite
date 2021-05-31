@@ -1,0 +1,101 @@
+#!/bin/bash
+
+#
+# The main testing script.
+#
+
+cleanup()
+{
+   trap - 0 1 2 3 15 # clear the trap
+
+   CHILDREN_PIDS="$(jobs -p)"
+   if [ -n "$CHILDREN_PIDS" ] ; then
+      kill -1 $CHILDREN_PIDS > /dev/null 2>&1
+   fi
+}
+
+log_msg()
+{
+   echo "$(date '+%F %X') - $@"
+}
+
+pause()
+{
+   log_msg "Sleeping for $N seconds"
+   sleep $N
+}
+
+N=5
+
+trap 'cleanup; exit 0' 0 1 2 3 15
+
+#
+###### Main ######
+#
+
+#
+# MUA is up
+#
+log_msg "MUA is up"
+pause
+
+#
+# Some messages 
+#
+log_msg "Icon:  unread"
+log_msg "Unread count = 334"
+pause
+
+#
+# No messages
+#
+log_msg "Icon:  all read"
+log_msg "Unread count = 0"
+pause
+
+#
+# No messages
+#
+log_msg "Icon:  all read"
+log_msg "Unread count = 0"
+pause
+
+#
+# Some messages that require formatting grouping (',' or '.')
+#
+log_msg "Icon:  unread, with comma separator on the tooltip number"
+log_msg "Unread count = 1389"
+pause
+
+#
+# Purposely a bogus value
+#
+log_msg "Icon:  error"
+log_msg "Unread count = bad"
+pause
+
+#
+# No messages
+#
+log_msg "Icon:  all read"
+log_msg "Unread count = 0"
+pause
+
+#
+# Purposely a bogus string - missing count
+#
+log_msg "Icon:  error"
+log_msg "Unread count ="
+pause
+
+#
+# MUA is down
+#
+log_msg "MUA is down"
+pause
+
+
+#
+# We should never exit but if we did, we should raise an error
+#
+exit 0

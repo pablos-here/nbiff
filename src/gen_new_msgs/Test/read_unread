@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#
+# Periodically cycle between the unread/read icons.
+#
+
+cleanup()
+{
+   trap - 0 1 2 3 15 # clear the trap
+
+   CHILDREN_PIDS="$(jobs -p)"
+   if [ -n "$CHILDREN_PIDS" ] ; then
+      kill -1 $CHILDREN_PIDS > /dev/null 2>&1
+   fi
+}
+
+log_msg()
+{
+   echo "$(date '+%F %X') - $@"
+}
+
+trap 'cleanup; exit 0' 0 1 2 3 15
+
+log_msg "MUA is up"
+
+#
+# Index into the sleep array
+#
+log_msg "Cycle through the different icons."
+log_msg "A non-integer is considered an error."
+log_msg ""
+N=(2 4)
+while [ 1 ] ; do
+   let J=0
+   for TOTAL_COUNT in 0 8943 ; do
+      log_msg "Unread count = $TOTAL_COUNT"
+      sleep ${N[$J]}
+      let J++
+   done
+done
+
+exit 0

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#
+# Cycle the MUA up and down.  We'll have an unread count of zero
+#
+
+cleanup()
+{
+   trap - 0 1 2 3 15 # clear the trap
+
+   CHILDREN_PIDS="$(jobs -p)"
+   if [ -n "$CHILDREN_PIDS" ] ; then
+      kill -1 $CHILDREN_PIDS > /dev/null 2>&1
+   fi
+}
+
+log_msg()
+{
+   echo "$(date '+%F %X') - $@"
+}
+
+trap 'cleanup; exit 0' 0 1 2 3 15
+
+while [ 1 ] ; do
+   log_msg "MUA is up"
+   sleep .3
+   log_msg "Unread count = 0"
+   sleep 5
+   log_msg "Unread count = 83"
+   sleep 5
+   log_msg "MUA is down"
+   sleep 5
+done
+
+exit 0

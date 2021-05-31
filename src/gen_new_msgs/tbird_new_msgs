@@ -1,0 +1,604 @@
+#!/bin/bash
+
+#
+# Copyright © 2021 Pablo Sanchez
+# 
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions: 
+# 
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software. 
+# 
+# The Software is provided "as is", without warranty of any kind,
+# express or implied, including but not limited to the warranties of
+# merchantability, fitness for a particular purpose and
+# noninfringement. In no event shall the authors or copyright holders be
+# liable for any claim, damages or other liability, whether in an action
+# of contract, tort or otherwise, arising from, out of or in connection
+# with the Software or the use or other dealings in the Software. 
+# 
+
+#
+# TBird `unread messages' counter
+#
+# Recompute all the counts iff we detect an .msf change from the last
+# check.
+#
+# While we can be run standalone, if you want a systray icon, use
+# `nbiff'
+#
+# Arguments
+# =========
+# Typically not needed as we're .conf driven (the idea) is
+# perhaps we'll (eventually) be windows friendly?
+#
+# See our options by invoking with '-?'
+#
+# `nbiff' and us
+# ==============
+# `nbiff' acts on our output.  Specifically, when the following
+# substrings are found in the output:
+#
+#    1) MUA is down
+#    2) MUA is up
+#    3) Unread count = N
+#          where (it hopes) N is an integer
+#
+
+########################################################
+# Bootstrap our Globals
+########################################################
+# dev has precedence
+GLOBALS=../../dev/Globals
+if [ -r "$GLOBALS" ] ; then
+   . "$GLOBALS"
+else
+   GLOBALS=../Globals
+   if [ ! -r $GLOBALS ] ; then
+      printf "$(basename $0) - cannot access $GLOBALS\n"
+      exit 1
+   fi
+   . "$GLOBALS"
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - error accessing $GLOBALS\n"
+      exit 1
+   fi
+fi
+
+########################################################
+# Functions
+########################################################
+
+#
+# If using `pgrep' is too simplistic, we could use another method to determine
+# whether thunderbird is running.  We want it to be light-weight since
+# we're checking $POLL (usually set to one second)
+#
+TBIRD_PROG=thunderbird
+is_tbird_running()
+{
+   pgrep -u $USER "$TBIRD_PROG" > /dev/null 2>&1
+   IS_TBIRD_RUNNING=$?  # 0 = yes / 1 = no
+}
+
+list_color_options()
+{
+   SEP=
+   for COLOR in "${!TTY_COLOR[@]}" ; do
+      printf "${SEP}${COLOR}"
+      SEP=", "
+   done
+}
+
+usage()
+{
+   printf "usage: $(basename $0) [ -a -c -l -v ] [ -k color ]\n"
+   printf "\n"
+   printf -- "-a\tif TTY, display popup when there are unread messages\n"
+   printf -- "-c\tcheck .conf and exit\n"
+   printf -- "-k\thighlight color:\n"
+   printf -- "\t   "
+   list_color_options
+   printf '\n'
+   printf -- "-l\tlog output to /tmp/$(basename $0).X\n"
+   printf -- "-v\tdebug.  Increase verbosity by specifing more than once\n"
+}
+
+last_check_init()
+{
+   touch --date='1970-01-01' $LAST_CHECK
+   if [ $? -ne 0 ] ; then
+      echo "$(basename $0) - could not touch $LAST_CHECK"
+      exit 1
+   fi
+}
+
+oldest_mod_check_init()
+{
+   OLDEST_MOD_STAMP=$(stat --format %Y $LAST_CHECK)
+   touch --date="@$OLDEST_MOD_STAMP" -m $OLDEST_MOD_CHECK
+   if [ $? -ne 0 ] ; then
+      echo "$(basename $0) - could not touch $OLDEST_MOD_CHECK"
+      exit 1
+   fi
+}
+
+re_init()
+{
+   last_check_init
+   oldest_mod_check_init
+   TOTAL_COUNT=-1 # Ensures an output
+}
+
+log_msg()
+{
+   if [ -z "$LOG_OUTPUT" ] ; then
+      echo "$(date '+%F %X') - $@"
+   else
+      echo "$(date '+%F %X') - $@" | $LOG_OUTPUT
+   fi
+}
+
+cleanup()
+{
+   trap - 0 1 2 3 15 # clear the trap
+   if [ $HAS_TTY -eq 1 -a $DEBUG -ge 1 ] ; then
+      log_msg "Performing cleanup before exiting"
+   fi
+
+   CHILDREN_PIDS="$(jobs -p)"
+   if [ -n "$CHILDREN_PIDS" ] ; then
+      kill -1 $CHILDREN_PIDS > /dev/null 2>&1
+   fi
+
+   if [ $HAS_TTY -eq 1 -a -n "$GDBUS_ID" ] ; then # close the pop-up
+      gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.CloseNotification $GDBUS_ID > /dev/null
+   fi
+
+   rm -f $LAST_CHECK $OLDEST_MOD_CHECK
+}
+
+debug_find_cmds()
+{
+   if [ $DEBUG -ge 1 ] ; then
+      log_msg "FIND_ANY_CHANGES="
+      if [ $DEBUG -ge 2 ] ; then
+         ls -la $LAST_CHECK
+         "${FIND_ANY_CHANGES[@]}"
+      fi
+      "${FIND_ANY_CHANGES[@]}" > /dev/null 2>&1
+      if [ $? -eq 0 ] ; then
+         log_msg "${FIND_ANY_CHANGES[@]}"
+         COUNT=$("${FIND_ANY_CHANGES[@]}" | wc -l)
+         log_msg "Execution okay.  Qualified $COUNT"
+
+      else
+         log_msg "Syntax error - see below"
+         log_msg "${FIND_ANY_CHANGES[@]}"
+         "${FIND_ANY_CHANGES[@]}"
+      fi
+      if [ $DEBUG -ge 2 ] ; then
+         log_msg "Executing command ..."
+         "${FIND_ANY_CHANGES[@]}"
+      fi
+
+      log_msg "FIND_GET_CHANGED_MSFS="
+      if [ $DEBUG -ge 2 ] ; then
+         ls -la $OLDEST_MOD_CHECK
+         "${FIND_GET_CHANGED_MSFS[@]}"
+      fi
+      "${FIND_GET_CHANGED_MSFS[@]}" > /dev/null 2>&1
+      if [ $? -eq 0 ] ; then
+         log_msg "${FIND_GET_CHANGED_MSFS[@]}"
+         COUNT=$("${FIND_GET_CHANGED_MSFS[@]}" | wc -l)
+         log_msg "Execution okay.  Qualified $COUNT"
+      else
+         log_msg "Syntax error - see below"
+         log_msg "${FIND_GET_CHANGED_MSFS[@]}"
+         "${FIND_GET_CHANGED_MSFS[@]}"
+      fi
+      if [ $DEBUG -ge 2 ] ; then
+         log_msg "Executing command ..."
+         "${FIND_ANY_CHANGES[@]}"
+      fi
+   fi
+}
+
+#
+# Build the `find' commands
+#
+# 1) find_any_changes      - did any .msf's change since our last check?  Optimized to return only one row.
+# 2) find_get_changed_msfs - generate the list of .msf's that changed
+#
+gen_find_cmds()
+{
+   FIND_ANY_CHANGES=(     find .)
+   FIND_GET_CHANGED_MSFS=(find .)
+
+   # Add any top-level folder exclusions
+   if [ -n "$TLF_MSF_EXCLUSIONS" ] ; then # fire-proof:  In case the user makes the NULL array a string
+      for TLF in "${TLF_MSF_EXCLUSIONS[@]}" ; do
+         FIND_ANY_CHANGES+=(     -type d -path "$TLF" -prune -false -o)
+         FIND_GET_CHANGED_MSFS+=(-type d -path "$TLF" -prune -false -o)
+      done
+   fi
+
+   # Add any .sbd directories patterns to exclude
+   if [ -n "$DEFAULT_SBD_EXCLUSIONS" ] ; then
+      for SBD in "${DEFAULT_SBD_EXCLUSIONS[@]}" ; do
+         FIND_ANY_CHANGES+=(     -type d -name "$SBD" -prune -false -o)
+         FIND_GET_CHANGED_MSFS+=(-type d -name "$SBD" -prune -false -o)
+      done
+   fi
+
+   # We're interested in '*.msf's but not 'nstmp*.msf'
+   FIND_ANY_CHANGES+=(     -type f -newer $LAST_CHECK       \( -name '*.msf' ! -name 'nstmp*.msf')
+   FIND_GET_CHANGED_MSFS+=(-type f -newer $OLDEST_MOD_CHECK \( -name '*.msf' ! -name 'nstmp*.msf')
+
+   # Tack on both user and default .msf's to ignore
+   if [ -n "$USER_MSF_EXCLUSIONS" -o -n "$DEFAULT_MSF_EXCLUSIONS" ] ; then # fire-proof:  In case the user makes the NULL array a string
+      for MSF in "${DEFAULT_MSF_EXCLUSIONS[@]}" "${USER_MSF_EXCLUSIONS[@]}" ; do
+         FIND_ANY_CHANGES+=(     ! -name "$MSF")
+         FIND_GET_CHANGED_MSFS+=(! -name "$MSF")
+      done
+   fi
+
+   FIND_ANY_CHANGES+=(     \))
+   FIND_GET_CHANGED_MSFS+=(\))
+
+   FIND_ANY_CHANGES+=(     -print  -quit)
+   FIND_GET_CHANGED_MSFS+=(-printf '%p\t%T@\n')
+
+   debug_find_cmds
+}
+
+#
+# Spit out/cancel a message if the count is different than the previous count or debug is enbled.
+# In the former, this allows a user to get rid of a message.
+#
+do_alert()
+{
+   if [ $HAS_TTY -eq 1 -a $ALERT_FLAG -eq 1 ] ; then
+      if [ $TOTAL_COUNT -eq 0 ] ; then
+         if [ -n "$GDBUS_ID" ] ; then # close the pop-up
+            gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications \
+                  --method org.freedesktop.Notifications.CloseNotification $GDBUS_ID > /dev/null
+            GDBUS_ID=""
+         fi
+      else
+         if [ $PREV_TOTAL_COUNT -ne $TOTAL_COUNT -o $DEBUG -ge 1 ] ; then # Display the message if it has changed debug is enabled.  In the former case, this allows a user to remove it.
+            GDBUS_ID=$(gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications \
+                             --method org.freedesktop.Notifications.Notify 'Tbird' 42 "" "" "Unread message count is $TOTAL_COUNT" [] {} 0 |
+                          sed 's/[,)]//g' | cut -d' ' -f2)
+         fi
+      fi
+   fi
+}
+
+########################################################
+# Initialize
+########################################################
+#
+# Used when we're called via the CLI.  It makes it easier to spot 
+# when a non-zero count is generated.
+#
+# Color numbers found https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux/20983251
+#
+declare -A TTY_COLOR
+DARK_RED='dark red'
+GREEN='green'
+BROWN='brown'
+BLUE='blue'
+PURPLE='purple'
+TEAL='teal'
+GREY='grey'
+BLACK='black'
+RED='red'
+TTY_COLOR=([$DARK_RED]=1 [$GREEN]=2 [$BROWN]=3 [$BLUE]=4 [$PURPLE]=5 [$TEAL]=6 [$GREY]=7 [$BLACK]=8 [$RED]=9)
+
+#
+# Process arguments
+#
+# o To increase verbosity, hit the flag multiple times.
+#
+DEBUG=0
+CHECK_CONFIG_FLAG=0
+ALERT_FLAG=0
+LOG_OUTPUT=""
+HILIGHT_COLOR=${TTY_COLOR[$TEAL]} # defaults color
+
+while getopts ack:lv MY_ARG ; do
+   case $MY_ARG in
+      a) which gdbus > /dev/null 2>&1
+         if [ $? -eq 0 ] ; then # gdbus found in our PATH.
+            ALERT_FLAG=1
+         else
+            printf "$(basename $0) ignoring -a as 'gdbus' not in our PATH\n"
+            ALERT_FLAG=0
+         fi;;
+      c) CHECK_CONFIG_FLAG=1;;
+      l) LOG_OUTPUT_FILE="/tmp/$(basename $0).log.$$"
+         LOG_OUTPUT="tee -a $LOG_OUTPUT_FILE"
+         log_msg "Logging output to $LOG_OUTPUT_FILE";;
+      k) OPTARG="$(echo $OPTARG | tr '[A-Z]' '[a-z]')"
+         HILIGHT_COLOR=${TTY_COLOR[$OPTARG]};;
+      v) let DEBUG++;;
+      ?) usage
+         exit 1;;
+   esac
+done
+
+if [ -z "$HILIGHT_COLOR" ] ; then
+   printf "$(basename $0) color not one of:\n"
+   printf "\t"
+   list_color_options
+   printf "\n"
+   exit 1
+fi
+
+#
+# Are we invoked in a pipe or do we have a terminal?
+#
+if [ -t 0 ] ; then
+   HAS_TTY=1
+else
+   HAS_TTY=0
+fi
+
+#
+# Sanity check .conf
+#
+DEV_TBIRD_NEW_MSGS_CONF=../../dev/conf/"$(basename "$TBIRD_NEW_MSGS_CONF")"
+if [ -r "$DEV_TBIRD_NEW_MSGS_CONF" ] ; then
+   dot_it "$DEV_TBIRD_NEW_MSGS_CONF"
+else
+   is_readable "$TBIRD_NEW_MSGS_CONF"
+   dot_it "$TBIRD_NEW_MSGS_CONF"
+fi
+
+if [ -z "$TBIRD_DIR" ] ; then
+   printf "$(basename $0) -  TBIRD_DIR variable not set in $TBIRD_NEW_MSGS_CONF"
+   exit 1
+fi
+is_directory "$TBIRD_DIR"
+
+if [ $DEBUG -ge 1 ] ; then
+   log_msg "cd $TBIRD_DIR"
+fi
+cd "$TBIRD_DIR"
+if [ $? -ne 0 ] ; then
+   printf "$(basename $0) - directory is not accessible $TBIRD_DIR"
+   exit 1
+fi
+
+# What we'll do if we receive any of the signals
+trap 'cleanup; exit 0' 0 1 2 3 15
+
+LAST_CHECK=/tmp/$(basename $0).qwik.$$
+OLDEST_MOD_CHECK=/tmp/$(basename $0).full.$$
+re_init
+
+#
+# Generate the `find' commands used to capture .msf's.
+#
+# Note:  The `find' commands have dependencies on variables defined above
+#
+gen_find_cmds
+
+if [ $CHECK_CONFIG_FLAG -eq 1 ] ; then
+   log_msg "$TBIRD_NEW_MSGS_CONF is Ok"
+   exit 0
+fi
+
+#
+# How often do we check for changes
+#
+# The code is written to be performant so checking once a second is fine.
+#
+POLL=1
+
+WAS_TBIRD_RUNNING=-1
+
+########################################################
+# Main
+########################################################
+
+#
+# We employ two `find's to do our work.  In order of
+# execution:
+#
+# 1) optimized to find /any/ .msf that has changed
+#    since the last iteration.  It is called per
+#    polling cycle so it has to be optimal.
+#
+# 2) this one is similar to the first with an important
+#    difference in that it returns all the affected .msf's
+#
+#    The .msf's `unread messages' count is processed
+#
+while [ 1 ] ; do
+   is_tbird_running
+   if [ $DEBUG -ge 2 ] ; then
+      log_msg "IS_TBIRD_RUNNING ($IS_TBIRD_RUNNING) != WAS_TBIRD_RUNNING ($WAS_TBIRD_RUNNING)"
+   fi
+
+   # Handle flipping states between Tbird running and not running   
+   if [ $IS_TBIRD_RUNNING -ne $WAS_TBIRD_RUNNING ] ; then
+      if [ $IS_TBIRD_RUNNING -eq 0 ] ; then
+         log_msg "MUA is up"
+         WAS_TBIRD_RUNNING=$IS_TBIRD_RUNNING
+      else
+         log_msg "MUA is down"
+         WAS_TBIRD_RUNNING=$IS_TBIRD_RUNNING
+         while [ $IS_TBIRD_RUNNING -eq 1 ] ; do # Stay in this loop until we're running
+            if [ $DEBUG -ge 1 ] ; then
+               log_msg "Waiting for Thunderbird to come up"
+            fi
+            
+            is_tbird_running
+            sleep $POLL
+         done
+
+         re_init
+         continue # to the top of the loop
+      fi
+   fi
+
+   #
+   # Look for .msf changes since our $LAST_CHECK
+   #
+   # Note:  using strace(), it is more efficient to use this `find' for checking
+   #        versus the one further below.
+   #
+   SAVE_NOW=$(date '+%F %X')
+   "${FIND_ANY_CHANGES[@]}" 2> /dev/null | grep -m1 . > /dev/null 2>&1
+   CHANGED=$?
+
+   if [ ! -f $LAST_CHECK ] ; then # whoops, someone deleted our file, re-init
+      log_msg "$LAST_CHECK disappeared, re-gen and recomputing"
+      re_init
+      sleep $POLL
+      continue # to the top of the loop
+   fi
+   
+   touch --date="$SAVE_NOW" -m $LAST_CHECK
+   
+   if [ $DEBUG -ge 2 ] ; then
+      if [ $LAST_CHECK ] ; then
+         ANSWER='no'
+      else
+         ANSWER='yes'
+      fi
+      log_msg "LAST_CHECK changed? $ANSWER"
+   fi
+
+   if [ $CHANGED -eq 1 ] ; then # no change
+      sleep $POLL
+      continue # to the top of the loop
+   fi
+
+   # There was a change, recompute the count below and sleep at the end
+   if [ $DEBUG -ge 1 ] ; then
+      log_msg '*** Recomputing count ***'
+   fi
+
+   #
+   # Metrics to capture for this iteration
+   #
+   EVAL_COUNT=0
+   PREV_TOTAL_COUNT=${TOTAL_COUNT:--1}
+   TOTAL_COUNT=0
+   GT_0_COUNT=0
+
+   #
+   # The minimum mod stamp within the group below
+   #
+   MIN_MOD_STAMP=$(date '+%s')
+
+   #
+   # Nifty while-loop hack - https://stackoverflow.com/questions/13726764/while-loop-subshell-dilemma-in-bash/13727116#13727116
+   #
+
+   #
+   # The `find' is set up to return tab-delimited columns
+   #
+   IFS='	' # tab-delimited columns/fields from `find'
+
+   # Process each MSF and get a running total of `unread messages'
+   while read MSF MOD_STAMP ; do
+      # Flip (tac), check, flip again (tac)
+      #
+      # Search for the string that starts with ^ - so we need to escape it as it's an RE
+      FOLDER_COUNT=$(tac "$MSF" 2> /dev/null | grep -m1 -oE '\^A2=[0-9a-f]+' | tac | cut -d= -f2)
+      if [ -z "$FOLDER_COUNT" ] ; then
+         FOLDER_COUNT=0
+      fi
+
+      FOLDER_COUNT="0x${FOLDER_COUNT}"
+      # Hex -> Dec
+      FOLDER_COUNT=$((FOLDER_COUNT))
+
+      # If low verbosity, only display non-zero counts
+      if [ $DEBUG -eq 1 -a $FOLDER_COUNT -gt 0 ] ; then
+         log_msg "$FOLDER_COUNT => $MSF"
+      elif [ $DEBUG -ge 2 ] ; then # Display 0 counts if high verbosity.
+         log_msg "$FOLDER_COUNT => $MSF"
+      fi
+
+      TOTAL_COUNT=$((TOTAL_COUNT+FOLDER_COUNT))
+
+      if [ $DEBUG -eq 1 -a $FOLDER_COUNT -gt 0 ] ; then # Display the running total if a non-zero count is added
+         log_msg "Running total is $TOTAL_COUNT"
+      elif [ $DEBUG -ge 2 ] ; then # Display the running total
+         log_msg "Running total is $TOTAL_COUNT"
+      fi
+
+      let EVAL_COUNT++
+      if [ $FOLDER_COUNT -gt 0 ] ; then
+         #
+         # Compute the minimum stamp within the group
+         #
+         MY_MOD_STAMP=$(echo $MOD_STAMP | cut -'d.' -f1)
+         if [ $MY_MOD_STAMP -lt $MIN_MOD_STAMP ] ; then
+            MIN_MOD_STAMP=$MY_MOD_STAMP
+         fi
+
+         let GT_0_COUNT++
+      fi
+   done < <("${FIND_GET_CHANGED_MSFS[@]}" 2> /dev/null)
+   # Revert our shell field separator to the default
+   unset IFS
+
+   if [ ! -f $OLDEST_MOD_CHECK ] ; then # whoops, someone deleted our file, re-init
+      log_msg "$OLDEST_MOD_CHECK disappeared, re-gen and recomputing"
+      re_init
+      sleep $POLL
+      continue
+   fi
+
+   ########################################################
+   # Process the `unread messages' count
+   ########################################################
+   if [ $MIN_MOD_STAMP -gt $OLDEST_MOD_STAMP ] ; then
+      if [ $DEBUG -ge 1 ] ; then
+         OMS_HUMAN=$(date --date="@$OLDEST_MOD_STAMP" +'%F %X')
+         MMS_HUMAN=$(date --date="@$MIN_MOD_STAMP" +'%F %X')
+         log_msg "Mod stamp updated: $OMS_HUMAN => $MMS_HUMAN | ($OLDEST_MOD_STAMP) => ($MIN_MOD_STAMP)"
+      fi
+
+      OLDEST_MOD_STAMP=$MIN_MOD_STAMP
+      touch --date="@$OLDEST_MOD_STAMP" -m $OLDEST_MOD_CHECK
+   else
+      if [ $DEBUG -ge 1 ] ; then
+         log_msg "Mod stamp is $OLDEST_MOD_STAMP"
+      fi
+   fi
+
+   do_alert # only if we're a TTY /and/ the switch is enabled (see arg processing)
+
+   if [ $TOTAL_COUNT -gt 0 -a $HAS_TTY -eq 1 ] ; then # TTY:  highlight non-zero counts
+      tput setaf $HILIGHT_COLOR
+   fi
+
+   #
+   # At times, Tbird does housekeeping which affects an .msf.  Our default
+   # is to only report changes.  Debug will show all changes.
+   #
+   if [ $PREV_TOTAL_COUNT -ne $TOTAL_COUNT -o $DEBUG -ge 1 ] ; then
+      log_msg "$EVAL_COUNT .msf's eval'd: found messages in $GT_0_COUNT; Unread count = $TOTAL_COUNT"
+   fi
+
+   if [ $TOTAL_COUNT -gt 0 -a $HAS_TTY -eq 1 ] ; then # TTY: end highlighting
+      tput sgr0
+   fi
+
+   sleep $POLL
+done
+
+# Never reached
+exit 0

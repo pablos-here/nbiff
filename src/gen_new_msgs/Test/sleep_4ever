@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#
+# This script sleeps forever.  Use it to test quitting from the systray and/or CLI.
+#
+
+cleanup()
+{
+   trap - 0 1 2 3 15 # clear the trap
+
+   CHILDREN_PIDS="$(jobs -p)"
+   if [ -n "$CHILDREN_PIDS" ] ; then
+      kill -1 $CHILDREN_PIDS > /dev/null 2>&1
+   fi
+}
+
+log_msg()
+{
+   echo "$(date '+%F %X') - $@"
+}
+
+trap 'cleanup; exit 0' 0 1 2 3 15
+
+log_msg "MUA is up"
+log_msg "Sleep forever to test that our caller can SIGINT us"
+
+sleep infinity
+
+exit 0

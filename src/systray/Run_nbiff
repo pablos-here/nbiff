@@ -1,0 +1,150 @@
+#!/bin/bash
+
+#
+# To simplify future `biff' variations, we'll abstract the common
+# error checking code to this script.
+#
+# If it later turns out this is not a good idea, we'll refactor.
+#
+
+########################################################
+# Bootstrap our Globals
+########################################################
+THIS_SCRIPT=$(readlink -f "$0")
+THIS_SCRIPT_DIR=$(dirname "$THIS_SCRIPT")
+
+cd "$THIS_SCRIPT_DIR"
+if [ $? -ne 0 ] ; then
+   printf "$(basename $0) - failed cd "$THIS_SCRIPT_DIR"\n"
+   exit 1
+fi
+
+# dev has precedence
+GLOBALS=../../dev/Globals
+if [ -r "$GLOBALS" ] ; then
+   . "$GLOBALS"
+else
+   GLOBALS=../Globals
+   if [ ! -r $GLOBALS ] ; then
+      printf "$(basename $0) - cannot access $GLOBALS\n"
+      exit 1
+   fi
+   . "$GLOBALS"
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - error accessing $GLOBALS\n"
+      exit 1
+   fi
+fi
+
+########################################################
+# Functions
+########################################################
+usage()
+{
+   printf "usage: $(basename $0) [ -c -f 'new_msg_gen args' ] nbiff\n"
+   printf "\n"
+   printf -- "-c\tcheck .conf and exit\n"
+   printf -- "-f\t'new_msg_gen args'\n"
+}
+
+check_config()
+{
+   DEV_NBIFF_CONF=../../dev/conf/"$(basename "$NBIFF_CONF")"
+   if [ -r "$DEV_NBIFF_CONF" ] ; then
+      dot_it "$DEV_NBIFF_CONF"
+   else
+      NBIFF_CONF="$NBIFF_CONF"
+      is_readable "$NBIFF_CONF"
+      dot_it "$NBIFF_CONF"
+   fi
+
+   if [ -z "$DEFAULT_GEN_NEW_MSGS" ] ; then
+      printf "$(basename $0) - DEFAULT_GEN_NEW_MSGS= is not set\n"
+      exit 1
+   fi
+   GEN_NEW_MSGS="$GEN_NEW_MSGS_DIR/$DEFAULT_GEN_NEW_MSGS"
+
+   is_directory "$ICONS_DIR"
+   for ICON in "$UNREAD_MSG" "$READ_MSG" "$ERROR" "$MUA_IS_DOWN" ; do
+      is_readable "$ICONS_DIR/$ICON"
+   done
+
+   is_directory "$GEN_NEW_MSGS_DIR"
+   is_executable "$GEN_NEW_MSGS"
+
+   if [ $CHECK_CONFIG_FLAG -eq 1 ] ; then
+      printf "$NBIFF_CONF is Ok\n"
+      exit 0
+   fi
+}
+
+cleanup()
+{
+   trap - 0 1 2 3 15 # clear the trap
+
+   CHILDREN_PIDS="$(jobs -p)"
+   if [ -n "$CHILDREN_PIDS" ] ; then
+      kill -1 $CHILDREN_PIDS > /dev/null 2>&1
+   fi
+}
+
+########################################################
+# Initialize
+########################################################
+#
+# Process arguments
+#
+CHECK_CONFIG_FLAG=0
+while getopts cf: ARG ; do
+   case $ARG in
+      c) CHECK_CONFIG_FLAG=1;;
+      f) USER_GEN_NEW_MSGS="$OPTARG";; # take as-is
+      ?) usage
+         exit 1;;
+   esac
+done
+shift $(($OPTIND - 1))   
+
+if [ $# -ne 1 ] ; then
+   usage
+   exit 1
+fi
+
+NBIFF=$(basename "$1")
+is_executable "$NBIFF"
+
+#
+# Validate our configuration
+#
+check_config
+
+if [ -z "$USER_GEN_NEW_MSGS" ] ; then # use the default
+   PROG="$GEN_NEW_MSGS"
+else
+   PROG="$USER_GEN_NEW_MSGS"
+fi
+
+########################################################
+# Main
+########################################################
+trap 'cleanup; exit 0' 0 1 2 3 15
+
+if [ -n "$DISABLE" ] ; then
+   printf "$(basename $0) - DISABLE flag set.  Bye.\n"
+   printf "\n"
+   printf "Probably set in $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/nbiff.conf\n"
+   printf "\n"
+   printf "After unsetting, to try again:\n"
+   printf "\n"
+   printf "\t$INSTALL_DIR/$SYSTRAY_DIR/Run_nbiff nbiff_qt5.py &\n"
+   printf "\n"
+   exit 0
+fi
+
+./$NBIFF "$PROG" \
+         "$ICONS_DIR/$READ_MSG"   \
+         "$ICONS_DIR/$UNREAD_MSG" \
+         "$ICONS_DIR/$ERROR" \
+         "$ICONS_DIR/$MUA_IS_DOWN"
+
+exit $?

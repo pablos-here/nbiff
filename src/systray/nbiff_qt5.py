@@ -1,0 +1,281 @@
+#!/usr/bin/python3
+
+#
+# Copyright © 2021 Pablo Sanchez
+# 
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions: 
+# 
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software. 
+# 
+# The Software is provided "as is", without warranty of any kind,
+# express or implied, including but not limited to the warranties of
+# merchantability, fitness for a particular purpose and
+# noninfringement. In no event shall the authors or copyright holders be
+# liable for any claim, damages or other liability, whether in an action
+# of contract, tort or otherwise, arising from, out of or in connection
+# with the Software or the use or other dealings in the Software. 
+# 
+
+#
+# We rely on the shell wrapper to handle parameter validation.
+#
+# Arg # Description
+# ===== =============================================================================
+#  1    Script/program which provides `unread message' count - see below
+#  2    Image file: `0 unread messages' icon
+#  3    Image file: `+1 unread messages' icon
+#  4    Image file: `unexpected issue' icon (e.g. the count was not an integer)
+#  5    Image file: MUA is not running
+#
+# Processing
+# ==========
+# This program processes the output of the script/program specified.
+#
+# Intentionally, we keep it simple.  Per line, we substring search the following
+# strings and act accordingly:
+#
+#    MUA is down
+#    MUA is up
+#    Unread count = N
+#
+#       Note:  We expect, but do not fail, if N is not provided or not an integer.
+# 
+# All other strings are ignored.
+#
+
+#
+# Cobbled together from several posts with a wee bit of special sauce tossed in
+#
+# Some of the core pages:
+#
+# o https://stackoverflow.com/questions/56307711/why-icon-of-qsystemtrayicon-not-hide-in-my-system
+# o https://www.mfitzp.com/tutorials/system-tray-mac-menu-bar-applications-pyqt/
+# o https://stackoverflow.com/questions/42814093/how-to-handle-ctrlc-in-python-app-with-pyqt
+# o https://stackoverflow.com/questions/16670125/python-format-string-thousand-separator-with-spaces
+#
+
+from PyQt5.QtWidgets import QApplication, QMenu, QSystemTrayIcon, qApp, QMessageBox, QMainWindow
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QProcess
+import sys, signal, locale, os.path, psutil
+
+#
+# Die nicely on SIGINT via the CLI
+#
+signal.signal(signal.SIGINT, signal.SIG_DFL)
+
+#
+# Find the starting index of `sl' within `l'
+#
+# https://stackoverflow.com/questions/17870544/find-starting-and-ending-indices-of-sublist-in-list
+#
+def find_sub_list(sl,l):
+    sll=len(sl)
+    for ind in (i for i,e in enumerate(l) if e==sl[0]):
+        if l[ind:ind+sll]==sl:
+            return ind,ind+sll-1
+
+#
+# Qprocess() doesn't kill the children of the process it kills.  We use this code to kill the children.
+#
+# Note:  we rely on the script/program to handle its own cleanup.
+#
+# https://stackoverflow.com/questions/22291434/pyqt-application-closes-successfully-but-process-is-not-killed/22305331
+#
+def kill_proc_tree(pid, including_parent=False):    
+    parent = psutil.Process(pid)
+    for child in parent.children(recursive=True):
+        child.kill()
+    if including_parent:
+        parent.kill()
+
+#
+# At some point, we'll want to set up proper debugging (e.g. accept a flag)
+# This is the start.
+#
+def print_debug(s):
+    if debug == 1:
+        print(s, flush=True)
+
+class MainWindow():
+
+    def __init__(self):
+        super().__init__()
+
+        self.p = None
+        # If we're on the way to gonner-ville, flip the switch
+        self.in_quit_cleanup = 0
+        self.unread_msgs_count = 0
+        self.unread_msgs_is_int = 1
+        self.MUA_state = 'Down'
+        self.tooltip_msg = "Unread messages count is "
+        self.tooltip_error_msg_not_int = "Non-integer received:  "
+        self.process_name = os.path.basename(sys.argv[1])
+
+        self.tooltip_error_msg_process_died = "'" + self.process_name + "' stopped running"
+        self.tooltip_error_msg_MUA_is_down = "The mail client is not running"
+
+        # The strings we can process
+        self.unread_count = "Unread count ="
+        self.MUA_is_down = "MUA is down"
+        self.MUA_is_up = "MUA is up"
+
+        self.menu = None
+        self.process_state = None
+
+        # Create the icon menus
+        self.gen_menu()
+
+        self.icon_read        = sys.argv[2]
+        self.icon_unread      = sys.argv[3]
+        self.icon_error       = sys.argv[4]
+        self.icon_MUA_is_down = sys.argv[5]
+        self.icon = QIcon(self.icon_read)
+
+        # Creating tray
+        self.trayIcon = QSystemTrayIcon(self.icon, app)
+        self.trayIcon.setContextMenu(self.menu)
+
+        # Initialize the tool tip
+        self.trayIcon.setToolTip(self.tooltip_msg + str(self.unread_msgs_count))
+        self.trayIcon.show()
+
+        # Number formatting
+        locale.setlocale(locale.LC_ALL, '')
+        locale._override_localeconv = {'mon_thousands_sep': ','}
+
+        # Start the process
+        self.start_process()
+
+    #
+    # For some DEs, there is no tool tip.  We set up a NULL menu entry to also provide the tool tip
+    # details.  ;)
+    #
+    def gen_menu(self):
+        print_debug("> gen_menu()")
+        if self.menu is None:
+            self.menu = QMenu()
+        else:
+            self.menu.clear()
+
+        if self.process_state == 'Not running':
+            self.unreadAction = self.menu.addAction(self.tooltip_error_msg_process_died)
+        elif self.MUA_state == 'Down':
+            self.unreadAction = self.menu.addAction(self.tooltip_error_msg_MUA_is_down)
+        elif self.unread_msgs_is_int == 1:
+            self.unreadAction = self.menu.addAction(self.tooltip_msg + str(locale.format_string('%d', self.unread_msgs_count, grouping=True, monetary=True)))
+        else:
+            self.unreadAction = self.menu.addAction(self.tooltip_error_msg_not_int + str(self.unread_msgs_count))
+        
+        self.separator = self.menu.addSeparator()
+        self.quitAction = self.menu.addAction("Quit")
+        self.quitAction.triggered.connect(self.quit_cleanup)
+
+    def start_process(self):
+        print_debug("> start_process()")
+        if self.p is None:  # No process running.
+            self.p = QProcess()  # Keep a reference to the QProcess (e.g. on self) while it's running.
+            self.p.readyReadStandardOutput.connect(self.handle_stdout)
+            self.p.readyReadStandardError.connect(self.handle_stderr)
+            self.p.stateChanged.connect(self.handle_state)
+            self.p.finished.connect(self.process_finished) # Clean up once complete.
+            self.p.start(sys.argv[1])
+            self.p.waitForStarted(5000)
+
+    def handle_stderr(self):
+        print_debug("> handle_stderr()")
+        data = self.p.readAllStandardError()
+        stderr = bytes(data).decode("utf8")
+
+    #
+    # This is where we process the output of the script/program - see our tombstone for details.
+    #
+    def handle_stdout(self):
+        print_debug("> handle_stdout()")
+        data = self.p.readAllStandardOutput()
+        stdout = bytes(data).decode("utf8")
+        print_debug(">> " + stdout.rstrip())
+        if self.MUA_is_down in stdout:      # Flip to our down state and set all corresponding user alerts
+            self.trayIcon.setIcon(QIcon(self.icon_MUA_is_down))
+            self.trayIcon.setToolTip(self.tooltip_error_msg_MUA_is_down)
+            self.MUA_state = "Down"
+            self.gen_menu()
+            return
+        if self.MUA_is_up in stdout:        # We don't action on this state, ignore it
+            self.MUA_state = "Up"
+            return
+        if not self.unread_count in stdout: # No unread count in the line, ignore it
+            return
+
+        # Return the list, [start_of_magic_cookie, end_of_magic_cookie]
+        stdout_list = stdout.split() + ['no value']  # The split() also puts a newline in its own cell
+        unread_msgs_count_index = find_sub_list(self.unread_count.split(), stdout_list)
+
+        # The next cell after the `magic_cookie' in `stdout_list' is our `Unread count'
+        self.unread_msgs_count = stdout_list[unread_msgs_count_index[1] + 1]
+
+        # Ensure it's an integer
+        try:
+            self.unread_msgs_is_int = 1
+            self.unread_msgs_count = int(self.unread_msgs_count)
+
+        except ValueError:
+            self.unread_msgs_is_int = 0
+            pass
+
+        # Process N - systray icon, menu text and tool tip
+        if self.unread_msgs_is_int == 1:
+            if self.unread_msgs_count > 0:
+                self.trayIcon.setIcon(QIcon(self.icon_unread))
+            else:
+                self.trayIcon.setIcon(QIcon(self.icon_read))
+            self.trayIcon.setToolTip(self.tooltip_msg + str(locale.format_string('%d', self.unread_msgs_count, grouping=True, monetary=True)))
+        else:
+            self.trayIcon.setIcon(QIcon(self.icon_error))
+            self.trayIcon.setToolTip(self.tooltip_error_msg_not_int + str(self.unread_msgs_count))
+
+        self.gen_menu()
+            
+    def handle_state(self, state):
+        print_debug("> handle_state()")
+        states = {
+            QProcess.NotRunning: 'Not running',
+            QProcess.Starting:   'Starting',
+            QProcess.Running:    'Running',
+        }
+        self.process_state = states[state]
+        print_debug("state changed to " + self.process_state)
+        if self.in_quit_cleanup == 0 and self.process_state == 'Not running': # if we didn't intend to die ...
+            self.trayIcon.setIcon(QIcon(self.icon_error))
+            self.trayIcon.setToolTip(self.tooltip_error_msg_process_died)
+            self.gen_menu()
+
+    def process_finished(self):
+        print_debug("> process_finished()")
+        self.p = None
+
+    def quit_cleanup(self):
+        print_debug("> quit_cleanup()")
+        if self.p is not None:
+            self.in_quit_cleanup = 1
+            self.p.terminate()
+            kill_proc_tree(self.p.pid())
+            self.p.waitForFinished(4000) # give it 10s to end.  Our pollihg is 1s so that's more than adequate.
+
+            if self.p is not None:
+                self.p.kill() # nail the sucker
+                self.p.waitForFinished(2000)
+
+        app.quit()
+
+debug = 0
+app = QApplication(sys.argv)
+w = MainWindow()
+app.exec_()
