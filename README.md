@@ -17,13 +17,18 @@ It has the following key features:
   
 ## Installing / Getting started
 
-```shell
-# Get the latest version  (TODO:  figure this out)
-# Unzip it  (TODO:  is there anything more for me to do here?)
-cd nbiff
+1. [Go to the release
+   page](https://github.com/pablo-blueoakdb/nbiff/releases) and note
+   the latest release is listed first.
+2. Expand a release's **Assets** and download either compressed
+   version of choice.
+3. Unpack the source file in a directory.  A new directory will be
+   created with the version.
+4. Change directories to the `cd` new directory.
+5. Run the installer and follow the on-screen instructions:
 
-# Thunderbird installer
-./Install_latest.tbird
+```shell
+   ./Install_latest.tbird
 ```
 
 The `Install_latest` script is written with the belief that the
