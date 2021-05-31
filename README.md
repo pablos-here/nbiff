@@ -1,5 +1,5 @@
-![nbiff logo](doc/logo.png)
-# nbiff 
+![nbiff logo](doc/logo.png) 
+# nbiff
 
 `nbiff` is an intentionally simple, extensible systray email
 notifier. Geared for Linux, yet it may (eventually) work on Windows.

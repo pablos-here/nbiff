@@ -1,0 +1,81 @@
+# -*- mode: sh -*-
+#
+# Who are we and where were we called?
+#
+THIS_SCRIPT=$(readlink -f "$0")
+THIS_SCRIPT_DIR=$(dirname "$THIS_SCRIPT")
+
+SRC_DIR="src"
+CONF_DIR="conf"
+SYSTRAY_DIR="systray"
+GEN_NEW_MSGS_DIR="gen_new_msgs"
+
+# Where we store local overrides
+LOCAL_DIR="local"
+
+ROOT_README_MD="README.md"
+
+NBIFF_CONF="../$CONF_DIR/nbiff.conf"
+TBIRD_NEW_MSGS_CONF="../$CONF_DIR/tbird_new_msgs.conf"
+
+#
+# File name of scripts/programs that live within $GEN_NEW_MSGS_DIR
+#
+# Referenced (at least) by the corresponding installer
+#
+TBIRD_NEW_MSGS='tbird_new_msgs'
+
+#
+# Install/upgrade related variables
+#
+INSTALL_DIR="$HOME/.nbiff"
+
+########################################################
+# Functions
+########################################################
+
+do_cd()
+{
+   cd "$1"
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - failed cd $1\n"
+      exit 1
+   fi
+}
+
+is_executable()
+{
+   if [ ! -x "$1" ] ; then
+      printf "$(basename $0) - could not access the executable $1\n"
+      printf "\n"
+      printf "If the script exists, ensure it is chmod +x\n"
+      exit 1
+   fi
+}
+
+is_readable()
+{
+   if [ ! -r "$1" ] ; then
+      printf "$(basename $0) - could not access $1\n"
+      exit 1
+   fi
+}
+
+is_directory()
+{
+   if [ ! -d "$1" ] ; then
+      printf "$(basename $0) - could not access $1\n"
+      exit 1
+   fi
+}
+
+dot_it()
+{
+   . "$1"
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - error in $1\n"
+      printf "\n"
+      printf "Tip:  run '%s' in the directory above.\n" "$1"
+      exit 1
+   fi
+}
