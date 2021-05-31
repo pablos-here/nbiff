@@ -19,7 +19,7 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
 - Details are presented by clicking on the icon.  Tool tips are
   available when the environment supports it.
   
-## Installing/Upgrading the Thunderbird version
+## Installing/Upgrading
 
 1. [Go to the release
    page](https://github.com/pablo-blueoakdb/nbiff/releases).
@@ -30,6 +30,9 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
 4. Run the installer and follow the on-screen instructions:
 
 ```shell
+#
+# Thunderbird
+#
 ./Install_latest.tbird
 ```
 
