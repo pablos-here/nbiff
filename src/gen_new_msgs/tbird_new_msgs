@@ -99,7 +99,7 @@ usage()
 {
    printf "usage: $(basename $0) [ -a -c -l -v ] [ -k color ]\n"
    printf "\n"
-   printf -- "-a\tif TTY, display popup when there are unread messages\n"
+   printf -- "-a\tif TTY, display a popup when there are unread messages\n"
    printf -- "-c\tcheck .conf and exit\n"
    printf -- "-k\thighlight color:\n"
    printf -- "\t   "
