@@ -95,6 +95,10 @@ DISABLE="stop you"
 
 To reenable, either comment or delete the line.
 
+## Custom icons
+
+## Troubleshooting
+
 ## Developing
 
 Here's a brief intro about what a developer must do in order to start developing
