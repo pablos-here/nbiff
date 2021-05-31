@@ -18,9 +18,6 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
   there are unread messages or not.  
 - Details are presented by clicking on the icon.  Tool tips are
   available when the environment supports it
-
-, when supported, as a tool tip or a menu
-  accessed by clicking on the systray icon
   
 ## Installing / Getting started
 
