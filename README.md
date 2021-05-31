@@ -16,7 +16,10 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
 - Users can customize their own systray icons
 - The systray icon provides high-level information such as whether
   there are unread messages or not.  
-- Details are presented, when supported, as a tool tip or a menu
+- Details are presented by clicking on the icon.  Tool tips are
+  available when the environment supports it
+
+, when supported, as a tool tip or a menu
   accessed by clicking on the systray icon
   
 ## Installing / Getting started
@@ -58,8 +61,8 @@ Support` extension for **Wayland** support.
 
 
 1. [Go to extension's webpage](https://extensions.gnome.org/extension/615/appindicator-support)
-2. [Enable](doc/KStatusNotifierItem.png) the extension by moving the
-   slide to the **On** position.
+2. [Enable](https://github.com/pablo-blueoakdb/nbiff/blob/main/doc/KStatusNotifierItem.png)
+   the extension by moving the slide to the **On** position.
 
 ### Initial Configuration
 
