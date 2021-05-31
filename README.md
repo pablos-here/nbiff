@@ -6,14 +6,18 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
 
 ## Features
 
-It has the following key features:
+`nbiff` has the following features:
 
-- It is dynamic.  It self-adjusts when Email accounts are
-  added/deleted, folders are created/deleted
-- While dynamic, it is designed to be light-weight and fast
-- Largely immune from `Thunderbird`s API changes
+- It is dynamic.  It self-adjusts when email accounts are
+  added/deleted and folders are created/deleted
+- While dynamic, it is designed to be light-weight and quick
+- Largely it is immune from `Thunderbird`'s API changes
 - Supports both `x11` and `wayland`
-- Users can configure their own systray icons
+- Users can customize their own systray icons
+- The systray icon provides high-level information such as whether
+  there are unread messages or not.  
+- Details are presented, when supported, as a tool tip or a menu
+  accessed by clicking on the systray icon
   
 ## Installing / Getting started
 
@@ -24,37 +28,38 @@ It has the following key features:
    version of choice.
 3. Unpack the source file in a directory.  A new directory will be
    created with the version.
-4. Change directories to the `cd` new directory.
+4. Change directories (`cd`) to the new directory.
 5. Run the installer and follow the on-screen instructions:
 
 ```shell
-   ./Install_latest.tbird
+./Install_latest.tbird
 ```
 
-The `Install_latest` script is written with the belief that the
-majority of the people prefer to *do* than *read-and-do*.
+### Installation script
+
+The installation script is written with the belief that the majority
+of people prefer to *do* than to *read-and-do*
 
 It handles both installs and upgrades.  It is *not* a package
 manager.
 
 ### Requirements
 
-`Python 3` is required along with some additional libraries.  Install
-the libraries as follows:
+`Python 3` is required along with some additional libraries:
 
 ```
 pip3 install PyQt5 psutil
 ```
 
-### GNOME + Wayland
+### GNOME + Wayland support
 
-The **GNOME** extension is needed for **Wayland** and some flavors of
-**GNOME**.
+Some **GNOME** versions require an extension for **Wayland** support.
+
 
 To install `KStatusNotifierItem/AppIndicator Support`:
 
-1. https://extensions.gnome.org/extension/615/appindicator-support/
-2. On your browser, upper right, enable the extension (**On**)
+1. [Go to extension's webpage](https://extensions.gnome.org/extension/615/appindicator-support)
+2. Enable the extension:![KStatusNotifierItem](doc/KStatusNotifierItem.png)
 
 ### Initial Configuration
 
