@@ -53,10 +53,9 @@ pip3 install PyQt5 psutil
 
 ### GNOME + Wayland support
 
-Some **GNOME** versions require an extension for **Wayland** support.
+Some **GNOME** versions require the `KStatusNotifierItem/AppIndicator
+Support` extension for **Wayland** support. 
 
-
-To install `KStatusNotifierItem/AppIndicator Support`:
 
 1. [Go to extension's webpage](https://extensions.gnome.org/extension/615/appindicator-support)
 2. Enable the extension:![KStatusNotifierItem](doc/KStatusNotifierItem.png)
