@@ -1,6 +1,4 @@
-![Logo of the project](doc/logo.png)
-
-# nbiff
+# nbiff ![Logo of the project](doc/logo.png)
 
 `nbiff` is an intentionally simple, extensible email notifier. Geared
 for Linux, yet it may (eventually) work on Windows.
