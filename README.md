@@ -1,8 +1,8 @@
 ![nbiff logo](doc/logo.png)
 # nbiff 
 
-`nbiff` is an intentionally simple, extensible email notifier. Geared
-for Linux, yet it may (eventually) work on Windows.
+`nbiff` is an intentionally simple, extensible systray email
+notifier. Geared for Linux, yet it may (eventually) work on Windows.
 
 ## Features
 
@@ -11,8 +11,8 @@ It has the following key features:
 - It is dynamic.  It self-adjusts when Email accounts are
   added/deleted, folders are created/deleted
 - While dynamic, it is designed to be light-weight and fast
-- Largely immune from **Thunderbird**s API changes which tends to make
-  **Extensions** obsolete
+- Largely immune from `Thunderbird`s API changes
+- Supports both `x11` and `wayland`
 - Users can configure their own systray icons
   
 ## Installing / Getting started
@@ -21,7 +21,9 @@ It has the following key features:
 # Get the latest version  (TODO:  figure this out)
 # Unzip it  (TODO:  is there anything more for me to do here?)
 cd nbiff
-./Install_latest
+
+# Thunderbird installer
+./Install_latest.tbird
 ```
 
 The `Install_latest` script is written with the belief that the
@@ -32,7 +34,7 @@ manager.
 
 ### Requirements
 
-**Python 3** is required along with some additional libraries.  Install
+`Python 3` is required along with some additional libraries.  Install
 the libraries as follows:
 
 ```
