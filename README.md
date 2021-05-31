@@ -9,26 +9,25 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
 `nbiff` has the following features:
 
 - It is dynamic.  It self-adjusts when email accounts are
-  added/deleted and folders are created/deleted
-- While dynamic, it is designed to be light-weight and quick
-- Largely it is immune from `Thunderbird`'s API changes
-- Supports both `x11` and `wayland`
-- Users can customize their own systray icons
+  added/deleted and folders are created/deleted.
+- While dynamic, it is designed to be light-weight and quick.
+- Largely it is immune from `Thunderbird`'s API changes.
+- Supports both `x11` and `wayland`.
+- Users can customize their own systray icons.
 - The systray icon provides high-level information such as whether
-  there are unread messages or not.  
+  there are unread messages or not.
 - Details are presented by clicking on the icon.  Tool tips are
-  available when the environment supports it
+  available when the environment supports it.
   
-## Installing Thunderbird version
+## Installing/Upgrading the Thunderbird version
 
 1. [Go to the release
-   page](https://github.com/pablo-blueoakdb/nbiff/releases)
+   page](https://github.com/pablo-blueoakdb/nbiff/releases).
 2. Expand a release's **Assets** and download either compressed
-   version of choice
-3. Unpack the source file in a directory.  A new directory will be
-   created with the version
-4. Change directories (`cd`) to the new directory
-5. Run the installer and follow the on-screen instructions:
+   version of choice.
+3. Unpack the source file.  It will create a new directory.  Switch to
+   it.
+4. Run the installer and follow the on-screen instructions:
 
 ```shell
 ./Install_latest.tbird
