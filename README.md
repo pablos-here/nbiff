@@ -58,7 +58,8 @@ Support` extension for **Wayland** support.
 
 
 1. [Go to extension's webpage](https://extensions.gnome.org/extension/615/appindicator-support)
-2. [Enable](doc/KStatusNotifierItem.png) the extension
+2. [Enable](doc/KStatusNotifierItem.png) the extension by moving the
+   slide to the **On** position.
 
 ### Initial Configuration
 
