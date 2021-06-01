@@ -1,9 +1,10 @@
 ![nbiff logo](doc/logo.png) 
 
-# Table of contents
+#### Table of contents
 
 - [nbiff](#nbiff)
   * [Features](#features)
+  * [Online help](#online-help)
   * [Installing/Upgrading](#installing-upgrading)
     + [Installation script](#installation-script)
     + [Requirements](#requirements)
@@ -21,7 +22,7 @@
   * [Links](#links)
   * [Future](#future)
   * [Licensing](#licensing)
-  
+
 # nbiff
 
 `nbiff` is an intentionally simple, extensible systray email
