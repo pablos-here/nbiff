@@ -62,7 +62,7 @@ Some **GNOME** versions require the
 `KStatusNotifierItem/AppIndicator Support` 
 extension for **Wayland** support. 
 
-1. [Go to the extension's webpage](https://extensions.gnome.org/extension/615/appindicator-support)
+1. [Go to the extension's webpage](https://extensions.gnome.org/extension/615/appindicator-support).
 2. [Enable](https://github.com/pablo-blueoakdb/nbiff/blob/main/doc/KStatusNotifierItem.png)
    the extension by moving the slider to the **On** position.
 
