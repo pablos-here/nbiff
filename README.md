@@ -1,6 +1,6 @@
 ![nbiff logo](doc/logo.png) 
 
-## Table of contents
+# Table of contents
 
 - [nbiff](#nbiff)
   * [Features](#features)
