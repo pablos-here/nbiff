@@ -46,7 +46,7 @@ manager.
 
 ### Requirements
 
-> Best viewed  https://github.com/pablo-blueoakdb/nbiff#requirements
+> Best viewed https://github.com/pablo-blueoakdb/nbiff#requirements
 
 `Python 3` is required along with some additional libraries:
 
