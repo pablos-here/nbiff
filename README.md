@@ -1,4 +1,25 @@
 ![nbiff logo](doc/logo.png) 
+
+- [nbiff](#nbiff)
+  * [Features](#features)
+  * [Installing/Upgrading](#installing-upgrading)
+    + [Installation script](#installation-script)
+    + [Requirements](#requirements)
+    + [GNOME + Wayland support](#gnome---wayland-support)
+    + [Initial Configuration](#initial-configuration)
+    + [Known quirks](#known-quirks)
+  * [Temporarily disabling autostart](#temporarily-disabling-autostart)
+  * [Custom icons](#custom-icons)
+  * [Troubleshooting](#troubleshooting)
+  * [Developing](#developing)
+    + [Architectural overview](#architectural-overview)
+  * [Development configuration](#development-configuration)
+  * [Configuration](#configuration)
+  * [Contributing](#contributing)
+  * [Links](#links)
+  * [Future](#future)
+  * [Licensing](#licensing)
+  
 # nbiff
 
 `nbiff` is an intentionally simple, extensible systray email
