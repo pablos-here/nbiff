@@ -58,8 +58,9 @@ pip3 install PyQt5 psutil
 
 > Best viewed https://github.com/pablo-blueoakdb/nbiff#gnome--wayland-support
 
-Some **GNOME** versions require the `KStatusNotifierItem/AppIndicator
-Support` extension for **Wayland** support. 
+Some **GNOME** versions require the 
+`KStatusNotifierItem/AppIndicator Support` 
+extension for **Wayland** support. 
 
 1. [Go to extension's webpage](https://extensions.gnome.org/extension/615/appindicator-support)
 2. [Enable](https://github.com/pablo-blueoakdb/nbiff/blob/main/doc/KStatusNotifierItem.png)
