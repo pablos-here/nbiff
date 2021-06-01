@@ -1,5 +1,7 @@
 ![nbiff logo](doc/logo.png) 
 
+# Table of contents
+
 - [nbiff](#nbiff)
   * [Features](#features)
   * [Installing/Upgrading](#installing-upgrading)
