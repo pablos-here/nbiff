@@ -41,15 +41,19 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
   there are unread messages or not.
 - Details are presented by clicking on the icon.  Tool tips are
   available when the environment supports it.
-  
+
+## Online help
+
+Join the `nbiff` [subreddit](https://www.reddit.com/r/nbiff).
+
 ## Installing/Upgrading
 
 1. [Go to the release
    page](https://github.com/pablo-blueoakdb/nbiff/releases).
-2. Expand a release's **Assets** and download either compressed
-   version of choice.
-3. Unpack the source file.  It will create a new directory.  Switch to
-   it.
+2. Expand the latest release's **Assets** and download the compressed
+   version of your choice.
+3. A new directory is created when the file is uncompressed.  Change
+   directories to it.
 4. Run the installer and follow the on-screen instructions:
 
 ```shell
