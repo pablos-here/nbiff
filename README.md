@@ -47,57 +47,50 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
 
 Join the `nbiff` [subreddit](https://www.reddit.com/r/nbiff).
 
-## Installing/Upgrading
+## nbiff requirements
 
-1. [Go to the release
-   page](https://github.com/pablo-blueoakdb/nbiff/releases).
-2. Expand the latest release's **Assets** and download the compressed
-   version of your choice.
-3. A new directory is created when the file is uncompressed.  Change
-   directories to it.
-4. Run the installer and follow the on-screen instructions:
-
-```shell
-#
-# nbiff for Thunderbird
-#
-./Install_latest.tbird
-```
-
-### Installation script
-
-The installation script is written with the belief that the majority
-of people prefer to *do* than to *read-and-do*
-
-It handles both installs and upgrades.  It is *not* a package
-manager.
-
-### Requirements
-
-> Best viewed https://github.com/pablo-blueoakdb/nbiff#requirements
+> Link [on github](https://github.com/pablo-blueoakdb/nbiff#nbiff-requirements)
 
 `Python 3` is required along with some additional libraries:
 
-```
+```shell
 pip3 install PyQt5 psutil
 ```
 
 ### GNOME + Wayland support
 
-> Best viewed https://github.com/pablo-blueoakdb/nbiff#gnome--wayland-support
+> Link [on github](https://github.com/pablo-blueoakdb/nbiff#gnome--wayland-support)
 
-Some **GNOME** versions require the 
-`KStatusNotifierItem/AppIndicator Support` 
-extension for **Wayland** support. 
+Some **GNOME** versions require the `KStatusNotifierItem/AppIndicator
+Support` extension for **Wayland** support.
+
+Install it as follows:
 
 1. [Go to the extension's webpage](https://extensions.gnome.org/extension/615/appindicator-support).
 2. [Enable](https://github.com/pablo-blueoakdb/nbiff/blob/main/doc/KStatusNotifierItem.png)
    the extension by moving the slider to the **On** position.
 
-### Initial Configuration
+## Installing/Upgrading
 
-Some projects require initial configuration (e.g. access tokens or keys, `npm i`).
-This is the section where you would document those requirements.
+The installation script is written with the belief that the majority
+of people prefer to **do** than to **read-and-do**.
+
+It handles both installs and upgrades.
+
+1. [Get the latest the
+   release](https://github.com/pablo-blueoakdb/nbiff/releases).
+2. Expand the release's **Assets** and download the compressed file of
+   your choice.
+3. After uncompressing the file, a new directory is created.  Change
+   directories to it.
+4. Run the installer for your email client.  Follow its on-screen
+   instructions.
+
+### nbiff for Thunderbird
+
+```shell
+./Install_latest.tbird
+```
 
 ### Known quirks
 
@@ -119,7 +112,7 @@ configured for autostarting.
 
 Edit `$HOME/.nbiff/local/conf/nbiff.conf` and define the following variable:
 
-```
+```shell
 DISABLE="stop you"
 ```
 
