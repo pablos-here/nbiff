@@ -79,16 +79,19 @@ Below is how to install/upgrade:
 
 There are rare times when, it appears that an `.msf` is not
 immediately flushed to disk.  This causes `nbiff` to believe there are
-still **Unread messages** when there are none. 
+ **Unread messages** when there are none. 
 
 Within a two or three minutes, `thunderbird` synchronizes the disk
 file and all is well.
 
 There are two possible work-arounds:
 
-1. Restart `thunderbird`
+1. Restart `thunderbird` or
 2. Use `tbird_new_msgs` to identify which `.msf` is out of sync.  Once
    identified, click on it and `thunderbird` will syncrhornize it.
+
+   To read more about about `tbird_new_msgs`, [see the Troubleshooting
+   section](#Troubleshooting).
 
 ## Temporarily disabling autorun
 
