@@ -194,9 +194,9 @@ After each change, restart `nbiff`:
 $HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
 ```
 
-#### Start using the local icon directory
+#### Enable local icon directory
 
-Uncomment `ICONS_DIR` to start using the local icon directory:
+To start using the local icon directory uncomment `ICONS_DIR`:
 
 ```shell
 ICONS_DIR="../local/icons"
@@ -226,43 +226,40 @@ architecture](#high-level-architecture) section.
 
 ### No systray icon
 
-This happens when `nbiff` cannot access its icon directory.
+This will happen when `nbiff` cannot access its icons.
 
-First, change directories to the `systray` directory:
+To troubleshoot this issue, change directories to the `systray`
+directory: 
 
 ```shell
 cd $HOME/.nbiff/systray
 ```
 
-Either local icons are being used or the system icons.
+Next, use the configuration files to define the variables in a shell.
+Each `.` command will return silently if there are no errors:
 
-Do the following to check whether local icons are being used:
-
-```shell
-grep ICONS_DIR ../local/conf/nbiff.conf
 ```
-
-Tip:  In shell, a string starting with **#** is a comment.
-
-| `grep` output                 | Description                                                                                                                                        |
-|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `#ICONS_DIR="../local/icons"` | The variable is not defined (starts with a **#**).  Local icons are not being used.<br><br>Confirm the settings in `$HOME/.nbiff/conf/nbiff.conf`. |
-| `ICONS_DIR="../local/icons"`  | Local icons are being used.<br><br>Confirm the settings in `$HOME/.nbiff/local/conf/nbiff.conf`.                                                   |
-
-Confirm the variable settings by doing the following to define the
-variables in a `bash` shell:
-
-```shell
-cd $HOME/.nbiff/systray
+bash
 . ../Globals
 . ../conf/nbiff.conf
 ```
 
-At this point, you can confirm access to the files.  For example:
+Next, confirm that the directory variable is properly set:
 
-```shell
-ls -la $ICONS_DIR/$ICON_ERROR
 ```
+ls -la $ICONS_DIR
+```
+
+Assuming so, the problem is with one or more of the icon variables.
+To test them, do the following:
+
+```
+ls -la $ICONS_DIR/$ICON_UNREAD_MSGS
+ls -la $ICONS_DIR/$ICON_NO_UNREAD_MSGS
+ls -la $ICONS_DIR/$ICON_ERROR
+ls -la $ICONS_DIR/$ICON_MUA_IS_DOWN
+```
+
 ### Running gen_new_msgs
 
 **TODO -- resume here ...**
