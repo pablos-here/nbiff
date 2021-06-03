@@ -210,7 +210,7 @@ grep ICONS_DIR ../local/conf/nbiff.conf
 
 | `grep` output                 | Description                                                                                                                                        |
 |-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `#ICONS_DIR="../local/icons"` | The variable is not defined (starts with a **#**).  Local icons are not being used.<br><br>Confirm the settings in `$HOME/.nbiff/conf/nbiff.conf`. |
+| `#ICONS_DIR="../local/icons"` | The variable is not defined (starts with a **#**).  Local icons are not being used.<br><br>Confirm the **ICON_\*** settings in `$HOME/.nbiff/conf/nbiff.conf`. |
 | `ICONS_DIR="../local/icons"`  | Local icons are being used.<br><br>Confirm the settings in `$HOME/.nbiff/local/conf/nbiff.conf`.                                                   |
 
 ### High-level architecture
