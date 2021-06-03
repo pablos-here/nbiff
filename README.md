@@ -156,7 +156,7 @@ To simplify implementation, the following code fragment is included:
 
 After each change, restart `nbiff`:
 
-1. Click on the systray icon and `quit` it.
+1. Click on the systray icon and select the menu item `quit`.
 2. Start it:
 
 ```shell
@@ -172,7 +172,8 @@ ICONS_DIR="../local/icons"
 ```
 
 At this point, the symbolic links in this directory are used to point
-to the base `nbiff` icons.
+to the base `nbiff` icons.  That is, `nbiff` will continue to use the
+configured icons.
 
 #### Use the sample icon
 
@@ -180,11 +181,9 @@ As mentioned in the [Local icon directory](#local-icon-directory)
 section, a sample file named `unread_msgs.png` is provided at
 install. 
 
-
 ```shell
 ICON_UNREAD_MSGS="unread_msgs.png"
 ```
-
 
 ## Troubleshooting
 
