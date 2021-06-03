@@ -208,12 +208,10 @@ Do the following to check whether local icons are being used:
 grep ICONS_DIR ../local/conf/nbiff.conf
 ```
 
-| `grep` output                 | Description                                                   |
-|-------------------------------|---------------------------------------------------------------|
-| `#ICONS_DIR="../local/icons"` | The variable is not defined.  Local icons are not being used. |
-|                               | Confirm the settings in `$HOME/.nbiff/conf/nbiff.conf`.       |
-| `ICONS_DIR="../local/icons"`  | Local icons are being used.                                   |
-|                               | Confirm the settings in `$HOME/.nbiff/local/conf/nbiff.conf`. |
+| `grep` output                 | Description                                                                                                                  |
+|-------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `#ICONS_DIR="../local/icons"` | The variable is not defined.  Local icons are not being used.<br><br>Confirm the settings in `$HOME/.nbiff/conf/nbiff.conf`. |
+| `ICONS_DIR="../local/icons"`  | Local icons are being used.<br><br>Confirm the settings in `$HOME/.nbiff/local/conf/nbiff.conf`.                             |
 
 ### High-level architecture
 
