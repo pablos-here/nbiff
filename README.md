@@ -113,28 +113,78 @@ delete it and manually restart `nbiff`.
 
 Local icons can be placed in `$HOME/.nbiff/local/icons`.
 
+Once local icons are used, it is an all-or-nothing.  That is, `nbiff`
+will be told to pull all its icons from the local directory.
+
 For convenience, this directory is seeded with symbolic links to
 several `nbiff`'s core icons.
 
-There is one additional sample file named `unread_msgs.png`.
+The symbolic links makes it easy to mix-and-match one or more of the
+`nbiff` icons with local changes.
+
+In addition to the symbolic links, the sample file `unread_msgs.png`
+file is included.
+
+It is referenced in the commented code fragment found in the [Local
+nbiff.conf](#Local_nbiffconf) file.
 
 ### Local nbiff.conf
 
-TODO - left off here ....
+`$HOME/.nbiff/local/conf/nbiff.conf` contains icon site-localizations.
 
-`$HOME/.nbiff/local/conf/nbiff.conf` contains site-localizations.  A
-sample fragment of code is included in the file.  
+To simplify implementation, the following code fragment is included:
 
-```
+```shell
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Use local icons
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-# See the README.md on how to set up local icons
-# 
+# See the README.md on how to enable local icons.
+#
+# In the example below, only one icon is localized:
+#
+#    ICON_UNREAD_MSGS="unread_msgs.png"
+#
 #ICONS_DIR="../local/icons"
 #ICON_UNREAD_MSGS="unread_msgs.png"
+#ICON_NO_UNREAD_MSGS="01.no_unread_msgs.png"
+#ICON_ERROR="01.error.png"
+#ICON_MUA_IS_DOWN="01.MUA_is_down.png"
 ```
+
+#### Affecting changes
+
+After each change, restart `nbiff`:
+
+1. Click on the systray icon and `quit` it.
+2. Start it:
+
+```shell
+$HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
+```
+
+#### Start using the local icon directory
+
+Uncomment `ICONS_DIR` to start using the local icon directory:
+
+```shell
+ICONS_DIR="../local/icons"
+```
+
+At this point, the symbolic links in this directory are used to point
+to the base `nbiff` icons.
+
+#### Use the sample icon
+
+As mentioned in the [Local icon directory](#local-icon-directory)
+section, a sample file named `unread_msgs.png` is provided at
+install. 
+
+
+```shell
+ICON_UNREAD_MSGS="unread_msgs.png"
+```
+
 
 ## Troubleshooting
 
