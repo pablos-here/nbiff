@@ -66,33 +66,34 @@ Below is how to install/upgrade:
    your choice.
 3. After uncompressing the file, a new directory is created.  Change
    directories to it.
-4. Run the installer for your email client.  Follow the on-screen
-   instructions.
+4. Run the installer for your email client and follow the on-screen
+   instructions:
 
 | Mail client   | Installation script                            |
 |---------------|------------------------------------------------|
-| `thunderbird` | <pre>./Install_latest.tbird</pre> |
-
-### nbiff for Thunderbird
-
+| `thunderbird` | <pre lang="shell">./Install_latest.tbird</pre> |
 
 ### Known quirks
 
-There are rare times when an `.msf` is not immediately flushed to disk.
-This causes `nbiff` to believe there are still **Unread messages**
-when there are none.
+#### Thunderbird
 
-Within a minute or two, `Thunderbird` eventually synchronizes the file
-to disk and all is well.  Clicking on the corresponding folder
-(typically an Inbox with a filter) immediately causes a flush.
+There are rare times when, it appears that an `.msf` is not
+immediately flushed to disk.  This causes `nbiff` to believe there are
+still **Unread messages** when there are none. 
 
-Running `tbird_new_msgs` can be used to identify the offending
-folder(s).
+Within a two or three minutes, `thunderbird` synchronizes the disk
+file and all is well.
 
-## Temporarily disabling autostart
+There are two possible work-arounds:
+
+1. Restart `thunderbird`
+2. Use `tbird_new_msgs` to identify which `.msf` is out of sync.  Once
+   identified, click on it and `thunderbird` will syncrhornize it.
+
+## Temporarily disabling autorun
 
 There may be times when it is desired to not run `nbiff` and leave it
-configured for autostarting.
+configured to autorun.
 
 Edit `$HOME/.nbiff/local/conf/nbiff.conf` and define the following variable:
 
@@ -100,47 +101,37 @@ Edit `$HOME/.nbiff/local/conf/nbiff.conf` and define the following variable:
 DISABLE="stop you"
 ```
 
-To reenable, either comment or delete the line.
+To renable, either comment out the variable (prefix it with `#`) or
+delete it and manually restart `nbiff`.
 
 ## Custom icons
 
+### Local icon directory
 
+Local icons can be placed in `$HOME/.nbiff/local/icons`.
+
+For convenience, this directory is seeded with symbolic links to
+several `nbiff`'s core icons.
+
+There is one additional sample file named `unread_msgs.png`.
+
+### Local nbiff.conf
+
+TODO - left off here ....
+
+`$HOME/.nbiff/local/conf/nbiff.conf` contains site-localizations.  A
+sample fragment of code is included in the file.  
 
 ```
-conf/
-├── nbiff.conf
-icons/
-├── 01.error.png
-├── 01.MUA_is_down.png
-├── 01.no_unread_msgs.png
-├── 01.unread_msgs.big_red_dot.png
-├── 01.unread_msgs.w2r.png
-├── README.md
-└── src
-    └── 01.read.src.png
-local/
-├── conf
-│   ├── nbiff.conf
-│   └── tbird_new_msgs.conf
-└── icons
-    ├── 01.error.png -> ../../icons/01.error.png
-    ├── 01.MUA_is_down.png -> ../../icons/01.MUA_is_down.png
-    ├── 01.no_unread_msgs.png -> ../../icons/01.no_unread_msgs.png
-    ├── 01.unread_msgs.big_red_dot.png -> ../../icons/01.unread_msgs.big_red_dot.png
-    ├── 01.unread_msgs.w2r.png -> ../../icons/01.unread_msgs.w2r.png
-    └── unread_msgs.png
- ```
-
-* `nbiff` icons reside in `$HOOME/.nbiff/icons`.  
-* An icon file name is mapped to an `nbiff` condition (e.g. **no
-  unread messages**) in `$HOME/.nbiff/conf/nbiff.conf`. 
-* 
-
-
-
-an environment variable in `.../`
-
-One or more of `nbiff` icons can be localized.
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Use local icons
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# See the README.md on how to set up local icons
+# 
+#ICONS_DIR="../local/icons"
+#ICON_UNREAD_MSGS="unread_msgs.png"
+```
 
 ## Troubleshooting
 
