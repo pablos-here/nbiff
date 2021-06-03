@@ -192,9 +192,44 @@ Restart `nbiff` and mark some messages `unread` to see the different icon.
 
 ### High-level architecture
 
+There are two high-level components for `nbiff`:
+
 <pre>
     [ gen_new_msgs ] - [ nbiff ]
 </pre>
+
+Scripts in `gen_new_msgs` can be run standalone or are called by
+`nbiff`.
+
+`nbiff` is the data visualizer.  It reads the input from a
+`gen_new_msgs` script and changes the systray icon accordingly.
+
+### gen_new_msgs
+
+`$HOME/.nbiff/gen_new_msgs` stores the scripts/programs with the logic
+to determine the count of unread messages for the mail client.
+
+#### tbird_new_msgs
+
+`tbird_new_msgs` is tailored for `thunderbird`.  Multiple instances of
+it can be running.
+
+To run it:
+
+```shell
+cd $HOME/.nbiff/gen_new_msgs
+./tbird_new_msgs
+```
+
+This is a [sample](doc/sample_gen_new_msgs_output.png) of its output.
+
+Pass the argument `-?` to see its options:
+
+```shell
+./tbird_new_msgs '?'
+```
+
+#### Test suite
 
 ## Uninstalling
 
