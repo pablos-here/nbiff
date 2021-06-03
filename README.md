@@ -190,6 +190,9 @@ Restart `nbiff` and mark some messages `unread` to see the different icon.
 
 ## Troubleshooting
 
+The sections below assume that you have read the [High-level
+architecture](#high-level-architecture) section.
+
 ### No systray icon
 
 This happens when `nbiff` cannot access its icon directory.
@@ -243,7 +246,7 @@ Scripts in `gen_new_msgs` can be run standalone or are called by
 `nbiff` is the data visualizer.  It reads the input from a
 `gen_new_msgs` script and changes the systray icon accordingly.
 
-### gen_new_msgs
+#### gen_new_msgs
 
 `$HOME/.nbiff/gen_new_msgs` stores the scripts/programs with the logic
 to determine the count of unread messages for the mail client.
@@ -282,7 +285,7 @@ cd $HOME/.nbiff/gen_new_msgs/Test
 
 This is [its output](doc/sample_cycle_icons_output.png).
 
-### nbiff
+#### nbiff
 
 `nbiff` is the data visualizer.  It runs a script/program and
 depending on the results, displays different systray icons.
