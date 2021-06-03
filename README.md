@@ -85,8 +85,8 @@ It handles both installs and upgrades.
    your choice.
 3. After uncompressing the file, a new directory is created.  Change
    directories to it.
-4. Run the installer for your email client.  Follow its on-screen
-   instructions.
+4. See the next section and run the installer for your email client.
+   Follow its on-screen instructions.
 
 ### nbiff for Thunderbird
 
