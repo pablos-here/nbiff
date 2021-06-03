@@ -27,7 +27,8 @@ Use `symlink`s to create new icon-sets.
 
 ## Example
 
-Using the current icon-set as examples and avoiding repetition:
+Using the current icon-set as examples and avoiding obvious
+documentation repetition:
 
 - `01.error.png`
   - `01` - `group number`
@@ -42,4 +43,4 @@ Using the current icon-set as examples and avoiding repetition:
   - `big_red_dot` - self-explanatory
 - `01.unread_msgs.w2r.png`
   - `w2r` - white-to-red.  While a bit crytpic, when viewing the
-    image, it should be obvious.  Right?  Hmmm.
+    image, it should be obvious.  I hope.  :)
