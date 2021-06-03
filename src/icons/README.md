@@ -4,13 +4,14 @@
 
 Each icon-set must have at least four different image files:
 
-1. **No unread messages** - there are **no** unread messages.
-2. **Unread messages** - there are unread messages.
-3. **Error** - an error is encountered (e.g. a non-integer was
-   returned)
-4. **MUA is down** - the mail client is not running.
+| Icon type              | Description                                                 |
+|------------------------|-------------------------------------------------------------|
+| **No unread messages** | No unread messages.                                         |
+| **Unread messages**    | Unread messages.                                            |
+| **Error**              | An error was encountered (e.g. a non-integer was returned). |
+| **MUA is down**        | The mail client is not running.                             |
 
-It is acceptable to use `symlink`s to share among icon-sets.
+Tip:  It is acceptable to use `symlink`s to share images among icon-sets.
 
 ## Group numbering
 
@@ -20,7 +21,7 @@ Prefix each icon-set with the next available sequential number (`01`,
 ## Base file name
 
 * Use `.`s to separate the icon attributes.
-* Avoiding using **cryptic** naming
+* Avoiding using **cryptic** naming.
 
 ## Example
 
