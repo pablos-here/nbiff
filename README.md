@@ -190,6 +190,18 @@ Restart `nbiff` and mark some messages `unread` to see the different icon.
 
 ## Troubleshooting
 
+### No systray icon
+
+`nbiff` cannot access its icon directory.
+
+First, change directories to the `systray` directory:
+
+```shell
+cd $HOME/.nbiff/systray
+```
+
+
+
 ### High-level architecture
 
 There are two high-level components for `nbiff`:
@@ -268,8 +280,6 @@ rm -rf $HOME/.nbiff
 ```
 
 ## Setting autorun
-
-
 
 ## Developing
 
