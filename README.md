@@ -263,6 +263,12 @@ At this point, you can confirm access to the files.  For example:
 ```shell
 ls -la $ICONS_DIR/$ICON_ERROR
 ```
+### Running gen_new_msgs
+
+# TODO -- resume here ...
+
+### Running nbiff in test mode
+
 ### High-level architecture
 
 There are two high-level components for `nbiff`:
