@@ -88,19 +88,7 @@ sw_requirements()
       printf '\n'
       sed -n '/^#.* nbiff requirements/,/^##/p' $ROOT_README_MD | grep -i '> Link'
 
-      echo "$XDG_SESSION_DESKTOP" | grep -i "ubuntu" > /dev/null 2>&1
-      IS_UBUNTU=$?
-
-      echo "$XDG_CURRENT_DESKTOP" | grep -i "gnome" > /dev/null 2>&1
-      IS_GNOME=$?
-
-      echo "$XDG_SESSION_TYPE" | grep -i "wayland" > /dev/null 2>&1
-      IS_WAYLAND=$?
-
-      # GNOME && Wayland && not Ubuntu ?
-      if [ $IS_GNOME -eq 0 -a $IS_WAYLAND -eq 0 -a $IS_UBUNTU -eq 1 ] ; then
-         sed -n '/^#.* GNOME .*Wayland/,/^##/p' $ROOT_README_MD | grep -i '> Link'
-      fi
+      sed -n '/^#.* GNOME .*Wayland/,/^##/p' $ROOT_README_MD | grep -i '> Link'
    else
       printf "Could not access $ROOT_README_MD\n"
       printf "Cannot list software requirements\n"
