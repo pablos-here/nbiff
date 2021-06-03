@@ -192,7 +192,7 @@ Restart `nbiff` and mark some messages `unread` to see the different icon.
 
 ### No systray icon
 
-`nbiff` cannot access its icon directory.
+This happens when `nbiff` cannot access its icon directory.
 
 First, change directories to the `systray` directory:
 
@@ -200,7 +200,18 @@ First, change directories to the `systray` directory:
 cd $HOME/.nbiff/systray
 ```
 
+Either local icons are being used or the system icons.
 
+Do the following to check whether local icons are being used:
+
+```shell
+grep ICONS_DIR ../local/conf/nbiff.conf
+```
+
+| `grep` output                 | Description                                                   |
+|-------------------------------|---------------------------------------------------------------|
+| `#ICONS_DIR="../local/icons"` | The variable is not defined.  Local icons are not being used. |
+| `ICONS_DIR="../local/icons"`  | Local icons are being used.                                   |
 
 ### High-level architecture
 
