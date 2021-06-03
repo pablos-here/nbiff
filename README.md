@@ -171,23 +171,37 @@ Uncomment `ICONS_DIR` to start using the local icon directory:
 ICONS_DIR="../local/icons"
 ```
 
-At this point, the symbolic links in this directory are used to point
-to the base `nbiff` icons.  That is, `nbiff` will continue to use the
-configured icons.
+At this point `nbiff` is still using the configured
+icons via the symbolic links.
 
 #### Use the sample icon
 
 As mentioned in the [Local icon directory](#local-icon-directory)
 section, a sample file named `unread_msgs.png` is provided at
-install. 
+install.
+
+To use it instead, uncomment the following:
 
 ```shell
 ICON_UNREAD_MSGS="unread_msgs.png"
 ```
 
+Restart `nbiff` and mark some messages `unread` to see the different icon.
+
 ## Troubleshooting
 
+### High-level architecture
+
+    [ gen_new_msgs ] - [ nbiff ]
+
 ## Uninstalling
+
+1. Click on the systray icon and select the menu item `quit`.
+2. If [autorun was set up](#setting-autorun), delete the entry.
+3. Delete the code:
+```shell
+rm -rf $HOME/.nbiff
+```
 
 ## Setting autorun
 
