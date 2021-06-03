@@ -2,26 +2,7 @@
 
 # Table of contents
 
-- [nbiff](#nbiff)
-  * [Features](#features)
-  * [Online help](#online-help)
-  * [Installing/Upgrading](#installing-upgrading)
-    + [Installation script](#installation-script)
-    + [Requirements](#requirements)
-    + [GNOME + Wayland support](#gnome---wayland-support)
-    + [Initial Configuration](#initial-configuration)
-    + [Known quirks](#known-quirks)
-  * [Temporarily disabling autostart](#temporarily-disabling-autostart)
-  * [Custom icons](#custom-icons)
-  * [Troubleshooting](#troubleshooting)
-  * [Developing](#developing)
-    + [Architectural overview](#architectural-overview)
-  * [Development configuration](#development-configuration)
-  * [Configuration](#configuration)
-  * [Contributing](#contributing)
-  * [Links](#links)
-  * [Future](#future)
-  * [Licensing](#licensing)
+**TODO** Recreate this
 
 # nbiff
 
@@ -45,7 +26,8 @@ notifier. Geared for Linux, yet it may (eventually) work on Windows.
 
 ## Online help
 
-Join the `nbiff` [subreddit](https://www.reddit.com/r/nbiff).
+For online help, join the `nbiff`
+[subreddit](https://www.reddit.com/r/nbiff).
 
 ## nbiff requirements
 
@@ -72,12 +54,11 @@ Install it as follows:
 2. [Enable](https://github.com/pablo-blueoakdb/nbiff/blob/main/doc/KStatusNotifierItem.png)
    the extension by moving the slider to the **On** position.
 
-## Installing/Upgrading
+## Installing / Upgrading
 
-The installation script is written with the belief that the majority
-of people prefer to **do** than to **read-and-do**.
+The installation script handles installs and upgrades.
 
-It handles both installs and upgrades.
+Below is how to install/upgrade:
 
 1. [Get the latest the
    release](https://github.com/pablo-blueoakdb/nbiff/releases).
@@ -85,14 +66,16 @@ It handles both installs and upgrades.
    your choice.
 3. After uncompressing the file, a new directory is created.  Change
    directories to it.
-4. See the next section and run the installer for your email client.
-   Follow its on-screen instructions.
+4. Run the installer for your email client.  Follow the on-screen
+   instructions.
+
+| Mail client   | Installation script          |
+|---------------|------------------------------|
+| `thunderbird` | ```./Install_latest.tbird``` |
+                   
 
 ### nbiff for Thunderbird
 
-```shell
-./Install_latest.tbird
-```
 
 ### Known quirks
 
@@ -170,6 +153,8 @@ One or more of `nbiff` icons can be localized.
 
 ## Developing
 
+**TODO**
+
 Here's a brief intro about what a developer must do in order to start developing
 the project further:
 
@@ -181,8 +166,15 @@ packagemanager install
 
 ### Icon development
 
-To contribute to `nbiff` icons, see the documentation on [icon
+To contribute to the `nbiff` icons, see the documentation on [icon
 development](src/icons/README.md).
+
+To make it easy:
+
+1. Upload your images to an image sharing website (e.g. https://imgur.com)
+2. [Create a new
+   issue](https://github.com/pablo-blueoakdb/nbiff/issues/new) and
+   reference the images.
 
 ### Architectural overview
 
@@ -223,12 +215,9 @@ dev
 Populate it the the corresponding `...src/conf/*.conf` file and suit
 to taste.
 
-## Configuration
-
-... scripts go here ... TODO
-.. talk about .confs
-
 ## Contributing
+
+**TODO**
 
 When you publish something open source, one of the greatest motivations is that
 anyone can just jump in and start contributing to your project.
@@ -246,6 +235,8 @@ consideration, it is common to separate this section to its own file called
 
 ## Links
 
+**TODO**
+
 Even though this information can be found inside the project on machine-readable
 format like in a .json file, it's good to include a summary of most useful
 links to humans using your project. You can include links like:
@@ -262,12 +253,16 @@ links to humans using your project. You can include links like:
 
 ## Future
 
-* Create a **package** rather than using an installation script
-* Provide Windows support.  To handle spaces in file/directory names
-  (almost all?) variables are double quoted.  `bash` (and other tools
-  such as `rsync`) would be required.
+**TODO**
+
+* Create a **package** rather than using an installation script.
+* Potentially provide Windows support.  To handle spaces in
+  file/directory names (almost all?) variables are double quoted.
+  `bash` (and other tools such as `rsync`) would be required.
 
   If there is sufficient demand ...
+* Extend `nbiff` to `minimize` the mail client.
+* Provide localization.
 
 ## Licensing
 
