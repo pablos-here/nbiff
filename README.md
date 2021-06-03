@@ -2,7 +2,38 @@
 
 # Table of contents
 
-**TODO** Recreate this
+- [nbiff](#nbiff)
+  * [Features](#features)
+  * [Online help](#online-help)
+  * [nbiff requirements](#nbiff-requirements)
+    + [GNOME + Wayland support](#gnome---wayland-support)
+  * [Installing / Upgrading](#installing---upgrading)
+    + [Known quirks](#known-quirks)
+      - [Thunderbird](#thunderbird)
+  * [Temporarily disabling autorun](#temporarily-disabling-autorun)
+  * [Custom icons](#custom-icons)
+    + [Local icon directory](#local-icon-directory)
+    + [Local nbiff.conf](#local-nbiffconf)
+      - [Affecting changes](#affecting-changes)
+      - [Start using the local icon directory](#start-using-the-local-icon-directory)
+      - [Use the sample icon](#use-the-sample-icon)
+  * [Troubleshooting](#troubleshooting)
+    + [No systray icon](#no-systray-icon)
+    + [High-level architecture](#high-level-architecture)
+      - [gen_new_msgs](#gen-new-msgs)
+      - [tbird_new_msgs](#tbird-new-msgs)
+      - [Test suite](#test-suite)
+      - [nbiff](#nbiff-1)
+  * [Uninstalling](#uninstalling)
+  * [Setting autorun](#setting-autorun)
+  * [Developing](#developing)
+    + [Icon development](#icon-development)
+    + [Architectural overview](#architectural-overview)
+  * [Development configuration](#development-configuration)
+  * [Contributing](#contributing)
+  * [Links](#links)
+  * [Future](#future)
+  * [Licensing](#licensing)
 
 # nbiff
 
