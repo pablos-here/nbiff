@@ -122,7 +122,51 @@ To reenable, either comment or delete the line.
 
 ## Custom icons
 
+
+
+```
+conf/
+├── nbiff.conf
+icons/
+├── 01.error.png
+├── 01.MUA_is_down.png
+├── 01.no_unread_msgs.png
+├── 01.unread_msgs.big_red_dot.png
+├── 01.unread_msgs.w2r.png
+├── README.md
+└── src
+    └── 01.read.src.png
+local/
+├── conf
+│   ├── nbiff.conf
+│   └── tbird_new_msgs.conf
+└── icons
+    ├── 01.error.png -> ../../icons/01.error.png
+    ├── 01.MUA_is_down.png -> ../../icons/01.MUA_is_down.png
+    ├── 01.no_unread_msgs.png -> ../../icons/01.no_unread_msgs.png
+    ├── 01.unread_msgs.big_red_dot.png -> ../../icons/01.unread_msgs.big_red_dot.png
+    ├── 01.unread_msgs.w2r.png -> ../../icons/01.unread_msgs.w2r.png
+    └── unread_msgs.png
+ ```
+
+* `nbiff` icons reside in `$HOOME/.nbiff/icons`.  
+* An icon file name is mapped to an `nbiff` condition (e.g. **no
+  unread messages**) in `$HOME/.nbiff/conf/nbiff.conf`. 
+* 
+
+
+
+an environment variable in `.../`
+
+One or more of `nbiff` icons can be localized.
+
 ## Troubleshooting
+
+## Uninstalling
+
+## Setting autorun
+
+
 
 ## Developing
 
@@ -135,7 +179,10 @@ cd awesome-project/
 packagemanager install
 ```
 
-And state what happens step-by-step.
+### Icon development
+
+To contribute to the available of `nbiff` icons, please see the
+documentation on [icon development](icons/README.md).
 
 ### Architectural overview
 
