@@ -11,8 +11,6 @@ Each icon-set must have at least four different image files:
 | **Error**              | An error was encountered (e.g. a non-integer was returned). |
 | **MUA is down**        | The mail client is not running.                             |
 
-Tip:  It is acceptable to use `symlink`s to share images among icon-sets.
-
 ## Group numbering
 
 Prefix each icon-set with the next available sequential number (`01`,
@@ -22,6 +20,10 @@ Prefix each icon-set with the next available sequential number (`01`,
 
 * Use `.`s to separate the icon attributes.
 * Avoiding using **cryptic** naming.
+
+## Sharing files among icon-sets
+
+Use `symlink`s to create new icon-sets.
 
 ## Example
 
