@@ -221,15 +221,42 @@ cd $HOME/.nbiff/gen_new_msgs
 ./tbird_new_msgs
 ```
 
-This is a [sample](doc/sample_gen_new_msgs_output.png) of its output.
+This is some [sample output](doc/sample_gen_new_msgs_output.png).
 
-Pass the argument `-?` to see its options:
+Use the argument `-?` to see its options:
 
 ```shell
 ./tbird_new_msgs '?'
 ```
 
 #### Test suite
+
+Within the `gen_new_msgs/` is the `Test/` subdirectory.  These scripts
+can be used to isolate issues and/or exercise `nbiff`'s icons.
+
+This is an example of running oe of the scripts:
+
+```shell
+cd $HOME/.nbiff/gen_new_msgs/Test
+./cycle_icons
+```
+
+This is [its output](doc/sample_cycle_icons_output.png).
+
+### nbiff
+
+`nbiff` is the data visualizer.  It runs a script/program and
+depending on the results, displays different systray icons.
+
+It is designed to be invoked from any directory.
+
+Below is an example calling it to run the `nbiff_qt5.py` script:
+
+```shell
+$HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
+```
+
+During troublehshooting, it is easier to `cd $HOME/.nbiff/systray`.
 
 ## Uninstalling
 
