@@ -65,7 +65,7 @@ check_config()
    GEN_NEW_MSGS="$GEN_NEW_MSGS_DIR/$DEFAULT_GEN_NEW_MSGS"
 
    is_directory "$ICONS_DIR"
-   for ICON in "$ICON_UNREAD_MSG" "$ICON_READ_MSG" "$ICON_ERROR" "$ICON_MUA_IS_DOWN" ; do
+   for ICON in "$ICON_UNREAD_MSGS" "$ICON_NO_UNREAD_MSGS" "$ICON_ERROR" "$ICON_MUA_IS_DOWN" ; do
       is_readable "$ICONS_DIR/$ICON"
    done
 
@@ -142,8 +142,8 @@ if [ -n "$DISABLE" ] ; then
 fi
 
 ./$NBIFF "$PROG" \
-         "$ICONS_DIR/$ICON_READ_MSG"   \
-         "$ICONS_DIR/$ICON_UNREAD_MSG" \
+         "$ICONS_DIR/$ICON_NO_UNREAD_MSGS" \
+         "$ICONS_DIR/$ICON_UNREAD_MSGS" \
          "$ICONS_DIR/$ICON_ERROR" \
          "$ICONS_DIR/$ICON_MUA_IS_DOWN"
 
