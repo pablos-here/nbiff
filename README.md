@@ -215,14 +215,20 @@ Tip:  In shell, a string starting with **#** is a comment.
 | `#ICONS_DIR="../local/icons"` | The variable is not defined (starts with a **#**).  Local icons are not being used.<br><br>Confirm the settings in `$HOME/.nbiff/conf/nbiff.conf`. |
 | `ICONS_DIR="../local/icons"`  | Local icons are being used.<br><br>Confirm the settings in `$HOME/.nbiff/local/conf/nbiff.conf`.                                                   |
 
-Things to confirm:
+Confirm the variable settings by doing the following to define the
+variables in a `bash` shell:
 
-* The **ICON_\*** variables are pointing to file names (they do not
-  incldue pathing).
-* **ICONS_DIR** is a relative path from the `systray` directory.
-* Confirm that each **$ICONS_DIR + $ICON_\*** combination resolves
-  to a file.
+```shell
+cd $HOME/.nbiff/systray
+. ../Globals
+. ../conf/nbiff.conf
+```
 
+At this point, you can confirm access to the files.  For example:
+
+```shell
+ls -la $ICONS_DIR/$ICON_ERROR
+```
 ### High-level architecture
 
 There are two high-level components for `nbiff`:
