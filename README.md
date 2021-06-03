@@ -208,7 +208,7 @@ Do the following to check whether local icons are being used:
 grep ICONS_DIR ../local/conf/nbiff.conf
 ```
 
-> In shell, a string starting with **#** is a comment.
+Tip:  In shell, a string starting with **#** is a comment.
 
 | `grep` output                 | Description                                                                                                                                        |
 |-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
