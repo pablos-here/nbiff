@@ -192,7 +192,9 @@ Restart `nbiff` and mark some messages `unread` to see the different icon.
 
 ### High-level architecture
 
- [ gen_new_msgs ] - [ nbiff ]
+<pre>
+    [ gen_new_msgs ] - [ nbiff ]
+</pre>
 
 ## Uninstalling
 
