@@ -71,7 +71,7 @@ Below is how to install/upgrade:
 
 | Mail client   | Installation script                            |
 |---------------|------------------------------------------------|
-| `thunderbird` | <code lang="shell">./Install_latest.tbird</code> |
+| `thunderbird` | <pre>./Install_latest.tbird</pre> |
 
 ### nbiff for Thunderbird
 
