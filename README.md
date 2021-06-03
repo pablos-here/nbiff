@@ -181,8 +181,8 @@ packagemanager install
 
 ### Icon development
 
-To contribute to the available of `nbiff` icons, please see the
-documentation on [icon development](icons/README.md).
+To contribute to the available `nbiff` icons, see the
+documentation on [icon development](https://icons/README.md).
 
 ### Architectural overview
 
