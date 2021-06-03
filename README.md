@@ -274,7 +274,7 @@ ls -la $ICONS_DIR/$ICON_ERROR
 There are two high-level components for `nbiff`:
 
 <pre>
-    [ gen_new_msgs ] - [ nbiff ]
+    [ gen_new_msgs ] <-> [ nbiff ]
 </pre>
 
 Scripts in `gen_new_msgs` can be run standalone or are called by
