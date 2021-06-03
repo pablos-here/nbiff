@@ -57,6 +57,8 @@ Join the `nbiff` [subreddit](https://www.reddit.com/r/nbiff).
 pip3 install PyQt5 psutil
 ```
 
+You may need to install `pip3` (or try `pip`).
+
 ### GNOME + Wayland support
 
 > Link [on github](https://github.com/pablo-blueoakdb/nbiff#gnome--wayland-support)
