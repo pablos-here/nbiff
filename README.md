@@ -265,7 +265,7 @@ ls -la $ICONS_DIR/$ICON_ERROR
 ```
 ### Running gen_new_msgs
 
-# TODO -- resume here ...
+**TODO -- resume here ...**
 
 ### Running nbiff in test mode
 
