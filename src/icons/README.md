@@ -42,5 +42,6 @@ documentation repetition:
   - `unread_msgs` - self-explanatory
   - `big_red_dot` - self-explanatory
 - `01.unread_msgs.w2r.png`
-  - `w2r` - white-to-red.  While a bit crytpic, when viewing the
-    image, it should be obvious.  I hope.  :)
+  - `w2r` - white-to-red.  Any white in the image is set to red.
+    While a bit crytpic, when viewing the image, it should be obvious.
+    I hope.  :)
