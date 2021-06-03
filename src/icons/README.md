@@ -1,49 +1,42 @@
-# Icons
-
-All icons must be Portable Network Graphics (png)
+# Icon development
 
 ## Icon sets
 
-At a minimum, there are three icon **types** per group that may be
-displayed in the systray:
+Each icon-set must have at least four different image files:
 
-1. read.png - there are **no** unread messages
-2. unread.png - there are unread messages
-3. error.png - an error is encountered 
+1. **No unread messages** - there are **no** unread messages.
+2. **Unread messages** - there are unread messages.
+3. **Error** - an error is encountered (e.g. a non-integer was
+   returned)
+4. **MUA is down** - the mail client is not running.
 
-## File naming
+It is acceptable to use `symlink`s to share among icon-sets.
 
-- Prefix each group with the next available sequential number
-  (e.g. `01`, `02`)  This becomes the `group number` for the `icon
-  set`
-- Use a period (`.`) to break up attributes.
+## Group numbering
 
-### Examples
+Prefix each icon-set with the next available sequential number (`01`,
+`02`, etc.).
 
-- `01.unread_msg.big_red_dot.png`
-  - `01` - group **01**
-  - `unread_msg` 
-  - `big_red_dot` 
-- `01.unread_msg.w2r.png`
-  - `w2r` - white to read
+## Base file name
 
-## Icon set `01`
+* Use `.`s to separate the icon attributes.
+* Avoiding using **cryptic** naming
 
-At a minimum, these are the icons that make up the `01 icon set`:
+## Example
+
+Using the current icon-set as examples and avoiding repetition:
 
 - `01.error.png`
-- `01.read.png`
-- `01.unread_msg.big_red_dot.png`
-- `01.unread_msg.w2r.png`
-
-## src/
-
-This directory is used to store the `base` icon image from which an
-`icon set` is built.
-
-Prefix the file name with the `group number`
-
-### Example
-
-- `01.read.src.png` - We use the `src` attribute to minimize clobbering
-  `01.read.png` file by mistake.
+  - `01` - `group number`
+  - `error` - self-explanatory
+  - `png` - self-explanatory
+- `01.MUA_is_down.png`
+  - `MUA_is_down` - self-explanatory
+- `01.no_unread_msgs.png`
+  - `no_unread_msgs` - self-explanatory
+- `01.unread_msgs.big_red_dot.png`
+  - `unread_msgs` - self-explanatory
+  - `big_red_dot` - self-explanatory
+- `01.unread_msgs.w2r.png`
+  - `w2r` - white-to-red.  While a bit crytpic, when viewing the
+    image, it should be obvious.  Right?  Hmmm.
