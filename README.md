@@ -37,7 +37,7 @@
 
 # nbiff
 
-`nbiff` is an intentionally simple, extensible systray email
+`nbiff` [w00f]((https://en.wikipedia.org/wiki/Biff_(Unix))) is an intentionally simple, extensible systray email
 notifier. Geared for Linux, yet it may (eventually) work on Windows.
 
 ## Features
@@ -224,7 +224,7 @@ Restart `nbiff` and mark some messages `unread` to see the different icon.
 The sections below assume that you have read the [High-level
 architecture](#high-level-architecture) section.
 
-### No systray icon
+### No systray icon?
 
 This will happen when `nbiff` cannot access its icons.
 
