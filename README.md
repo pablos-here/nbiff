@@ -69,7 +69,7 @@ Linux, yet it may (eventually) work on Windows.
   - Tool tips are available when supported by the user environment.
 - User customizable systray icons.
 
-## Online help?
+## Online help
 
 For online help, join the `nbiff`
 [subreddit](https://www.reddit.com/r/nbiff).
