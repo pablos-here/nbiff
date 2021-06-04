@@ -197,13 +197,19 @@ Over time, there will be more `nbiff` icons released and with each
 release, new symbolic links will be created in
 `$HOME/.nbiff/local/icons`.
 
-The `nbiff` icons are all prefixed with a two-digit number.  To avoid
-collisions, never use this naming pattern with local icons.
-
 A sample icon file is included named `unread_msgs.png`.
 
 It is referenced in the commented code fragment found in the [Local
 nbiff.conf](#Local_nbiffconf) file.
+
+#### Protecting your icons
+
+The `nbiff` icons are all prefixed with a two-digit number.  During an
+upgrade, all file names matching this pattern are deleted and
+resynchronized with the source tree.
+
+Never prefix your local icon with a two-digit number.  It will be
+deleted at the next upgrade.
 
 ### Local nbiff.conf
 
