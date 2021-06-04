@@ -42,7 +42,7 @@
 
 ## nbiff
 
-`nbiff`, [good, **new**
+`nbiff`, [good **new**
 dawgy!](https://en.wikipedia.org/wiki/Biff_\(Unix\)), is
 an intentionally simple, extensible systray email notifier. Geared for
 Linux, yet it may (eventually) work on Windows.
