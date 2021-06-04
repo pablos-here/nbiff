@@ -1,5 +1,14 @@
 # Icon development
 
+## Recreating symlinks
+
+After making any changes, recreate the symlink's in the `local/conf`
+directory:
+
+```shell
+./update_local_symlinks
+```
+
 ## Icon sets
 
 Each icon-set must have at least four different image files:
@@ -44,4 +53,4 @@ documentation repetition:
 - `01.unread_msgs.w2r.png`
   - `w2r` - white-to-red.  Any white in the image is set to red.
     While a bit crytpic, when viewing the image, it should be obvious.
-    I hope.  :)
+    I hope.  :p
