@@ -46,18 +46,22 @@ Linux, yet it may (eventually) work on Windows.
 
 `nbiff` has the following features:
 
-- It is dynamic.  It self-adjusts when email accounts are
-  added/deleted and folders are created/deleted.
-- While dynamic, it is designed to be light-weight and quick.
+- It is dynamic.  It self-adjusts when email accounts are added or
+  deleted.  In real-time, it captures changes to the local folder
+  structure.
+- While dynamic, it is designed to be light-weight and quick.  It has
+  been tested with over 1,000 `.msf`'s with no performance issues.
+  After the first iteration, the evaluation window is reduced to the
+  last check.
 - Largely it is immune from `Thunderbird`'s API changes.
 - Supports both `x11` and `wayland`.
-- Users can customize their own systray icons.
-- The systray icon provides high-level information such as whether
-  there are unread messages or not.
+- The systray icon provides both high-level and detailed information.
+- At a high-level, color changes reflect status changes.
 - Details are presented by clicking on the icon.  Tool tips are
-  available when the environment supports it.
+  available when the user environment supports it.
+- Users can customize their own systray icons.
 
-## Online help
+## Online help?
 
 For online help, join the `nbiff`
 [subreddit](https://www.reddit.com/r/nbiff).
@@ -104,7 +108,7 @@ Below is how to install/upgrade:
 
 | Mail client   | Installation script                            |
 |---------------|------------------------------------------------|
-| `thunderbird` | <pre lang="shell">./Install_latest.tbird</pre> |
+| `Thunderbird` | <pre lang="shell">./Install_latest.tbird</pre> |
 
 ### Known quirks
 
@@ -114,14 +118,14 @@ There are rare times when, it appears that an `.msf` is not
 immediately flushed to disk.  This causes `nbiff` to believe there are
  **Unread messages** when there are none. 
 
-Within a two or three minutes, `thunderbird` synchronizes the disk
+Within a two or three minutes, `Thunderbird` synchronizes the disk
 file and all is well.
 
 There are two possible work-arounds:
 
-1. Restart `thunderbird` or
+1. Restart `Thunderbird` or
 2. Use `tbird_new_msgs` to identify which `.msf` is out of sync.  Once
-   identified, click on it and `thunderbird` will syncrhornize it.
+   identified, click on it and `Thunderbird` will syncrhornize it.
 
    To read more about about `tbird_new_msgs`, [see the Troubleshooting
    section](#Troubleshooting).
@@ -248,6 +252,16 @@ Restart `nbiff` and mark some messages `unread` to see the different icon.
 The sections below assume that you have read the [High-level
 architecture](#high-level-architecture) section.
 
+### Where to begin?
+
+* Ensure that `nbiff` can create its icons independent of `gen_new_msgs`:
+  - See [previewing changes](#previewing-changes).
+  - Invoking `nbiff` using this method is independent of
+    `gen_new_msgs`.
+* Ensure that `gen_new_msgs` is working properly:
+  - See [tbird_new_msgs](#tbird_new_msgs) on how to run the
+    `Thunderbird` script in a terminal.
+
 ### No systray icon?
 
 This will happen when `nbiff` cannot access its icons.
@@ -281,11 +295,9 @@ ls -la $ICONS_DIR/$ICON_ERROR
 ls -la $ICONS_DIR/$ICON_MUA_IS_DOWN
 ```
 
-### Running gen_new_msgs
+### Still stuck?
 
-**TODO -- resume here ...**
-
-### Running nbiff in test mode
+If you are stuck, get [online help](#online-help).
 
 ### High-level architecture
 
@@ -310,7 +322,7 @@ For testing purposes, multiple instances of it can be running.
 
 #### tbird_new_msgs
 
-`tbird_new_msgs` is tailored for `thunderbird`.  
+`tbird_new_msgs` is tailored for `Thunderbird`.
 
 For testing purposes, multiple instances of it can be running.
 
@@ -354,10 +366,9 @@ directory to the directory from where it is located.
 Below is an example calling it to run the `nbiff_qt5.py` script:
 
 ```shell
+cd $HOME/.nbiff/systray
 $HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
 ```
-
-During troublehshooting, it is easier to `cd $HOME/.nbiff/systray`.
 
 ## Uninstalling
 
@@ -368,7 +379,7 @@ During troublehshooting, it is easier to `cd $HOME/.nbiff/systray`.
 rm -rf $HOME/.nbiff
 ```
 
-## Setting autorun
+## Setting up autorun
 
 ## Developing
 
@@ -420,6 +431,9 @@ it does its work:
   possible, it is largely unaffected by the size of the .msf
 
 ## Development configuration
+
+**TODO*
+
 The base software supports running multiple instances of `nbiff`.
 Furthermore, the source tree supports the existence of a **dev**
 directory structure at the top-levl of the proejct tree:
@@ -471,8 +485,6 @@ links to humans using your project. You can include links like:
   - Someone else's project: https://github.com/someones/awesome-project/
 
 ## Future
-
-**TODO**
 
 * Create a **package** rather than using an installation script.
 * Potentially provide Windows support.  To handle spaces in
