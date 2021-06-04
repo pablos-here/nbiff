@@ -10,9 +10,9 @@
 - [Installing / Upgrading](#installing---upgrading)
   * [Known quirks](#known-quirks)
     + [Thunderbird](#thunderbird)
-- [Setting up autorun](#setting-up-autorun)
+- [Setting up autostart](#setting-up-autostart)
+  * [Temporarily disabling autostart](#temporarily-disabling-autostart)
 - [Uninstalling](#uninstalling)
-- [Temporarily disabling autorun](#temporarily-disabling-autorun)
 - [Links](#links)
   * [Related projects](#related-projects)
 - [Customizing icons](#customizing-icons)
@@ -21,7 +21,7 @@
     + [Previewing changes](#previewing-changes)
     + [Affecting changes](#affecting-changes)
     + [Enable the local icon directory](#enable-the-local-icon-directory)
-    + [Use the sample icon](#use-the-sample-icon)
+    + [Local icon example](#local-icon-example)
 - [Troubleshooting](#troubleshooting)
   * [Where to begin?](#where-to-begin-)
   * [No systray icon?](#no-systray-icon-)
@@ -297,11 +297,11 @@ architecture](#high-level-architecture) section.
 
 ### Where to begin?
 
-* Ensure that `nbiff` can create its icons independent of `gen_new_msgs`:
+- Ensure that `nbiff` can create its icons independent of `gen_new_msgs`:
   - See [previewing changes](#previewing-changes).
   - Invoking `nbiff` using this method is independent of
     `gen_new_msgs`.
-* Ensure that `gen_new_msgs` is working properly:
+- Ensure that `gen_new_msgs` is working properly:
   - See [tbird_new_msgs](#tbird_new_msgs) on how to run the
     `Thunderbird` script in a terminal.
 
