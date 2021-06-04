@@ -65,7 +65,7 @@ Linux, yet it may (eventually) work on Windows.
   - High-level, intuitive and subtle icon changes indicate status
     changess.
   - Details are presented by clicking on the icon.
-  - Tool tips are available when the user environment supports it.
+  - Tool tips are available when supported by the user environment.
 - User customizable systray icons.
 
 ## Online help?
@@ -441,7 +441,7 @@ it does its work:
 - By processing .msfs bottom-up and halting the scan as quickly as
   possible, it is largely unaffected by the size of the .msf
 
-## Development configuration
+### Development configuration
 
 **TODO*
 
@@ -459,7 +459,7 @@ dev
 Populate it the the corresponding `...src/conf/*.conf` file and suit
 to taste.
 
-## Contributing
+### Contributing
 
 **TODO**
 
@@ -479,21 +479,19 @@ consideration, it is common to separate this section to its own file called
 
 ## Links
 
-**TODO**
+| Description         | Link                                                |
+|---------------------|-----------------------------------------------------|
+| Software repository | https://github.com/pablo-blueoakdb/nbiff            |
+| Project home page   | https://github.com/users/pablo-blueoakdb/projects/1 |
+| Issue tracker       | https://github.com/pablo-blueoakdb/nbiff/issues     |
 
-Even though this information can be found inside the project on machine-readable
-format like in a .json file, it's good to include a summary of most useful
-links to humans using your project. You can include links like:
 
-- Project homepage: https://your.github.com/awesome-project/
-- Repository: https://github.com/your/awesome-project/
-- Issue tracker: https://github.com/your/awesome-project/issues
-  - In case of sensitive bugs like security vulnerabilities, please contact
-    my@email.com directly instead of using issue tracker. We value your effort
-    to improve the security and privacy of this project!
-- Related projects:
-  - Your other project: https://github.com/your/other-project/
-  - Someone else's project: https://github.com/someones/awesome-project/
+### Related projects
+
+The following projects are `Thunderbird`-centric.
+
+- [birdtray](https://github.com/gyunaev/birdtray)
+- [systray-x](https://github.com/Ximi1970/systray-x)
 
 ## Future
 
