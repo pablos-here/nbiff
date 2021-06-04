@@ -6,36 +6,36 @@
 - [Features](#features)
 - [Online help](#online-help)
 - [Software requirements](#software-requirements)
-  * [GNOME + Wayland support](#gnome---wayland-support)
-- [Installing or upgrading](#installing-or-upgrading)
-  * [Known quirks](#known-quirks)
-    + [Thunderbird](#thunderbird)
+  - [GNOME + Wayland support](#gnome--wayland-support)
+- [Installing / upgrading](#installing--upgrading)
+  - [Known quirks](#known-quirks)
+    - [Thunderbird](#thunderbird)
 - [Setting up autostart](#setting-up-autostart)
-  * [Temporarily disabling autostart](#temporarily-disabling-autostart)
+  - [Temporarily disabling autostart](#temporarily-disabling-autostart)
 - [Uninstalling](#uninstalling)
 - [Links](#links)
-  * [Related projects](#related-projects)
+  - [Related projects](#related-projects)
 - [Customizing icons](#customizing-icons)
-  * [Local icon directory](#local-icon-directory)
-  * [Local nbiff.conf](#local-nbiffconf)
-    + [Previewing changes](#previewing-changes)
-    + [Affecting changes](#affecting-changes)
-    + [Enable the local icon directory](#enable-the-local-icon-directory)
-    + [Local icon example](#local-icon-example)
+  - [Local icon directory](#local-icon-directory)
+  - [Local nbiff.conf](#local-nbiffconf)
+    - [Previewing changes](#previewing-changes)
+    - [Affecting changes](#affecting-changes)
+    - [Enable the local icon directory](#enable-the-local-icon-directory)
+    - [Local icon example](#local-icon-example)
 - [Troubleshooting](#troubleshooting)
-  * [Where to begin?](#where-to-begin-)
-  * [No systray icon?](#no-systray-icon-)
-  * [Still stuck?](#still-stuck-)
-  * [High-level architecture](#high-level-architecture)
-    + [gen_new_msgs](#gen-new-msgs)
-    + [tbird_new_msgs](#tbird-new-msgs)
-    + [Test suite](#test-suite)
-    + [nbiff](#nbiff-1)
+  - [Where to begin](#where-to-begin)
+  - [Missing or black systray icon](#missing-or-black-systray-icon)
+  - [Need more help?](#need-more-help)
+  - [High-level architecture](#high-level-architecture)
+    - [gen_new_msgs](#gen_new_msgs)
+    - [tbird_new_msgs](#tbird_new_msgs)
+    - [Test suite](#test-suite)
+    - [nbiff](#nbiff)
 - [Developing](#developing)
-  * [Icon development](#icon-development)
-  * [Architectural overview](#architectural-overview)
-  * [Development configuration](#development-configuration)
-  * [Contributing](#contributing)
+  - [Architectural overview](#architectural-overview)
+  - [Icon development](#icon-development)
+  - [Development configuration](#development-configuration)
+  - [Contributing](#contributing)
 - [Future](#future)
 - [Licensing](#licensing)
 
@@ -99,7 +99,7 @@ Install it as follows:
 2. [Enable](https://github.com/pablo-blueoakdb/nbiff/blob/main/doc/KStatusNotifierItem.png)
    the extension by moving the slider to the **On** position.
 
-## Installing or upgrading
+## Installing / upgrading
 
 The installation script handles installs and upgrades.
 
@@ -295,7 +295,7 @@ Restart `nbiff` and mark some messages `unread` to see the different icon.
 The sections below assume that you have read the [High-level
 architecture](#high-level-architecture) section.
 
-### Where to begin?
+### Where to begin
 
 - Ensure that `nbiff` can create its icons independent of `gen_new_msgs`:
   - See [previewing changes](#previewing-changes).
@@ -305,7 +305,7 @@ architecture](#high-level-architecture) section.
   - See [tbird_new_msgs](#tbird_new_msgs) on how to run the
     `Thunderbird` script in a terminal.
 
-### No systray icon?
+### Missing or black systray icon
 
 This will happen when `nbiff` cannot access its icons.
 
@@ -338,9 +338,9 @@ ls -la $ICONS_DIR/$ICON_ERROR
 ls -la $ICONS_DIR/$ICON_MUA_IS_DOWN
 ```
 
-### Still stuck?
+### Need more help?
 
-If you are stuck, get [online help](#online-help).
+If you need help, it may be possible to get [online help](#online-help).
 
 ### High-level architecture
 
@@ -426,18 +426,6 @@ cd awesome-project/
 packagemanager install
 ```
 
-### Icon development
-
-To contribute to the `nbiff` icons, see the documentation on [icon
-development](src/icons/README.md).
-
-To make it easy:
-
-1. Upload your images to an image sharing website (e.g. https://imgur.com)
-2. [Create a new
-   issue](https://github.com/pablo-blueoakdb/nbiff/issues/new) and
-   reference the images.
-
 ### Architectural overview
 
 **TODO** potentially reference **high-level architecture?**
@@ -463,6 +451,18 @@ it does its work:
   minimum number between each iteraton
 - By processing .msfs bottom-up and halting the scan as quickly as
   possible, it is largely unaffected by the size of the .msf
+
+### Icon development
+
+To contribute to the `nbiff` icons, see the documentation on [icon
+development](src/icons/README.md).
+
+To make it easy:
+
+1. Upload your images to an image sharing website (e.g. https://imgur.com)
+2. [Create a new
+   issue](https://github.com/pablo-blueoakdb/nbiff/issues/new) and
+   reference the images.
 
 ### Development configuration
 
