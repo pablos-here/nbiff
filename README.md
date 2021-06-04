@@ -40,7 +40,7 @@
 
 ## nbiff
 
-`nbiff`, [good **new**
+`nbiff`, [good, **new**
 dawgy!](https://en.wikipedia.org/wiki/Biff_\(Unix\)), is
 an intentionally simple, extensible systray email notifier. Geared for
 Linux, yet it may (eventually) work on Windows.
@@ -49,20 +49,24 @@ Linux, yet it may (eventually) work on Windows.
 
 `nbiff` has the following features:
 
-- It is dynamic.  It self-adjusts when email accounts are added or
-  deleted.  In real-time, it captures changes to the local folder
-  structure.
-- While dynamic, it is designed to be light-weight and quick.  It has
-  been tested with over 1,000 `.msf`'s with no performance issues.
-  After the first iteration, the evaluation window is reduced to the
-  last check.
+- It is dynamic.
+  - It self-adjusts when email accounts are added or
+    deleted.
+  - In real-time, it captures changes to the local folder structure.
+- While dynamic, it is designed to be light-weight and quick.
+  - It has been tested with over 1,000 `.msf`'s with no discernible
+    performance degredation.
+  - After the first iteration, the evaluation window is reduced to the
+    last check thus the number of `.msf`'s does not affect **2..N**
+    performance.
 - Largely it is immune from `Thunderbird`'s API changes.
 - Supports both `x11` and `wayland`.
 - The systray icon provides both high-level and detailed information.
-- At a high-level, color changes reflect status changes.
-- Details are presented by clicking on the icon.  Tool tips are
-  available when the user environment supports it.
-- Users can customize their own systray icons.
+  - High-level, intuitive and subtle icon changes indicate status
+    changess.
+  - Details are presented by clicking on the icon.
+  - Tool tips are available when the user environment supports it.
+- User customizable systray icons.
 
 ## Online help?
 
