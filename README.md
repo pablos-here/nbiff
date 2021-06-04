@@ -138,23 +138,28 @@ There are two possible work-arounds:
    To read more about about `tbird_new_msgs`, [see the Troubleshooting
    section](#Troubleshooting).
 
-## Setting up autorun
+## Setting up autostart
 
-**TODO**
+Each [Desktop
+environment](https://en.wikipedia.org/wiki/Desktop_environment) has
+its own method to set up a program to start at login.
+
+As enviroments continue to evolve, rather than documenting it here, it
+is better to perform a web-search to have `nbiff` start at login.
 
 ## Uninstalling
 
 1. Click on the systray icon and select the menu item `quit`.
-2. If [autorun was set up](#setting-autorun), delete the entry.
+2. If [autostart was set up](#setting-autostart), delete the entry.
 3. Delete the code:
 ```shell
 rm -rf $HOME/.nbiff
 ```
 
-## Temporarily disabling autorun
+## Temporarily disabling autostart
 
 There may be times when it is desired to not run `nbiff` and leave it
-configured to autorun.
+configured to autostart.
 
 Edit `$HOME/.nbiff/local/conf/nbiff.conf` and define the following variable:
 
@@ -268,7 +273,7 @@ ICONS_DIR="../local/icons"
 At this point `nbiff` is still using the configured
 icons via the symbolic links.
 
-#### Use the sample icon
+#### Local icon example
 
 As mentioned in the [Local icon directory](#local-icon-directory)
 section, a sample file named `unread_msgs.png` is provided at
