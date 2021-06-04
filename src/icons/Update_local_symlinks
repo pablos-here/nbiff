@@ -1,0 +1,53 @@
+#!/bin/bash
+
+#
+# After affecting images in this directory, recreate
+# the symlink's in ../local/icons
+#
+
+# source Globals?  Anything else?
+GLOBALS=../Globals
+if [ ! -r $GLOBALS ] ; then
+   printf "$(basename $0) - cannot access $GLOBALS\n"
+   exit 1
+fi
+. "$GLOBALS"
+if [ $? -ne 0 ] ; then
+   printf "$(basename $0) - error accessing $GLOBALS\n"
+   exit 1
+fi
+
+dot_it "$NBIFF_CONF"
+
+# Rewrite the variable
+ICONS_DIR=$(basename "$ICONS_DIR")
+SRC_ICONS_DIR="$ICONS_DIR"
+LOCAL_ICONS_DIR="../$LOCAL_DIR/$ICONS_DIR"
+
+# Confirm the directory
+is_directory "$LOCAL_ICONS_DIR"
+
+# Any symlinks to remove?
+SYMLINKS=$(find $LOCAL_ICONS_DIR -type l | wc -l)
+if [ $SYMLINKS -gt 0 ] ; then
+   printf "Removing $SYMLINKS symlink(s) in $ICONS_DIR\n"
+   find $LOCAL_ICONS_DIR -type l -print0 | xargs --null rm
+   if [ $? -ne 0 ] ; then
+      printf "Failed to remove the old symlinks.\n"
+      exit 1
+   fi
+else
+   printf "No symlinks found in $ICONS_DIR\n"
+fi
+
+# Create the symlinks:  *.png, *.svg
+find . -mindepth 1 -maxdepth 1 -type f -iname '*.png' -o -iname '*.svg'  | while read ICON ; do
+   echo ln -s "../../$SRC_ICONS_DIR/$ICON" "$LOCAL_ICONS_DIR/$ICON"
+   ln -s "../../$SRC_ICONS_DIR/$ICON" "$LOCAL_ICONS_DIR/$ICON"
+   if [ $? -ne 0 ] ; then
+      printf "Failed to create the symlink.\n"
+      exit 1
+   fi
+done
+
+exit 0
