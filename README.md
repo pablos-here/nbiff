@@ -2,12 +2,11 @@
 
 ## Table of contents
 
-- [nbiff](#nbiff)
 - [Features](#features)
 - [Online help?](#online-help-)
 - [Software requirements](#software-requirements)
   * [GNOME + Wayland support](#gnome---wayland-support)
-- [Installing / Upgrading](#installing---upgrading)
+- [Installing/Upgrading](#installing-upgrading)
   * [Known quirks](#known-quirks)
     + [Thunderbird](#thunderbird)
 - [Setting up autostart](#setting-up-autostart)
@@ -30,7 +29,7 @@
     + [gen_new_msgs](#gen-new-msgs)
     + [tbird_new_msgs](#tbird-new-msgs)
     + [Test suite](#test-suite)
-    + [nbiff](#nbiff-1)
+    + [nbiff](#nbiff)
 - [Developing](#developing)
   * [Icon development](#icon-development)
   * [Architectural overview](#architectural-overview)
