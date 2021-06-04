@@ -306,7 +306,7 @@ This is some [sample output](doc/sample_gen_new_msgs_output.png).
 Use the argument `-?` to see its options:
 
 ```shell
-./tbird_new_msgs '?'
+./tbird_new_msgs '-?'
 ```
 
 #### Test suite
