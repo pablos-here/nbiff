@@ -205,6 +205,9 @@ cd $HOME/.nbiff/systray
 ./Run_nbiff -f ../gen_new_msgs/Test/cycle_icons nbiff_qt5.py
 ```
 
+To stop running `nbiff`, use either CTRL-C or click on the systray
+icon and `quit`.
+
 #### Enable local icon directory
 
 To start using the local icon directory uncomment `ICONS_DIR`:
