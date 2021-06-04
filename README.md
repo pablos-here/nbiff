@@ -37,7 +37,7 @@
 
 # nbiff
 
-`nbiff`, [good dawg!](https://en.wikipedia.org/wiki/Biff_\(Unix\)), is
+`nbiff`, [good dawgy!](https://en.wikipedia.org/wiki/Biff_\(Unix\)), is
 an intentionally simple, extensible systray email notifier. Geared for
 Linux, yet it may (eventually) work on Windows.
 
@@ -286,10 +286,13 @@ Scripts in `gen_new_msgs` can be run standalone or are called by
 `$HOME/.nbiff/gen_new_msgs` stores the scripts/programs with the logic
 to determine the count of unread messages for the mail client.
 
+For testing purposes, multiple instances of it can be running.
+
 #### tbird_new_msgs
 
-`tbird_new_msgs` is tailored for `thunderbird`.  Multiple instances of
-it can be running.
+`tbird_new_msgs` is tailored for `thunderbird`.  
+
+For testing purposes, multiple instances of it can be running.
 
 To run it:
 
@@ -325,7 +328,8 @@ This is [its output](doc/sample_cycle_icons_output.png).
 `nbiff` is the data visualizer.  It runs a script/program and
 depending on the results, displays different systray icons.
 
-It is designed to be invoked from any directory.
+It is designed to be invoked from any directory as it changes its
+directory to the directory from where it is located.
 
 Below is an example calling it to run the `nbiff_qt5.py` script:
 
