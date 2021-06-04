@@ -139,23 +139,24 @@ DISABLE="stop you"
 To renable, either comment out the variable (prefix it with `#`) or
 delete it and manually restart `nbiff`.
 
-## Custom icons
+## Customizing icons
 
 ### Local icon directory
 
-Local icons can be placed in `$HOME/.nbiff/local/icons`.
+Local icons can be placed in `$HOME/.nbiff/local/icons` along with
+symbolic links to the `nbiff` icons.
 
-Once local icons are used, it is an all-or-nothing.  That is, `nbiff`
-will be told to pull all its icons from the local directory.
+The symbolic links allow for customizing a subset of the `nbiff`
+icons.
 
-For convenience, this directory is seeded with symbolic links to
-several `nbiff`'s core icons.
+Over time, there will be more `nbiff` icons released and with each
+release, new symbolic links will be created in
+`$HOME/.nbiff/local/icons`.
 
-The symbolic links makes it easy to mix-and-match one or more of the
-`nbiff` icons with local changes.
+The `nbiff` icons are all prefixed with a two-digit number.  To avoid
+collisions, never use this naming pattern with local icons.
 
-In addition to the symbolic links, the sample file `unread_msgs.png`
-file is included.
+A sample icon file is included named `unread_msgs.png`.
 
 It is referenced in the commented code fragment found in the [Local
 nbiff.conf](#Local_nbiffconf) file.
@@ -193,6 +194,15 @@ After each change, restart `nbiff`:
 
 ```shell
 $HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
+```
+
+#### Previewing changes
+
+To preview changes, run `nbiff` as follows:
+
+```
+cd $HOME/.nbiff/systray
+./Run_nbiff -f ../gen_new_msgs/Test/cycle_icons nbiff_qt5.py
 ```
 
 #### Enable local icon directory
