@@ -76,8 +76,6 @@ For online help, join the `nbiff`
 
 ## Software requirements
 
-> Link [on github](https://github.com/pablo-blueoakdb/nbiff#nbiff-requirements)
-
 `Python 3` is required along with some additional libraries:
 
 ```shell
@@ -87,8 +85,6 @@ pip3 install PyQt5 psutil
 You may need to install `pip3` (or try `pip`).
 
 ### GNOME + Wayland support
-
-> Link [on github](https://github.com/pablo-blueoakdb/nbiff#gnome--wayland-support)
 
 Some **GNOME** versions require the `KStatusNotifierItem/AppIndicator
 Support` extension for **Wayland** support.
