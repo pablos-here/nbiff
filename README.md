@@ -150,16 +150,7 @@ web-search that includes your environment
 [GNOME](https://en.wikipedia.org/wiki/GNOME), etc.) on how to start a
 program/script at login.
 
-## Uninstalling
-
-1. Click on the systray icon and select the menu item `quit`.
-2. If [autostart was set up](#setting-autostart), delete the entry.
-3. Delete the code:
-```shell
-rm -rf $HOME/.nbiff
-```
-
-## Temporarily disabling autostart
+### Temporarily disabling autostart
 
 There may be times when it is desired to not run `nbiff` and leave it
 configured to autostart.
@@ -172,6 +163,15 @@ DISABLE="stop you"
 
 To renable, either comment out the variable (prefix it with `#`) or
 delete it and manually restart `nbiff`.
+
+## Uninstalling
+
+1. Click on the systray icon and select the menu item `quit`.
+2. If [autostart was set up](#setting-autostart), delete the entry.
+3. Delete the code:
+```shell
+rm -rf $HOME/.nbiff
+```
 
 ## Links
 
