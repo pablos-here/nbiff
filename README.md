@@ -17,6 +17,7 @@
   - [Related projects](#related-projects)
 - [Customizing icons](#customizing-icons)
   - [Local icon directory](#local-icon-directory)
+    - [Protecting your icons](#protecting-your-icons)
   - [Local nbiff.conf](#local-nbiffconf)
     - [Previewing changes](#previewing-changes)
     - [Affecting changes](#affecting-changes)
