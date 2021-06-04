@@ -32,9 +32,10 @@
 - [Developing](#developing)
   * [Icon development](#icon-development)
   * [Architectural overview](#architectural-overview)
-- [Development configuration](#development-configuration)
-- [Contributing](#contributing)
+  * [Development configuration](#development-configuration)
+  * [Contributing](#contributing)
 - [Links](#links)
+  * [Related projects](#related-projects)
 - [Future](#future)
 - [Licensing](#licensing)
 
