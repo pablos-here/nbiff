@@ -13,6 +13,8 @@
 - [Setting up autorun](#setting-up-autorun)
 - [Uninstalling](#uninstalling)
 - [Temporarily disabling autorun](#temporarily-disabling-autorun)
+- [Links](#links)
+  * [Related projects](#related-projects)
 - [Customizing icons](#customizing-icons)
   * [Local icon directory](#local-icon-directory)
   * [Local nbiff.conf](#local-nbiffconf)
@@ -34,8 +36,6 @@
   * [Architectural overview](#architectural-overview)
   * [Development configuration](#development-configuration)
   * [Contributing](#contributing)
-- [Links](#links)
-  * [Related projects](#related-projects)
 - [Future](#future)
 - [Licensing](#licensing)
 
@@ -164,6 +164,20 @@ DISABLE="stop you"
 
 To renable, either comment out the variable (prefix it with `#`) or
 delete it and manually restart `nbiff`.
+
+## Links
+
+- [Software repository](https://github.com/pablo-blueoakdb/nbiff)
+- [Project
+  tracker](https://github.com/users/pablo-blueoakdb/projects/1)
+- [Issue tracker](https://github.com/pablo-blueoakdb/nbiff/issues)
+
+### Related projects
+
+The following projects are `Thunderbird`-centric:
+
+- [birdtray](https://github.com/gyunaev/birdtray)
+- [systray-x](https://github.com/Ximi1970/systray-x)
 
 ## Customizing icons
 
@@ -477,20 +491,6 @@ If there's anything else the developer needs to know (e.g. the code style
 guide), you should link it here. If there's a lot of things to take into
 consideration, it is common to separate this section to its own file called
 `CONTRIBUTING.md` (or similar). If so, you should say that it exists here.
-
-## Links
-
-- [Software repository](https://github.com/pablo-blueoakdb/nbiff)
-- [Project
-  tracker](https://github.com/users/pablo-blueoakdb/projects/1)
-- [Issue tracker](https://github.com/pablo-blueoakdb/nbiff/issues)
-
-### Related projects
-
-The following projects are `Thunderbird`-centric:
-
-- [birdtray](https://github.com/gyunaev/birdtray)
-- [systray-x](https://github.com/Ximi1970/systray-x)
 
 ## Future
 
