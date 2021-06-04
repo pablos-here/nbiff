@@ -13,8 +13,6 @@ GEN_NEW_MSGS_DIR="gen_new_msgs"
 # Where we store local overrides
 LOCAL_DIR="local"
 
-ROOT_README_MD="README.md"
-
 NBIFF_CONF="../$CONF_DIR/nbiff.conf"
 TBIRD_NEW_MSGS_CONF="../$CONF_DIR/tbird_new_msgs.conf"
 
