@@ -254,6 +254,14 @@ initial_conf_setting()
    read IT
 }
 
+troubleshooting_link()
+{
+   printf 'Problems?\n'
+   printf '\n'
+   printf '\thttps://github.com/pablo-blueoakdb/nbiff#troubleshooting\n'
+   printf '\n'
+}   
+
 post_install_notes()
 {
    print_section_separator
@@ -269,6 +277,7 @@ post_install_notes()
    printf "If all went well, set it up to autorun at login.  Web-search autorun for your\n"
    printf "desktop environment.\n"
    printf '\n'
+   troubleshooting_link
    printf "Software $SW done.\n"
 }
 
@@ -297,6 +306,7 @@ post_upgrade_notes()
    printf '\n'
    printf "\t$INSTALL_DIR/$SYSTRAY_DIR/Run_nbiff nbiff_qt5.py &\n"
    printf '\n'
+   troubleshooting_link
    printf "Software $SW done.\n"
 }
 
