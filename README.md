@@ -479,16 +479,14 @@ consideration, it is common to separate this section to its own file called
 
 ## Links
 
-| Description         | Link                                                |
-|---------------------|-----------------------------------------------------|
-| Software repository | https://github.com/pablo-blueoakdb/nbiff            |
-| Project home page   | https://github.com/users/pablo-blueoakdb/projects/1 |
-| Issue tracker       | https://github.com/pablo-blueoakdb/nbiff/issues     |
-
+- [Software repository](https://github.com/pablo-blueoakdb/nbiff)
+- [Project
+  tracker](https://github.com/users/pablo-blueoakdb/projects/1)
+- [Issue tracker](https://github.com/pablo-blueoakdb/nbiff/issues)
 
 ### Related projects
 
-The following projects are `Thunderbird`-centric.
+The following projects are `Thunderbird`-centric:
 
 - [birdtray](https://github.com/gyunaev/birdtray)
 - [systray-x](https://github.com/Ximi1970/systray-x)
