@@ -98,7 +98,7 @@ Install it as follows:
 2. [Enable](https://github.com/pablo-blueoakdb/nbiff/blob/main/doc/KStatusNotifierItem.png)
    the extension by moving the slider to the **On** position.
 
-## Installing/Upgrading
+## Installing or upgrading
 
 The installation script handles installs and upgrades.
 
