@@ -1,3 +1,0 @@
-Never create a `local' directory because the installer will not copy
-it.  Instead, initially, the `local' directory tree is copied from
-`Templates'
