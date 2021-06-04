@@ -230,29 +230,26 @@ architecture](#high-level-architecture) section.
 This will happen when `nbiff` cannot access its icons.
 
 To troubleshoot this issue, change directories to the `systray`
-directory: 
+directory and in a `bash` shell, load the respective configuration
+files:
 
-```shell
+```
 cd $HOME/.nbiff/systray
-```
-
-Next, use the configuration files to define the variables in a shell.
-Each `.` command will return silently if there are no errors:
-
-```
-bash
 . ../Globals
 . ../conf/nbiff.conf
 ```
 
-Next, confirm that the directory variable is properly set:
+Each `.` command will return silently if there are no errors.
+
+Next, confirm that the directory variable is properly set.  The
+command below will return the list of icons contained in the
+directory:
 
 ```
 ls -la $ICONS_DIR
 ```
 
-Assuming so, the problem is with one or more of the icon variables.
-To test them, do the following:
+The final step is to ensure each icon variable points to a file:
 
 ```
 ls -la $ICONS_DIR/$ICON_UNREAD_MSGS
