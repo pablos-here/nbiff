@@ -37,7 +37,8 @@
 
 # nbiff
 
-`nbiff`, [good dawgy!](https://en.wikipedia.org/wiki/Biff_\(Unix\)), is
+`nbiff`, [good **new**
+dawgy!](https://en.wikipedia.org/wiki/Biff_\(Unix\)), is
 an intentionally simple, extensible systray email notifier. Geared for
 Linux, yet it may (eventually) work on Windows.
 
@@ -479,7 +480,9 @@ links to humans using your project. You can include links like:
   `bash` (and other tools such as `rsync`) would be required.
 
   If there is sufficient demand ...
-* Extend `nbiff` to `minimize` the mail client.
+* Potentially extend `nbiff` to `minimize` the mail client.  This
+  request may be an artifact of coming from an environment with a
+  single **Desktop**.
 * Provide localization.
 
 ## Licensing
