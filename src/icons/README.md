@@ -6,7 +6,7 @@ After making any changes, recreate the symlink's in the `local/conf`
 directory:
 
 ```shell
-./update_local_symlinks
+./Update_local_symlinks
 ```
 
 ## Icon sets
