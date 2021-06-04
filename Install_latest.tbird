@@ -80,25 +80,6 @@ is_install_or_upgrade()
    fi
 }
 
-sw_requirements()
-{
-   print_section_separator
-   if [ -r "$ROOT_README_MD" ] ; then
-      printf 'Open the link(s) below in your browser to view the software requirements.\n'
-      printf '\n'
-      sed -n '/^#.* nbiff requirements/,/^##/p' $ROOT_README_MD | grep -i '> Link'
-
-      sed -n '/^#.* GNOME .*Wayland/,/^##/p' $ROOT_README_MD | grep -i '> Link'
-   else
-      printf "Could not access $ROOT_README_MD\n"
-      printf "Cannot list software requirements\n"
-   fi
-
-   printf '\n'
-   printf "Press ENTER to continue to how to run ... "
-   read IT
-}
-
 prompt_a_profile_dir()
 {
    PROMPT='CTRL-C to abort: '
@@ -254,11 +235,15 @@ initial_conf_setting()
    read IT
 }
 
-troubleshooting_link()
+helpful_links()
 {
-   printf 'Problems?\n'
+   printf 'Refer to the/Table of contents/[1] for the following:\n'
    printf '\n'
-   printf '\thttps://github.com/pablo-blueoakdb/nbiff#troubleshooting\n'
+   printf '\t- Setting up autostart\n'
+   printf '\t- Software requirements\n'
+   printf '\t- Troubleshooting\n'
+   printf '\n'
+   printf '[1] - https://github.com/pablo-blueoakdb/nbiff#table-of-contents\n'
    printf '\n'
 }   
 
@@ -274,10 +259,7 @@ post_install_notes()
    printf "\t- Click on the systray icon for mail details\n"
    printf "\t- Some may have a tool tip by hovering over the icon\n"
    printf "\n"
-   printf "If all went well, set it up to autorun at login.  Web-search autorun for your\n"
-   printf "desktop environment.\n"
-   printf '\n'
-   troubleshooting_link
+   helpful_links
    printf "Software $SW done.\n"
 }
 
@@ -286,11 +268,31 @@ upgrade_tree()
    print_section_separator
    printf "Upgrading $INSTALL_DIR\n"
 
+   # Step 1:  exclude the entire $LOCAL_DIR
    rsync -a --delete --exclude $LOCAL_DIR $SRC_DIR/ $INSTALL_DIR/
    if [ $? -ne 0 ] ; then
-      printf "$(basename $0) - failed to rsync ...\n"
+      printf "$(basename $0) - failed to rsync(1) ...\n"
       exit 1
    fi
+
+   # Step 2:  replace $LOCAL_DIR/$CONF/[0-9][0-9].* files
+
+   # a) Delete the old links
+   printf '\n'
+   printf "Clearing $INSTALL_DIR/$LOCAL_DIR/$LOCAL_ICONS_DIR/[0-9][0-9].*\n"
+   find $INSTALL_DIR/$LOCAL_DIR/$LOCAL_ICONS_DIR -name '[0-9][0-9].*' | xargs rm -f
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - find/rm failed ...\n"
+      exit 1
+   fi
+   printf '\n'
+   printf "Sync source to $INSTALL_DIR/$LOCAL_DIR/$LOCAL_ICONS_DIR/[0-9][0-9].*\n"
+   rsync -a $SRC_DIR/$LOCAL_DIR/$LOCAL_ICONS_DIR/[0-9][0-9].* $INSTALL_DIR/$LOCAL_DIR/$LOCAL_ICONS_DIR/
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - failed to rsync(2) ...\n"
+      exit 1
+   fi
+   
    printf '\n'
    printf "Upgrade complete, press ENTER to continue ... "
    read IT
@@ -306,7 +308,7 @@ post_upgrade_notes()
    printf '\n'
    printf "\t$INSTALL_DIR/$SYSTRAY_DIR/Run_nbiff nbiff_qt5.py &\n"
    printf '\n'
-   troubleshooting_link
+   helpful_links
    printf "Software $SW done.\n"
 }
 
@@ -333,7 +335,6 @@ if [ "$SW" == 'install' ] ; then
    get_tbird_profile_dir
    install_tree
    initial_conf_setting
-   sw_requirements
    post_install_notes
 else
    upgrade_tree
