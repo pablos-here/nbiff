@@ -5,11 +5,13 @@
 - [nbiff](#nbiff)
 - [Features](#features)
 - [Online help?](#online-help-)
-- [nbiff requirements](#nbiff-requirements)
+- [Software requirements](#software-requirements)
   * [GNOME + Wayland support](#gnome---wayland-support)
 - [Installing / Upgrading](#installing---upgrading)
   * [Known quirks](#known-quirks)
     + [Thunderbird](#thunderbird)
+- [Setting up autorun](#setting-up-autorun)
+- [Uninstalling](#uninstalling)
 - [Temporarily disabling autorun](#temporarily-disabling-autorun)
 - [Customizing icons](#customizing-icons)
   * [Local icon directory](#local-icon-directory)
@@ -27,8 +29,6 @@
     + [tbird_new_msgs](#tbird-new-msgs)
     + [Test suite](#test-suite)
     + [nbiff](#nbiff-1)
-- [Uninstalling](#uninstalling)
-- [Setting up autorun](#setting-up-autorun)
 - [Developing](#developing)
   * [Icon development](#icon-development)
   * [Architectural overview](#architectural-overview)
@@ -69,7 +69,7 @@ Linux, yet it may (eventually) work on Windows.
 For online help, join the `nbiff`
 [subreddit](https://www.reddit.com/r/nbiff).
 
-## nbiff requirements
+## Software requirements
 
 > Link [on github](https://github.com/pablo-blueoakdb/nbiff#nbiff-requirements)
 
@@ -132,6 +132,19 @@ There are two possible work-arounds:
 
    To read more about about `tbird_new_msgs`, [see the Troubleshooting
    section](#Troubleshooting).
+
+## Setting up autorun
+
+**TODO**
+
+## Uninstalling
+
+1. Click on the systray icon and select the menu item `quit`.
+2. If [autorun was set up](#setting-autorun), delete the entry.
+3. Delete the code:
+```shell
+rm -rf $HOME/.nbiff
+```
 
 ## Temporarily disabling autorun
 
@@ -373,17 +386,6 @@ cd $HOME/.nbiff/systray
 $HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
 ```
 
-## Uninstalling
-
-1. Click on the systray icon and select the menu item `quit`.
-2. If [autorun was set up](#setting-autorun), delete the entry.
-3. Delete the code:
-```shell
-rm -rf $HOME/.nbiff
-```
-
-## Setting up autorun
-
 ## Developing
 
 **TODO**
@@ -410,6 +412,8 @@ To make it easy:
    reference the images.
 
 ### Architectural overview
+
+**TODO** potentially reference **high-level architecture?**
 
 High-level, there are two components:
 
