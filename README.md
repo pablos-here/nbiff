@@ -17,7 +17,7 @@
   - [Related projects](#related-projects)
 - [Customizing icons](#customizing-icons)
   - [Local icon directory](#local-icon-directory)
-    - [Protecting your icons](#protecting-your-icons)
+    - [Protecting local icons from deletion](#protecting-local-icons-from-deletion)
   - [Local nbiff.conf](#local-nbiffconf)
     - [Previewing changes](#previewing-changes)
     - [Affecting changes](#affecting-changes)
@@ -203,14 +203,14 @@ A sample icon file is included named `unread_msgs.png`.
 It is referenced in the commented code fragment found in the [Local
 nbiff.conf](#Local_nbiffconf) file.
 
-#### Protecting your icons
+#### Protecting local icons from deletion
 
 The `nbiff` icons are all prefixed with a two-digit number.  During an
-upgrade, all file names matching this pattern are deleted and
-resynchronized with the source tree.
+upgrade, all local icon file names matching this pattern are deleted
+and resynchronized with the source tree.
 
-Never prefix your local icon with a two-digit number.  It will be
-deleted at the next upgrade.
+**Never prefix your local icon with a two-digit number.  It will be
+deleted at the next upgrade.**
 
 ### Local nbiff.conf
 
