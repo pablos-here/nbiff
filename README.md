@@ -4,7 +4,7 @@
 
 - [nbiff](#nbiff)
 - [Features](#features)
-- [Online help?](#online-help-)
+- [Online help](#online-help)
 - [Software requirements](#software-requirements)
   * [GNOME + Wayland support](#gnome---wayland-support)
 - [Installing or upgrading](#installing-or-upgrading)
