@@ -142,10 +142,13 @@ There are two possible work-arounds:
 
 Each [Desktop
 environment](https://en.wikipedia.org/wiki/Desktop_environment) has
-its own method to set up a program to start at login.
+its own method to set up a program/script to start at login.
 
-As enviroments continue to evolve, rather than documenting it here, it
-is better to perform a web-search to have `nbiff` start at login.
+As **Desktop enviroments** continue to evolve, it is best to perform a
+web-search that includes your environment
+(e.g. [KDE](https://en.wikipedia.org/wiki/KDE),
+[GNOME](https://en.wikipedia.org/wiki/GNOME), etc.) on how to start a
+program/script at login.
 
 ## Uninstalling
 
