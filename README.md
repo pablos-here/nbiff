@@ -185,17 +185,6 @@ To simplify implementation, the following code fragment is included:
 #ICON_MUA_IS_DOWN="01.MUA_is_down.png"
 ```
 
-#### Affecting changes
-
-After each change, restart `nbiff`:
-
-1. Click on the systray icon and select the menu item `quit`.
-2. Start it:
-
-```shell
-$HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
-```
-
 #### Previewing changes
 
 To preview changes, run `nbiff` as follows:
@@ -216,6 +205,17 @@ cd $HOME/.nbiff/gen_new_msgs/Test/
 
 To stop running `nbiff`, use either CTRL-C or click on the systray
 icon and `quit`.
+
+#### Affecting changes
+
+When done, restart `nbiff`:
+
+1. Click on the systray icon and select the menu item `quit`.
+2. Start it:
+
+```shell
+$HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
+```
 
 #### Enable local icon directory
 
