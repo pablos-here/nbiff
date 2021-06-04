@@ -2,7 +2,7 @@
 
 ## Recreating symlinks
 
-After making any changes, recreate the symlink's in the `local/conf`
+After making any changes, recreate the symlink's in the `local/icons`
 directory:
 
 ```shell
@@ -15,8 +15,8 @@ Each icon-set must have at least four different image files:
 
 | Icon type              | Description                                                 |
 |------------------------|-------------------------------------------------------------|
-| **No unread messages** | No unread messages.                                         |
-| **Unread messages**    | Unread messages.                                            |
+| **No unread messages** | All messages are marked read.                               |
+| **Unread messages**    | There is at least one unread message.                       |
 | **Error**              | An error was encountered (e.g. a non-integer was returned). |
 | **MUA is down**        | The mail client is not running.                             |
 
