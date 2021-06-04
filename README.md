@@ -200,9 +200,18 @@ $HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
 
 To preview changes, run `nbiff` as follows:
 
-```
+```shell
 cd $HOME/.nbiff/systray
 ./Run_nbiff -f ../gen_new_msgs/Test/cycle_icons nbiff_qt5.py
+```
+
+The `-f ../gen_new_msgs/Test/cycle_icons` instructs `nbiff` to run the
+script `cycle_icons` instead of the configured script.  The curious
+may wish to run the script on its own:
+
+```shell
+cd $HOME/.nbiff/gen_new_msgs/Test/
+./cycle_icons
 ```
 
 To stop running `nbiff`, use either CTRL-C or click on the systray
