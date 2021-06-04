@@ -194,7 +194,7 @@ cd $HOME/.nbiff/systray
 ./Run_nbiff -f ../gen_new_msgs/Test/cycle_icons nbiff_qt5.py
 ```
 
-The `-f ../gen_new_msgs/Test/cycle_icons` instructs `nbiff` to run the
+`-f ../gen_new_msgs/Test/cycle_icons` instructs `nbiff` to run the
 script `cycle_icons` instead of the configured script.  The curious
 may wish to run the script on its own:
 
@@ -217,7 +217,7 @@ When done, restart `nbiff`:
 $HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
 ```
 
-#### Enable local icon directory
+#### Enable the local icon directory
 
 To start using the local icon directory uncomment `ICONS_DIR`:
 
