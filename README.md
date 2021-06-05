@@ -6,7 +6,7 @@
 - [Features](#features)
 - [Online help](#online-help)
 - [Software requirements](#software-requirements)
-  - [GNOME + Wayland support](#gnome--wayland-support)
+  - [Wayland support on GNOME](#wayland-support-on-gnome)
 - [Installing / upgrading](#installing--upgrading)
   - [Known quirks](#known-quirks)
     - [Thunderbird](#thunderbird)
@@ -85,7 +85,7 @@ pip3 install PyQt5 psutil
 
 You may need to install `pip3` (or try `pip`).
 
-### GNOME + Wayland support
+### Wayland support on GNOME
 
 Some **GNOME** versions require the `KStatusNotifierItem/AppIndicator
 Support` extension for **Wayland** support.
