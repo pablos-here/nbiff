@@ -129,22 +129,12 @@ fi
 ########################################################
 trap 'cleanup; exit 0' 0 1 2 3 15
 
-if [ -n "$DISABLE" ] ; then
-   printf "$(basename $0) - DISABLE flag set.  Bye.\n"
-   printf "\n"
-   printf "Probably set in $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/nbiff.conf\n"
-   printf "\n"
-   printf "After unsetting, to try again:\n"
-   printf "\n"
-   printf "\t$INSTALL_DIR/$SYSTRAY_DIR/Run_nbiff nbiff_qt5.py &\n"
-   printf "\n"
-   exit 0
-fi
-
+# Background so PyQt can handle signals
 ./$NBIFF "$PROG" \
          "$ICONS_DIR/$ICON_NO_UNREAD_MSGS" \
          "$ICONS_DIR/$ICON_UNREAD_MSGS" \
          "$ICONS_DIR/$ICON_ERROR" \
-         "$ICONS_DIR/$ICON_MUA_IS_DOWN"
+         "$ICONS_DIR/$ICON_MUA_IS_DOWN" &
+wait
 
 exit $?
