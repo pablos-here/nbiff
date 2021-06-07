@@ -117,9 +117,9 @@ Below is how to install/upgrade:
 
 #### Thunderbird
 
-There are rare times when, it appears, that an `.msf` is not
-immediately flushed to disk.  This causes `nbiff` to believe there are
- **Unread messages** when there are none. 
+It appears that there are rare times when an `.msf` is not immediately
+ flushed to disk.  This causes `nbiff` to believe there are **Unread
+ messages** when there are none.
 
 Within a two or three minutes, `Thunderbird` synchronizes the disk
 file and all is well.
