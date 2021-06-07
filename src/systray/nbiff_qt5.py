@@ -63,13 +63,16 @@
 
 from PyQt5.QtWidgets import QApplication, QMenu, QSystemTrayIcon, qApp, QMessageBox, QMainWindow
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QProcess
+from PyQt5.QtCore import QProcess, QTimer
 import sys, signal, locale, os.path, psutil
 
 #
-# Die nicely on SIGINT via the CLI
+# Die nicely on different signals
 #
-signal.signal(signal.SIGINT, signal.SIG_DFL)
+#signal.signal(signal.SIGHUP, signal.SIG_DFL)
+#signal.signal(signal.SIGINT, signal.SIG_DFL)
+#signal.signal(signal.SIGQUIT, signal.SIG_DFL)
+#signal.signal(signal.SIGTERM, signal.SIG_DFL)
 
 #
 # Find the starting index of `sl' within `l'
@@ -151,8 +154,14 @@ class MainWindow():
         locale.setlocale(locale.LC_ALL, '')
         locale._override_localeconv = {'mon_thousands_sep': ','}
 
-        # Start the process
+        # Start the `new_msgs' process
         self.start_process()
+
+        # These signals match with the parent scripts
+        signal.signal(signal.SIGHUP, self.signal_handler)
+        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGQUIT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
 
     #
     # For some DEs, there is no tool tip.  We set up a NULL menu entry to also provide the tool tip
@@ -272,10 +281,16 @@ class MainWindow():
             if self.p is not None:
                 self.p.kill() # nail the sucker
                 self.p.waitForFinished(2000)
-
         app.quit()
+
+    def signal_handler(self, signum, frame):
+        print_debug("> signal_handler()")
+        MainWindow.quit_cleanup(self)
 
 debug = 0
 app = QApplication(sys.argv)
+timer = QTimer()
+timer.start(500) # Set the timer to 500ms ...
+timer.timeout.connect(lambda: None) # Let the python interpreter run to process any signals
 w = MainWindow()
 app.exec_()
