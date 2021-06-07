@@ -10,8 +10,6 @@
 - [Installing / upgrading](#installing--upgrading)
   - [Known quirks](#known-quirks)
     - [Thunderbird](#thunderbird)
-- [Setting up autostart](#setting-up-autostart)
-  - [Temporarily disabling autostart](#temporarily-disabling-autostart)
 - [Uninstalling](#uninstalling)
 - [Links](#links)
   - [Related projects](#related-projects)
@@ -135,37 +133,10 @@ There are two possible work-arounds:
    To read more about about `tbird_new_msgs`, [see the Troubleshooting
    section](#Troubleshooting).
 
-## Setting up autostart
-
-Each [Desktop
-environment](https://en.wikipedia.org/wiki/Desktop_environment) has
-its own method to set up a program/script to start at login.
-
-As **Desktop enviroments** continue to evolve, it is best to perform a
-web-search that includes your environment
-(e.g. [KDE](https://en.wikipedia.org/wiki/KDE),
-[GNOME](https://en.wikipedia.org/wiki/GNOME), etc.) on how to start a
-program/script at login.
-
-### Temporarily disabling autostart
-
-There may be times when it is desired to not run `nbiff` and leave it
-configured to autostart.
-
-Edit `$HOME/.nbiff/local/conf/nbiff.conf` and define the following variable:
-
-```shell
-DISABLE="stop you"
-```
-
-To renable, either comment out the variable (prefix it with `#`) or
-delete it and manually restart `nbiff`.
-
 ## Uninstalling
 
 1. Click on the systray icon and select the menu item `quit`.
-2. If [autostart was set up](#setting-autostart), delete the entry.
-3. Delete the code:
+2. Delete the code:
 ```shell
 rm -rf $HOME/.nbiff
 ```
