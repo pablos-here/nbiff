@@ -208,6 +208,8 @@ class MainWindow():
     #
     def handle_stdout(self):
         print_debug("> handle_stdout()")
+        if self.p is None:  # we're probably in the process of dying ...
+            return
         data = self.p.readAllStandardOutput()
         stdout = bytes(data).decode("utf8")
         print_debug(">> " + stdout.rstrip())
