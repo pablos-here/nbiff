@@ -54,7 +54,7 @@ fi
 ########################################################
 print_section_separator()
 {
-   printf -- "---\n"
+   printf -- "~~~~~~~~~~~~~~~~~~~~\n"
 }
 
 is_install_or_upgrade()
@@ -239,7 +239,6 @@ helpful_links()
 {
    printf 'Refer to the/Table of contents/[1] for the following:\n'
    printf '\n'
-   printf '\t- Setting up autostart\n'
    printf '\t- Software requirements\n'
    printf '\t- Troubleshooting\n'
    printf '\n'
@@ -250,9 +249,16 @@ helpful_links()
 post_install_notes()
 {
    print_section_separator
-   printf "To manually run:\n"
+   printf "The script below does the following:\n"
    printf "\n"
-   printf "\t$INSTALL_DIR/$SYSTRAY_DIR/Run_nbiff nbiff_qt5.py &\n"
+   printf "\t1) Starts 'nbiff' in the background.\n"
+   printf "\t2) Starts 'Thunderbird' and waits for it to complete.\n"
+   printf "\t3) Upon exiting 'Thunderbird', 'nbiff' is shutdown.\n"
+   printf "\n"
+   printf "To manually run it now:\n"
+   printf "\n"
+   printf "\t1) Exit 'Thunderbird'\n"
+   printf "\t2) $INSTALL_DIR/$SYSTRAY_DIR/Run_tbird_nbiff &\n"
    printf "\n"
    printf "Tips:\n"
    printf "\n"
@@ -303,10 +309,8 @@ post_upgrade_notes()
    print_section_separator
    printf 'To run the latest version:\n'
    printf '\n'
-   printf '1) Click on the systray icon to quit the old version\n'
-   printf '2) Manually start the new version\n'
-   printf '\n'
-   printf "\t$INSTALL_DIR/$SYSTRAY_DIR/Run_nbiff nbiff_qt5.py &\n"
+   printf '\t1) Exit `Thunderbird`\n'
+   printf "\t2) $INSTALL_DIR/$SYSTRAY_DIR/Run_tbird_nbiff &\n"
    printf '\n'
    helpful_links
    printf "Software $SW done.\n"
