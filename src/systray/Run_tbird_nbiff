@@ -1,0 +1,66 @@
+#!/bin/bash
+
+#
+# Run nbiff for Thunderbird
+#
+
+########################################################
+# Initialize
+########################################################
+
+THIS_SCRIPT=$(readlink -f "$0")
+THIS_SCRIPT_DIR=$(dirname "$THIS_SCRIPT")
+
+TBIRD="thunderbird"
+
+# Is thunderbird in our path?
+TBIRD_FULL_PATH=$(which $TBIRD 2> /dev/null)
+
+if [ $? -ne 0 ] ; then
+   printf "$(basename $0) - $TBIRD is not in our PATH\n"
+   exit 1
+fi
+
+# We could do a `strings' check to increase the odds that it's
+# the app but meh (for now)
+
+cd "$THIS_SCRIPT_DIR"
+if [ $? -ne 0 ] ; then
+   printf "$(basename $0) - cd failed\n"
+   exit 1
+fi
+
+########################################################
+# Functions
+########################################################
+
+cleanup()
+{
+   trap - 0 1 2 3 15 # clear the trap
+
+   CHILDREN_PIDS="$(jobs -p)"
+   if [ -n "$CHILDREN_PIDS" ] ; then
+      kill -1 $CHILDREN_PIDS > /dev/null 2>&1
+      sleep 0.5 # give the processes some time to clean up 
+   fi
+}
+
+########################################################
+# Main
+########################################################
+trap 'cleanup; exit 0' 0 1 2 3 15
+
+# Start nbiff
+./Run_nbiff nbiff_qt5.py &
+if [ $? -ne 0 ] ; then
+   printf "$(basename $0) - nbiff failed to start\n"
+   exit 1
+fi
+
+# Run tbird
+$TBIRD "$@"
+
+# Our cleanup kills nbiff
+cleanup
+
+exit $?
