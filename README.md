@@ -363,7 +363,7 @@ Use the argument `-?` to see its options:
 Within the `gen_new_msgs/` is the `Test/` subdirectory.  These scripts
 can be used to isolate issues and/or exercise `nbiff`'s icons.
 
-This is an example of running oe of the scripts:
+This is an example of running one of the scripts:
 
 ```shell
 cd $HOME/.nbiff/gen_new_msgs/Test
@@ -378,7 +378,7 @@ This is [its output](doc/sample_cycle_icons_output.png).
 depending on the results, displays different systray icons.
 
 It is designed to be invoked from any directory as it changes its
-directory to the directory from where it is located.
+directory to the directory where it is located.
 
 Below is an example calling it to run the `nbiff_qt5.py` script:
 
@@ -440,7 +440,7 @@ To make it easy:
 
 ### Development configuration
 
-**TODO*
+**TODO**
 
 The base software supports running multiple instances of `nbiff`.
 Furthermore, the source tree supports the existence of a **dev**
@@ -489,4 +489,4 @@ consideration, it is common to separate this section to its own file called
 
 ## Licensing
 
-The code in this project is licensed under MIT license.
+The code in this project is licensed under MIT [license](LICENSE).
