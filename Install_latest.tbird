@@ -237,7 +237,7 @@ initial_conf_setting()
 
 helpful_links()
 {
-   printf 'Refer to the/Table of contents/[1] for the following:\n'
+   printf 'Refer to the "Table of contents"[1] for the following:\n'
    printf '\n'
    printf '\t- Software requirements\n'
    printf '\t- Troubleshooting\n'
