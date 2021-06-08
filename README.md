@@ -63,7 +63,7 @@ Linux, yet it may (eventually) work on Windows.
 - Supports both `x11` and `wayland`.
 - The systray icon provides both high-level and detailed information.
   - High-level, intuitive and subtle icon changes indicate status
-    changess.
+    changes.
   - Details are presented by clicking on the icon.
   - Tool tips are available when supported by the user environment.
 - User customizable systray icons.
