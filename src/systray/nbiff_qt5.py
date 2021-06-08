@@ -67,14 +67,6 @@ from PyQt5.QtCore import QProcess, QTimer
 import sys, signal, locale, os.path, psutil
 
 #
-# Die nicely on different signals
-#
-#signal.signal(signal.SIGHUP, signal.SIG_DFL)
-#signal.signal(signal.SIGINT, signal.SIG_DFL)
-#signal.signal(signal.SIGQUIT, signal.SIG_DFL)
-#signal.signal(signal.SIGTERM, signal.SIG_DFL)
-
-#
 # Find the starting index of `sl' within `l'
 #
 # https://stackoverflow.com/questions/17870544/find-starting-and-ending-indices-of-sublist-in-list
