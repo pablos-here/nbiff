@@ -489,4 +489,5 @@ consideration, it is common to separate this section to its own file called
 
 ## Licensing
 
-The code in this project is licensed under MIT [license](LICENSE).
+Distributed under the MIT License.  See [LICENSE](LICENSE) for more
+information.
