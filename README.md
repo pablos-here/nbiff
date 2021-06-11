@@ -180,8 +180,8 @@ The `nbiff` icons are all prefixed with a two-digit number.  During an
 upgrade, all local icon file names matching this pattern are deleted
 and resynchronized with the source tree.
 
-**Never prefix your local icon with a two-digit number.  It will be
-deleted at the next upgrade.**
+> Never prefix your local icon with a two-digit number.  It will be
+> deleted at the next upgrade.
 
 ### Local nbiff.conf
 
@@ -447,10 +447,7 @@ Furthermore, the source tree supports the existence of a **dev**
 directory structure at the top-levl of the proejct tree:
 
 ```
-dev
-└── conf
-    ├── nbiff.conf
-    └── tbird_new_msgs.conf
+something may go here ...
 ```
 
 Populate it the the corresponding `...src/conf/*.conf` file and suit
