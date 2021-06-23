@@ -83,7 +83,7 @@ Below is how to install/upgrade:
 1. Click on the systray icon and select the menu item `quit`.
 2. Delete the code:
 ```shell
-rm -rf $HOME/.nbiff
+rm -rf ~/.nbiff
 ```
 
 ## Known quirks
