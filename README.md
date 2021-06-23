@@ -69,12 +69,9 @@ The installation script handles installs and upgrades.
 Below is how to install/upgrade:
 
 1. [Get the latest the
-   release](https://github.com/pablo-blueoakdb/nbiff/releases).
-2. Expand the release's **Assets** and download the compressed file of
-   your choice.
-3. After uncompressing the file, a new directory is created.  Change
-   directories to it.
-4. Run the installer for your email client and follow the on-screen
+   release](https://github.com/pablo-blueoakdb/nbiff/releases),
+   uncompress the file and switch to the newly created directory.
+2. Run the installer for your email client and follow the on-screen
    instructions:
 
 | Mail client   | Installation script                            |
