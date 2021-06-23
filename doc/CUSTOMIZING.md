@@ -1,3 +1,14 @@
+## Customization directory
+
+`$HOME/.nbiff/local` has two subdirectories for customizations:
+
+* `conf` - override one or more `nbiff` parameters.
+* `icons` - icon customizations.
+
+## Customizing tbird_new_msgs
+
+### Local tbird_new_msgs.conf
+
 ## Customizing icons
 
 ### The local icon directory
