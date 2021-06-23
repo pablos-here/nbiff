@@ -80,7 +80,7 @@ release, new symbolic links will be created in
 A sample icon file is included named `unread_msgs.png`.
 
 It is referenced in the commented code fragment found in the [Local
-nbiff.conf](#Local_nbiffconf) file.
+nbiff.conf](#the-local-nbiffconf-file) file.
 
 #### Protecting local icons from deletion
 
