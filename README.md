@@ -26,13 +26,13 @@ Linux, yet it may (eventually) work on Windows.
 
 `nbiff` has the following features:
 
-- It self-adjusts when accounts and/or folders are changed.
+- It self-adjusts when accounts and/or folders are affected.
 - It is designed to be light-weight and scalable.
 - Largely it is immune from `Thunderbird`'s API changes.
 - Supports both `x11` and `wayland`.
 - The systray icon displays a status when there are **unread
   messages**.
-- The **unread count** is provided by clicking on the icon and when
+- Further details are available by clicking on the icon and when
   supported, as a **tool tip**.
 - User customizable systray icons.
 
