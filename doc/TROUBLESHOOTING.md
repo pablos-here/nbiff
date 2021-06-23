@@ -60,7 +60,7 @@ ls -la $ICONS_DIR/$ICON_MUA_IS_DOWN
 
 ## Need more help?
 
-If you need help, it may be possible to get [online help](#online-help).
+If you need help, it may be possible to get [online help](../README.md#online-help).
 
 ## High-level architecture
 
