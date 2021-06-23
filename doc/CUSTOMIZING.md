@@ -1,3 +1,10 @@
+## Customization
+
+The following may be customized:
+
+* The systray icons.
+* Always ignore unread messages from a folder tree/name.
+
 ## Customization directory
 
 `$HOME/.nbiff/local` has two subdirectories for customizations:
