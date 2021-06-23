@@ -1,6 +1,6 @@
 ## Customizing icons
 
-### Local icon directory
+### `.../local/icon/`
 
 Local icons can be placed in `$HOME/.nbiff/local/icons` along with
 symbolic links to the `nbiff` icons.
@@ -26,7 +26,7 @@ and resynchronized with the source tree.
 > Never prefix your local icon with a two-digit number.  It will be
 > deleted at the next upgrade.
 
-### Local `nbiff.conf`
+### `../local/icon/nbiff.conf`
 
 `$HOME/.nbiff/local/conf/nbiff.conf` contains icon site-localizations.
 
