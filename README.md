@@ -109,10 +109,14 @@ There are several work-arounds:
    To read more about about `tbird_new_msgs`, see the [Troubleshooting
    section](#Troubleshooting).
 
-## Customizing icons
+## Customizing
 
-To customize one or more of the default `nbiff` icons, see how to it
-is done in [Customizing icons](doc/CUSTOMIZING_ICONS.md).
+The following can be customized:
+
+* The systray icons.
+* Always ignore **unread messages** from a folder tree/name.
+
+Details can be found [here](doc/CUSTOMIZING.md).
 
 ## Troubleshooting
 
