@@ -11,7 +11,7 @@
 - [Uninstalling](#uninstalling)
 - [Known quirks](#known-quirks)
   - [Thunderbird](#thunderbird)
-- [Customizing icons](#customizing-icons)
+- [Customizing](#customizing)
 - [Troubleshooting](#troubleshooting)
 - [Development](#development)
 
