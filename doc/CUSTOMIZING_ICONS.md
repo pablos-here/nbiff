@@ -26,7 +26,7 @@ and resynchronized with the source tree.
 > Never prefix your local icon with a two-digit number.  It will be
 > deleted at the next upgrade.
 
-### Local nbiff.conf
+### Local `nbiff.conf`
 
 `$HOME/.nbiff/local/conf/nbiff.conf` contains icon site-localizations.
 
