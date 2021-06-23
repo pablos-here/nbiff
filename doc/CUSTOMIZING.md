@@ -1,9 +1,42 @@
-## Customization
+## Table of contents
 
-The following may be customized:
+- [Customizing `nbiff`](#customizing-nbiff)
+- [General strategy](#general-strategy)
+- [Customization directory](#customization-directory)
+- [Customizing `tbird_new_msgs`](#customizing-tbird_new_msgs)
+  - [Local `tbird_new_msgs.conf`](#local-tbird_new_msgsconf)
+- [Customizing icons](#customizing-icons)
+  - [The local icon directory](#the-local-icon-directory)
+    - [Protecting local icons from deletion](#protecting-local-icons-from-deletion)
+  - [The local `nbiff.conf` file](#the-local-nbiffconf-file)
+    - [Previewing changes](#previewing-changes)
+    - [Affecting changes](#affecting-changes)
+    - [Enable the local icon directory](#enable-the-local-icon-directory)
+    - [Local icon example](#local-icon-example)
 
-* The systray icons.
+## Customizing `nbiff`
+
+`nbiff` can be customized to:
+
+* To use one or more different systray icons,
 * Always ignore unread messages from a folder tree/name.
+
+## General strategy
+
+`nbiff` uses shell variables to store its **core** configuration
+information.   Its configuration files are in `~/.nbiff/conf/`.
+
+Customization involves re-defining the same variables in corresonding
+files found in `~/.nbiff/local/{conf,icons}/`.
+
+`nbiff` executes as follows:
+
+1. Load the core configuration.
+2. Load any corresponding local configuration which may redefine any
+   previously defined **core** variables.
+
+As an example, suppose the **core** configuration defined `A="woof"`
+In the local file, it can be redefined as `A="purr"`
 
 ## Customization directory
 
@@ -12,15 +45,29 @@ The following may be customized:
 * `conf` - override one or more `nbiff` parameters.
 * `icons` - icon customizations.
 
-## Customizing tbird_new_msgs
+At install, these directories are seeded with sample data.  They will
+never be overwritten during an upgrade.
 
-### Local tbird_new_msgs.conf
+## Customizing `tbird_new_msgs`
+
+### Local `tbird_new_msgs.conf`
+
+`tbird_new_msgs`'s configuration file provides extensive
+documentation.  The following variables are available customizing:
+
+| Variable name            | Description                                                     |
+|--------------------------|-----------------------------------------------------------------|
+| `TBIRD_DIR`              | The `Thunderbird` profile directory.                            |
+| `USER_MSF_EXCLUSIONS`    | Name of `.msf`s to ignore.                                      |
+| `TLF_MSF_EXCLUSIONS`     | Top-level folder tree to ignore.                                |
+| `DEFAULT_SBD_EXCLUSIONS` | The default folder tree name to ignore.  Rarely needs tweaking. |
+| `DEFAULT_MSF_EXCLUSIONS` | The default set of `.msf`'s to ignore (e.g. `Trash`)            |
 
 ## Customizing icons
 
 ### The local icon directory
 
-Local icons can be placed in `$HOME/.nbiff/local/icons` along with
+Local icons can be placed in `~/.nbiff/local/icons` along with
 symbolic links to the `nbiff` icons.
 
 The symbolic links allow for customizing a subset of the `nbiff`
@@ -28,7 +75,7 @@ icons.
 
 Over time, there will be more `nbiff` icons released and with each
 release, new symbolic links will be created in
-`$HOME/.nbiff/local/icons`.
+`~/.nbiff/local/icons`.
 
 A sample icon file is included named `unread_msgs.png`.
 
@@ -46,7 +93,7 @@ and resynchronized with the source tree.
 
 ### The local `nbiff.conf` file
 
-`$HOME/.nbiff/local/conf/nbiff.conf` contains icon site-localizations.
+`~/.nbiff/local/conf/nbiff.conf` contains icon site-localizations.
 
 To simplify implementation, the following code fragment is included:
 
@@ -73,7 +120,7 @@ To simplify implementation, the following code fragment is included:
 To preview changes, run `nbiff` as follows:
 
 ```shell
-cd $HOME/.nbiff/systray
+cd ~/.nbiff/systray
 ./Run_nbiff -f ../gen_new_msgs/Test/cycle_icons nbiff_qt5.py
 ```
 
@@ -82,7 +129,7 @@ script `cycle_icons` instead of the configured script.  The curious
 may wish to run the script on its own:
 
 ```shell
-cd $HOME/.nbiff/gen_new_msgs/Test/
+cd ~/.nbiff/gen_new_msgs/Test/
 ./cycle_icons
 ```
 
@@ -97,7 +144,7 @@ When done, restart `nbiff`:
 2. Start it:
 
 ```shell
-$HOME/.nbiff/systray/Run_nbiff nbiff_qt5.py &
+~/.nbiff/systray/Run_nbiff nbiff_qt5.py &
 ```
 
 #### Enable the local icon directory
