@@ -8,11 +8,9 @@
 - [Software requirements](#software-requirements)
   - [Wayland support on GNOME](#wayland-support-on-gnome)
 - [Installing / upgrading](#installing--upgrading)
-  - [Known quirks](#known-quirks)
-    - [Thunderbird](#thunderbird)
 - [Uninstalling](#uninstalling)
-- [Links](#links)
-  - [Related projects](#related-projects)
+- [Known quirks](#known-quirks)
+  - [Thunderbird](#thunderbird)
 - [Customizing icons](#customizing-icons)
 - [Troubleshooting](#troubleshooting)
 - [Development](#development)
@@ -83,9 +81,17 @@ Below is how to install/upgrade:
 |---------------|------------------------------------------------|
 | `Thunderbird` | <pre lang="shell">./Install_latest.tbird</pre> |
 
-### Known quirks
+## Uninstalling
 
-#### Thunderbird
+1. Click on the systray icon and select the menu item `quit`.
+2. Delete the code:
+```shell
+rm -rf $HOME/.nbiff
+```
+
+## Known quirks
+
+### Thunderbird
 
 There is an edge-case when an `.msf` is not immediately flushed to
 disk.  This causes `nbiff` to believe there are **Unread messages**
@@ -105,28 +111,6 @@ There are several work-arounds:
 
    To read more about about `tbird_new_msgs`, see the [Troubleshooting
    section](#Troubleshooting).
-
-## Uninstalling
-
-1. Click on the systray icon and select the menu item `quit`.
-2. Delete the code:
-```shell
-rm -rf $HOME/.nbiff
-```
-
-## Links
-
-- [Software repository](https://github.com/pablo-blueoakdb/nbiff)
-- [Project
-  tracker](https://github.com/users/pablo-blueoakdb/projects/1)
-- [Issue tracker](https://github.com/pablo-blueoakdb/nbiff/issues)
-
-### Related projects
-
-The following projects are `Thunderbird`-centric:
-
-- [birdtray](https://github.com/gyunaev/birdtray)
-- [systray-x](https://github.com/Ximi1970/systray-x)
 
 ## Customizing icons
 
