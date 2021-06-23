@@ -1,9 +1,21 @@
+## Table of contents
+
+- [Troubleshooting](#troubleshooting)
+- [Where to begin](#where-to-begin)
+- [Missing or black systray icon](#missing-or-black-systray-icon)
+- [Need more help?](#need-more-help)
+- [High-level architecture](#high-level-architecture)
+  - [gen_new_msgs](#gen_new_msgs)
+  - [tbird_new_msgs](#tbird_new_msgs)
+  - [Test suite](#test-suite)
+  - [nbiff](#nbiff)
+
 ## Troubleshooting
 
 The sections below assume that you have read the [High-level
 architecture](#high-level-architecture) section.
 
-### Where to begin
+## Where to begin
 
 - Ensure that `nbiff` can create its icons independent of `gen_new_msgs`:
   - See [previewing changes](#previewing-changes).
@@ -13,7 +25,7 @@ architecture](#high-level-architecture) section.
   - See [tbird_new_msgs](#tbird_new_msgs) on how to run the
     `Thunderbird` script in a terminal.
 
-### Missing or black systray icon
+## Missing or black systray icon
 
 This will happen when `nbiff` cannot access its icons.
 
@@ -46,11 +58,11 @@ ls -la $ICONS_DIR/$ICON_ERROR
 ls -la $ICONS_DIR/$ICON_MUA_IS_DOWN
 ```
 
-### Need more help?
+## Need more help?
 
 If you need help, it may be possible to get [online help](#online-help).
 
-### High-level architecture
+## High-level architecture
 
 There are two high-level components for `nbiff`:
 
@@ -64,14 +76,14 @@ Scripts in `gen_new_msgs` can be run standalone or are called by
 `nbiff` is the data visualizer.  It reads the input from a
 `gen_new_msgs` script and changes the systray icon accordingly.
 
-#### gen_new_msgs
+### gen_new_msgs
 
 `$HOME/.nbiff/gen_new_msgs` stores the scripts/programs with the logic
 to determine the count of unread messages for the mail client.
 
 For testing purposes, multiple instances of it can be running.
 
-#### tbird_new_msgs
+### tbird_new_msgs
 
 `tbird_new_msgs` is tailored for `Thunderbird`.
 
@@ -84,7 +96,7 @@ cd $HOME/.nbiff/gen_new_msgs
 ./tbird_new_msgs
 ```
 
-This is some [sample output](doc/sample_gen_new_msgs_output.png).
+This is some [sample output](sample_gen_new_msgs_output.png).
 
 Use the argument `-?` to see its options:
 
@@ -92,7 +104,7 @@ Use the argument `-?` to see its options:
 ./tbird_new_msgs '-?'
 ```
 
-#### Test suite
+### Test suite
 
 Within the `gen_new_msgs/` is the `Test/` subdirectory.  These scripts
 can be used to isolate issues and/or exercise `nbiff`'s icons.
@@ -104,9 +116,9 @@ cd $HOME/.nbiff/gen_new_msgs/Test
 ./cycle_icons
 ```
 
-This is [its output](doc/sample_cycle_icons_output.png).
+This is [its output](sample_cycle_icons_output.png).
 
-#### nbiff
+### nbiff
 
 `nbiff` is the data visualizer.  It runs a script/program and
 depending on the results, displays different systray icons.
