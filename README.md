@@ -28,23 +28,14 @@ Linux, yet it may (eventually) work on Windows.
 
 `nbiff` has the following features:
 
-- It is dynamic.
-  - It self-adjusts when email accounts are added or
-    deleted.
-  - In real-time, it captures changes to the local folder structure.
-- While dynamic, it is designed to be light-weight and quick.
-  - It has been tested with over 1,000 `.msf`'s with no discernible
-    performance degredation.
-  - After the first iteration, the evaluation window is reduced to the
-    last check thus the number of `.msf`'s does not affect **2..N**
-    performance.
+- It self-adjusts when accounts and/or folders are changed.
+- It is designed to be light-weight and scalable.
 - Largely it is immune from `Thunderbird`'s API changes.
 - Supports both `x11` and `wayland`.
-- The systray icon provides both high-level and detailed information.
-  - High-level, intuitive and subtle icon changes indicate status
-    changes.
-  - Details are presented by clicking on the icon.
-  - Tool tips are available when supported by the user environment.
+- The systray icon displays a status when there are **unread
+  messages**.
+- The **unread count** is provided by clicking on the icon and when
+  supported, as a **tool tip**.
 - User customizable systray icons.
 
 ## Online help
@@ -100,16 +91,15 @@ It appears that there are rare conditions when an `.msf` is not immediately
 flushed to disk.  This causes `nbiff` to believe there are **Unread
 messages** when there are none.
 
-Within a two or three minutes, `Thunderbird` synchronizes the disk
-file and all is well.
+There are several work-arounds:
 
-There are two possible work-arounds:
-
-1. Restart `Thunderbird` or
-2. Use `tbird_new_msgs` to identify which `.msf` is out of sync.  Once
+1. Wait.  Within a two or three minutes, `Thunderbird` synchronizes
+   the disk file and `nbiff` will note the change,
+2. Restart `Thunderbird`,
+3. Use `tbird_new_msgs` to identify which `.msf` is out of sync.  Once
    identified, click on it and `Thunderbird` will syncrhornize it.
 
-   To read more about about `tbird_new_msgs`, [see the Troubleshooting
+   To read more about about `tbird_new_msgs`, see the [Troubleshooting
    section](#Troubleshooting).
 
 The [issue](https://github.com/pablo-blueoakdb/nbiff/issues/2) is
@@ -139,8 +129,8 @@ The following projects are `Thunderbird`-centric:
 
 ## Customizing icons
 
-To customize one or more of the default `nbiff` icons, see the
-[Customizing icons](doc/CUSTOMIZING_ICONS.md).
+To customize one or more of the default `nbiff` icons, see how to it
+is done in [Customizing icons](doc/CUSTOMIZING_ICONS.md).
 
 ## Troubleshooting
 
