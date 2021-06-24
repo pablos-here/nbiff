@@ -26,7 +26,7 @@ Linux, yet it may (eventually) work on Windows.
 
 `nbiff` has the following features:
 
-- It self-adjusts when accounts and/or folders are affected.
+- It self-adjusts when accounts and/or folders are created/deleted.
 - It is designed to be light-weight and scalable.
 - Largely it is immune from `Thunderbird`'s API changes.
 - Supports both `x11` and `wayland`.
