@@ -10,12 +10,9 @@ High-level, there are two components:
 2. The **systray** visualizer.
 
 <pre>
-    +-------------------+     +-------------------+
-    |                   |     |                   |
-    | Mail client files | <-> | **Compute Unread**    |
-    |                   |     | messages          |
-    |                   |     |                   |
-    +-------------------+     +-------------------+
+/////////////////////     +-----------------------+     +----------------------+
+/ Mail client files / <-> | Get 'Unread messages' | <-> | 'systray visualizer' |
+/////////////////////     +-----------------------+     +----------------------+
 </pre>
 
 **systray** runs a supplied program.  It ignores all lines but those
