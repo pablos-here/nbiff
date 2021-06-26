@@ -9,8 +9,6 @@
   - [Wayland support on GNOME](#wayland-support-on-gnome)
 - [Installing / upgrading](#installing--upgrading)
 - [Uninstalling](#uninstalling)
-- [Known quirks](#known-quirks)
-  - [Thunderbird](#thunderbird)
 - [Customizing](#customizing)
 - [Troubleshooting](#troubleshooting)
 - [Development](#development)
@@ -85,29 +83,6 @@ Below is how to install/upgrade:
 ```shell
 rm -rf ~/.nbiff
 ```
-
-## Known quirks
-
-### Thunderbird
-
-There is an edge-case when an `.msf` is not immediately flushed to
-disk.  This causes `nbiff` to believe there are **Unread messages**
-when there are none. 
-
-The [issue](https://github.com/pablo-blueoakdb/nbiff/issues/2) is
-being tracked.
-
-There are several work-arounds:
-
-1. Wait.  Within two or three minutes, `Thunderbird` synchronizes
-   the disk file and `nbiff` will note the change,
-2. Restart `Thunderbird`,
-3. Use `tbird_new_msgs` to identify which `.msf` is out of sync.  Once
-   identified, click on the **Folder** and `Thunderbird` will
-   syncrhornize it.
-
-   To read more about about `tbird_new_msgs`, see the [Troubleshooting
-   section](#Troubleshooting).
 
 ## Customizing
 
