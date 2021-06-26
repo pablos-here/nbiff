@@ -135,15 +135,20 @@ wrapper script and is specific to `Thunderbird`.  Each different
 
 ## Icon development
 
-To contribute to the `nbiff` icons, see the documentation on [icon
-development](/doc/CUSTOMIZING.md).
+To contribute to the `nbiff` icon sets, see the documentation on
+[customization](/doc/CUSTOMIZING.md).
 
-To make it easy:
+Once the icons are ready for consideration, use the following
+streamline method:
 
-1. Upload your images to an image sharing website (e.g. https://imgur.com)
-2. [Create a new
-   issue](https://github.com/pablo-blueoakdb/nbiff/issues/new) and
-   reference the images.
+1. [Create a new
+   issue](https://github.com/pablo-blueoakdb/nbiff/issues/new) stating
+   your intentions.
+2. Upload your images to an image sharing website
+   (e.g. https://imgur.com)
+3. Update the issue with links to the images.  Note which image maps
+   to which **Icon type** - as defined in the previously mentioned
+   documentation. 
 
 ## Development configuration
 
