@@ -72,6 +72,8 @@ Below is how to install/upgrade:
 2. Run the installer for your email client and follow the on-screen
    instructions:
 
+   * `Thunderbird` - <pre lang="shell">./Install_latest.tbird</pre>
+
 | Mail client   | Installation script                            |
 |---------------|------------------------------------------------|
 | `Thunderbird` | <pre lang="shell">./Install_latest.tbird</pre> |
