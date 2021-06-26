@@ -11,6 +11,7 @@ Please read and understand the user documenation before proceeding.
      |    +-----------------------+    +----------------------+
      +--> | Get 'Unread messages' | -> | 'systray' visualizer |
           +-----------------------+    +----------------------+
+                      1                           2
 </pre>
 
 `nbiff` is divided into two components:
@@ -18,9 +19,9 @@ Please read and understand the user documenation before proceeding.
 1. The engine to get **unread messages** and
 2. The **systray** visualizer.
 
-### Get **unread messages**
+### Get 'unread messages'
 
-### **systray** visualizer
+### 'systray' visualizer
 
 **systray** runs a supplied program.  It ignores all lines but those
 with the string **Unread count = N**  It updates the systray icon and
