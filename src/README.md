@@ -12,7 +12,7 @@ High-level, there are two components:
 <pre>
     +-------------------+     +-------------------+
     |                   |     |                   |
-    | Mail client files | <-> | Compute Unread    |
+    | Mail client files | <-> | **Compute Unread**    |
     |                   |     | messages          |
     |                   |     |                   |
     +-------------------+     +-------------------+
