@@ -22,8 +22,8 @@ Please read and understand the user documenation before proceeding.
 ## Source tree
 
 <pre>
-└─▬ $ tree -F --dirsfirst src
-src
+└─▬ $ tree -F --dirsfirst src/
+src/
 ├── conf/
 │   ├── nbiff.conf
 │   └── tbird_new_msgs.conf
@@ -155,29 +155,22 @@ streamline method:
 
 ## Development configuration
 
+The code is written such that the configuration files found in the
+top-level `dev` directory have precedence.
+
+Use the configuration files found in `src/conf/` as a basis from which to tailor your development
+environment.  These files are heavily documented.
+
+Below is my development tree:
 <pre>
-└─▬ $ tree -F --dirsfirst dev
-dev
+└─▬ $ tree -F --dirsfirst dev/
+dev/
 └── conf/
     ├── nbiff.conf
     └── tbird_new_msgs.conf
 
 1 directory, 2 files
 </pre>
-
-**TODO**
-
-The base software supports running multiple instances of `nbiff`.
-Furthermore, the source tree supports the existence of a **dev**
-directory structure at the top-levl of the proejct tree:
-
-```
-something may go here ...
-```
-
-Populate it the the corresponding `...src/conf/*.conf` file and suit
-to taste.
-
 ## Local directory
 
 During installation, this directory is used to seed the user's
