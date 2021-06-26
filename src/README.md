@@ -8,7 +8,7 @@
 - ['systray' visualizer](#systray-visualizer)
 - [Icon development](#icon-development)
 - [Development configuration](#development-configuration)
-  - [Local directory](#local-directory)
+- [Local directory](#local-directory)
 - [Contributing](#contributing)
 - [Links](#links)
   - [Related projects](#related-projects)
@@ -22,7 +22,8 @@ Please read and understand the user documenation before proceeding.
 ## Source tree
 
 <pre>
-tree -F --dirsfirst .
+└─▬ $ tree -F --dirsfirst src
+src
 ├── conf/
 │   ├── nbiff.conf
 │   └── tbird_new_msgs.conf
@@ -65,6 +66,8 @@ tree -F --dirsfirst .
 ├── Globals
 ├── LICENSE
 └── README.md
+
+9 directories, 33 files
 </pre>
 
 ## Architectural overview
@@ -152,6 +155,16 @@ streamline method:
 
 ## Development configuration
 
+<pre>
+└─▬ $ tree -F --dirsfirst dev
+dev
+└── conf/
+    ├── nbiff.conf
+    └── tbird_new_msgs.conf
+
+1 directory, 2 files
+</pre>
+
 **TODO**
 
 The base software supports running multiple instances of `nbiff`.
@@ -165,7 +178,7 @@ something may go here ...
 Populate it the the corresponding `...src/conf/*.conf` file and suit
 to taste.
 
-### Local directory
+## Local directory
 
 During installation, this directory is used to seed the user's
 corresponding local directory.
