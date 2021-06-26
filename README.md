@@ -69,7 +69,7 @@ Below is how to install/upgrade:
 1. [Get the latest the
    release](https://github.com/pablo-blueoakdb/nbiff/releases),
    uncompress the file and switch to the newly created directory.
-2. Run the installer for your email client and follow the on-screen
+2. Run the installer for your **email client** and follow the on-screen
    instructions:
 
    * `Thunderbird` <pre lang="shell">./Install_latest.tbird</pre>
