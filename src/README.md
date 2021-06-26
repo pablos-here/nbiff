@@ -136,7 +136,7 @@ wrapper script and is specific to `Thunderbird`.  Each different
 ## Icon development
 
 To contribute to the `nbiff` icons, see the documentation on [icon
-development](doc/CUSTOMIZING.md).
+development](/doc/CUSTOMIZING.md).
 
 To make it easy:
 
