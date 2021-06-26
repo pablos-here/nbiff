@@ -1,16 +1,5 @@
 ## Developing
 
-**TODO**
-
-Here's a brief intro about what a developer must do in order to start developing
-the project further:
-
-```shell
-git clone https://github.com/your/awesome-project.git
-cd awesome-project/
-packagemanager install
-```
-
 ### Architectural overview
 
 **TODO** potentially reference **high-level architecture?**
@@ -19,6 +8,14 @@ High-level, there are two components:
 
 1. The **unread messages** engine and
 2. The **systray** visualizer.
+
+    +-------------------+     +-------------------+
+    |                   |     |                   |
+    | Mail client files | <-> | Compute Unread    |
+    |                   |     | messages          |
+    |                   |     |                   |
+    +-------------------+     +-------------------+
+
 
 **systray** runs a supplied program.  It ignores all lines but those
 with the string **Unread count = N**  It updates the systray icon and
@@ -36,6 +33,13 @@ it does its work:
   minimum number between each iteraton
 - By processing .msfs bottom-up and halting the scan as quickly as
   possible, it is largely unaffected by the size of the .msf
+
+### stuff goes here 
+
+Two technologies are used:
+
+1. `bash` shell scripting and
+2. `Python` with `PyQt5`
 
 ### Icon development
 
