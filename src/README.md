@@ -2,18 +2,21 @@
 
 ### Architectural overview
 
-**TODO** potentially reference **high-level architecture?**
+<pre>
+/////////////////////
+/ Mail client files /
+/////////////////////
+     |
+     |    +-----------------------+    +----------------------+
+     +--> | Get 'Unread messages' | -> | 'systray' visualizer |
+          +-----------------------+    +----------------------+
+</pre>
 
 High-level, there are two components:
 
 1. The **unread messages** engine and
 2. The **systray** visualizer.
 
-<pre>
-/////////////////////     +-----------------------+     +----------------------+
-/ Mail client files / <-> | Get 'Unread messages' | <-> | 'systray visualizer' |
-/////////////////////     +-----------------------+     +----------------------+
-</pre>
 
 **systray** runs a supplied program.  It ignores all lines but those
 with the string **Unread count = N**  It updates the systray icon and
