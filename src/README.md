@@ -9,13 +9,14 @@ High-level, there are two components:
 1. The **unread messages** engine and
 2. The **systray** visualizer.
 
+<pre>
     +-------------------+     +-------------------+
     |                   |     |                   |
     | Mail client files | <-> | Compute Unread    |
     |                   |     | messages          |
     |                   |     |                   |
     +-------------------+     +-------------------+
-
+</pre>
 
 **systray** runs a supplied program.  It ignores all lines but those
 with the string **Unread count = N**  It updates the systray icon and
