@@ -1,3 +1,20 @@
+## Table of contents
+
+- [Developing](#developing)
+- [Source tree](#source-tree)
+- [Architectural overview](#architectural-overview)
+- [Get 'unread messages'](#get-unread-messages)
+  - [Standardized output](#standardized-output)
+- ['systray' visualizer](#systray-visualizer)
+- [Icon development](#icon-development)
+- [Development configuration](#development-configuration)
+  - [Local directory](#local-directory)
+- [Contributing](#contributing)
+- [Links](#links)
+  - [Related projects](#related-projects)
+- [Future](#future)
+- [Licensing](#licensing)
+
 ## Developing
 
 Please read and understand the user documenation before proceeding.
@@ -69,7 +86,7 @@ tree -F --dirsfirst .
 
 Each can be developed independently.
 
-### Get 'unread messages'
+## Get 'unread messages'
 
 This `bourne shell` script reads the **mail client** data to compute
 the number of **Unread messages**.
@@ -85,7 +102,7 @@ and parses its output - more below.
 Multiple instances of the script can run without interfering with
 another.  This allows development while running a production version.
 
-#### Standardized output
+### Standardized output
 
 Each line may have zero or one of the substrings listed below.
 
@@ -98,7 +115,7 @@ others can safely be ignored.
 | MUA is down      | The mail client is **not** running.              |
 | Unread count = X | The **Unread messages** is in the integer **X**. |
 
-### 'systray' visualizer
+## 'systray' visualizer
 
 This `python/PyQt5` script runs a script and parses its output to
 decide what icon and menu to display.
@@ -116,10 +133,10 @@ The overarching wrapper script `Run_tbird_nbiff` calls the previous
 wrapper script and is specific to `Thunderbird`.  Each different
 **email client** will have its own wrapper script.
 
-### Icon development
+## Icon development
 
 To contribute to the `nbiff` icons, see the documentation on [icon
-development](src/icons/README.md).
+development](doc/CUSTOMIZING.md).
 
 To make it easy:
 
@@ -128,7 +145,7 @@ To make it easy:
    issue](https://github.com/pablo-blueoakdb/nbiff/issues/new) and
    reference the images.
 
-### Development configuration
+## Development configuration
 
 **TODO**
 
@@ -143,7 +160,12 @@ something may go here ...
 Populate it the the corresponding `...src/conf/*.conf` file and suit
 to taste.
 
-### Contributing
+### Local directory
+
+During installation, this directory is used to seed the user's
+corresponding local directory.
+
+## Contributing
 
 **TODO**
 
