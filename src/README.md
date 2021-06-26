@@ -156,12 +156,14 @@ streamline method:
 ## Development configuration
 
 The code is written such that the configuration files found in the
-top-level `dev` directory have precedence.
+top-level `dev/` directory have precedence over the system/user
+configuration files.
 
-Use the configuration files found in `src/conf/` as a basis from which to tailor your development
-environment.  These files are heavily documented.
+Use the configuration files found in `src/conf/` as a basis from which
+to tailor your development environment.  These files have extensive
+documentation.
 
-Below is my development tree:
+Below is a sample development tree (found at the same level as `src/`):
 <pre>
 └─▬ $ tree -F --dirsfirst dev/
 dev/
