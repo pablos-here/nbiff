@@ -15,6 +15,30 @@
 - [Future](#future)
 - [Licensing](#licensing)
 
+## Contributing
+
+There are several areas where one can contribute:
+
+* Icon development - no coding required.
+* Backend - `Bourne shell`.
+* Front-end - `Python/PyQt5`.
+
+**TODO**
+
+When you publish something open source, one of the greatest motivations is that
+anyone can just jump in and start contributing to your project.
+
+These paragraphs are meant to welcome those kind souls to feel that they are
+needed. You should state something like:
+
+"If you'd like to contribute, please fork the repository and use a feature
+branch. Pull requests are warmly welcome."
+
+If there's anything else the developer needs to know (e.g. the code style
+guide), you should link it here. If there's a lot of things to take into
+consideration, it is common to separate this section to its own file called
+`CONTRIBUTING.md` (or similar). If so, you should say that it exists here.
+
 ## Developing
 
 Please read and understand the user documenation before proceeding.
@@ -85,13 +109,13 @@ src/
 `nbiff` is divided into two components:
 
 1. The backend engine to get **unread messages** and
-2. The frontend **systray** visualizer.
+2. The front-end **systray** visualizer.
 
 Each can be developed independently.
 
 ## Get 'unread messages'
 
-This `bourne shell` script reads the **mail client** data to compute
+This `Bourne shell` script reads the **mail client** data to compute
 the number of **Unread messages**.
 
 It writes standardized messages to standard output.  The messages are
@@ -163,7 +187,8 @@ Use the configuration files found in `src/conf/` as a basis from which
 to tailor your development environment.  These files have extensive
 documentation.
 
-Below is a sample development tree (found at the same level as `src/`):
+Create the `dev/` directory at the same level as the `src/`
+directory.  Below is a sample development tree:
 <pre>
 └─▬ $ tree -F --dirsfirst dev/
 dev/
@@ -177,24 +202,6 @@ dev/
 
 During installation, this directory is used to seed the user's
 corresponding local directory.
-
-## Contributing
-
-**TODO**
-
-When you publish something open source, one of the greatest motivations is that
-anyone can just jump in and start contributing to your project.
-
-These paragraphs are meant to welcome those kind souls to feel that they are
-needed. You should state something like:
-
-"If you'd like to contribute, please fork the repository and use a feature
-branch. Pull requests are warmly welcome."
-
-If there's anything else the developer needs to know (e.g. the code style
-guide), you should link it here. If there's a lot of things to take into
-consideration, it is common to separate this section to its own file called
-`CONTRIBUTING.md` (or similar). If so, you should say that it exists here.
 
 ## Links
 
