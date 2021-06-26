@@ -4,50 +4,51 @@ Please read and understand the user documenation before proceeding.
 
 ## Source tree
 
-```
-├── conf
+<pre>
+tree -F --dirsfirst .
+├── conf/
 │   ├── nbiff.conf
 │   └── tbird_new_msgs.conf
-├── gen_new_msgs
-│   ├── tbird_new_msgs
-│   └── Test
-│       ├── big_unread_count
-│       ├── cycle_icons
-│       ├── death_sim
-│       ├── MUA_up_down
-│       ├── README.md
-│       ├── read_unread
-│       ├── sleep_4ever
-│       └── test_suite
-├── Globals
-├── icons
+├── gen_new_msgs/
+│   ├── Test/
+│   │   ├── big_unread_count*
+│   │   ├── cycle_icons*
+│   │   ├── death_sim*
+│   │   ├── MUA_up_down*
+│   │   ├── README.md
+│   │   ├── read_unread*
+│   │   ├── sleep_4ever*
+│   │   └── test_suite*
+│   └── tbird_new_msgs*
+├── icons/
+│   ├── src/
+│   │   └── 01.read.src.png
 │   ├── 01.error.png
 │   ├── 01.MUA_is_down.png
 │   ├── 01.no_unread_msgs.png
 │   ├── 01.unread_msgs.big_red_dot.png
 │   ├── 01.unread_msgs.w2r.png
 │   ├── README.md
-│   ├── src
-│   │   └── 01.read.src.png
-│   └── Update_local_symlinks
-├── LICENSE
-├── local
-│   ├── conf
+│   └── Update_local_symlinks*
+├── local/
+│   ├── conf/
 │   │   ├── nbiff.conf
 │   │   └── tbird_new_msgs.conf
-│   └── icons
+│   └── icons/
 │       ├── 01.error.png -> ../../icons/01.error.png
 │       ├── 01.MUA_is_down.png -> ../../icons/01.MUA_is_down.png
 │       ├── 01.no_unread_msgs.png -> ../../icons/01.no_unread_msgs.png
 │       ├── 01.unread_msgs.big_red_dot.png -> ../../icons/01.unread_msgs.big_red_dot.png
 │       ├── 01.unread_msgs.w2r.png -> ../../icons/01.unread_msgs.w2r.png
 │       └── unread_msgs.png
-├── README.md
-└── systray
-    ├── nbiff_qt5.py
-    ├── Run_nbiff
-    └── Run_tbird_nbiff
-```
+├── systray/
+│   ├── nbiff_qt5.py*
+│   ├── Run_nbiff*
+│   └── Run_tbird_nbiff*
+├── Globals
+├── LICENSE
+└── README.md
+</pre>
 
 ## Architectural overview
 <pre>
