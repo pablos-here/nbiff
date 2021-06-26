@@ -5,7 +5,7 @@ Please read and understand the user documenation before proceeding.
 ## Architectural overview
 <pre>
 /////////////////////
-/ Mail client files /
+/ Mail client data  /
 /////////////////////
      |
      |    +-----------------------+    +----------------------+
@@ -20,6 +20,33 @@ Please read and understand the user documenation before proceeding.
 2. The **systray** visualizer.
 
 ### Get 'unread messages'
+
+This bourne shell reads the **mail client** data to compute the number
+of **Unread messages**.
+
+It writes standardized messages to standard output.  The messages are
+visualized by the **systray** visualizer.
+
+The script can be run standalone. 
+
+It is commonly a subprocess of the **systray** visualzier. which reads
+and parses its output - more below.
+
+Multiple instances of the script can run without interferig with
+another.  This allows development while running a production version.
+
+#### Standardized output
+
+Each line may have zero or one of the substrings listed below.
+
+The **systray** visualizer should only act on the strings below.  Any
+others can safely be ignored.
+
+| Substring        | Definition                                       |
+|------------------|--------------------------------------------------|
+| MUA is up        | The mail client is running.                      |
+| MUA is down      | The mail client is **not** running.              |
+| Unread count = X | The **Unread messages** is in the integer **X**. |
 
 ### 'systray' visualizer
 
