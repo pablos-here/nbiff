@@ -2,6 +2,53 @@
 
 Please read and understand the user documenation before proceeding.
 
+## Source tree
+
+```
+├── conf
+│   ├── nbiff.conf
+│   └── tbird_new_msgs.conf
+├── gen_new_msgs
+│   ├── tbird_new_msgs
+│   └── Test
+│       ├── big_unread_count
+│       ├── cycle_icons
+│       ├── death_sim
+│       ├── MUA_up_down
+│       ├── README.md
+│       ├── read_unread
+│       ├── sleep_4ever
+│       └── test_suite
+├── Globals
+├── icons
+│   ├── 01.error.png
+│   ├── 01.MUA_is_down.png
+│   ├── 01.no_unread_msgs.png
+│   ├── 01.unread_msgs.big_red_dot.png
+│   ├── 01.unread_msgs.w2r.png
+│   ├── README.md
+│   ├── src
+│   │   └── 01.read.src.png
+│   └── Update_local_symlinks
+├── LICENSE
+├── local
+│   ├── conf
+│   │   ├── nbiff.conf
+│   │   └── tbird_new_msgs.conf
+│   └── icons
+│       ├── 01.error.png -> ../../icons/01.error.png
+│       ├── 01.MUA_is_down.png -> ../../icons/01.MUA_is_down.png
+│       ├── 01.no_unread_msgs.png -> ../../icons/01.no_unread_msgs.png
+│       ├── 01.unread_msgs.big_red_dot.png -> ../../icons/01.unread_msgs.big_red_dot.png
+│       ├── 01.unread_msgs.w2r.png -> ../../icons/01.unread_msgs.w2r.png
+│       └── unread_msgs.png
+├── README.md
+└── systray
+    ├── nbiff_qt5.py
+    ├── Run_nbiff
+    └── Run_tbird_nbiff
+```
+
 ## Architectural overview
 <pre>
 /////////////////////
@@ -16,23 +63,25 @@ Please read and understand the user documenation before proceeding.
 
 `nbiff` is divided into two components:
 
-1. The engine to get **unread messages** and
-2. The **systray** visualizer.
+1. The backend engine to get **unread messages** and
+2. The frontend **systray** visualizer.
+
+Each can be developed independently.
 
 ### Get 'unread messages'
 
-This bourne shell reads the **mail client** data to compute the number
-of **Unread messages**.
+This `bourne shell` script reads the **mail client** data to compute
+the number of **Unread messages**.
 
 It writes standardized messages to standard output.  The messages are
 visualized by the **systray** visualizer.
 
 The script can be run standalone. 
 
-It is commonly a subprocess of the **systray** visualzier. which reads
+It is commonly a subprocess of the **systray** visualzier, which reads
 and parses its output - more below.
 
-Multiple instances of the script can run without interferig with
+Multiple instances of the script can run without interfering with
 another.  This allows development while running a production version.
 
 #### Standardized output
@@ -50,29 +99,21 @@ others can safely be ignored.
 
 ### 'systray' visualizer
 
-**systray** runs a supplied program.  It ignores all lines but those
-with the string **Unread count = N**  It updates the systray icon and
-menu based on **N**.
+This `python/PyQt5` script runs a script and parses its output to
+decide what icon and menu to display.
 
-The **Thunderbird unread messages** code runs asynchronously from
-**Thunderbird**.  It only dependents on the format of the .msf flies.
-This avoids issues that others encounter with refactoring of the APIs
-and such.
+It searches for the above mentioned substrings in the output and acts
+accordingly.
 
-The script is written to be performant.  It tries to be clever in how
-it does its work:
+To facilitate development and testing, test scripts found in `.../gen_new_msgs/Tests`
+can be used.
 
-- Tracking updates to .msfs since the last iteration to process the
-  minimum number between each iteraton
-- By processing .msfs bottom-up and halting the scan as quickly as
-  possible, it is largely unaffected by the size of the .msf
+The wrapper script `Run_nbiff` performs all the edit-checks and calls
+the `python` script with the correct arguments.
 
-### stuff goes here 
-
-Two technologies are used:
-
-1. `bash` shell scripting and
-2. `Python` with `PyQt5`
+The overarching wrapper script `Run_tbird_nbiff` calls the previous
+wrapper script and is specific to `Thunderbird`.  Each different
+**email client** will have its own wrapper script.
 
 ### Icon development
 
