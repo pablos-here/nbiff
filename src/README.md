@@ -12,10 +12,11 @@
           +-----------------------+    +----------------------+
 </pre>
 
-High-level, there are two components:
+`nbiff` is divided into two components:
 
-1. The **unread messages** engine and
+1. The engine to get **unread messages** and
 2. The **systray** visualizer.
+
 
 
 **systray** runs a supplied program.  It ignores all lines but those
