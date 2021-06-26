@@ -1,7 +1,8 @@
 ## Developing
 
-### Architectural overview
+Please read and understand the user documenation before proceeding.
 
+## Architectural overview
 <pre>
 /////////////////////
 / Mail client files /
@@ -17,7 +18,9 @@
 1. The engine to get **unread messages** and
 2. The **systray** visualizer.
 
+### Get **unread messages**
 
+### **systray** visualizer
 
 **systray** runs a supplied program.  It ignores all lines but those
 with the string **Unread count = N**  It updates the systray icon and
