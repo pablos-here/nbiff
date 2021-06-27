@@ -50,6 +50,9 @@ the desired method to install the necessary libraries:
 | Packages | <ul><li>python**X**-psutil</li><li>python**X**-qt5</li></ul> |
 |          | where **X** matches the installed versions.                  |
 
+*Note:  Depending on your system, additional libraries may be
+required.  When `nbiff` is run, there must be no errors.*
+
 ### Wayland support on GNOME
 
 Some **GNOME** versions require the `KStatusNotifierItem/AppIndicator
