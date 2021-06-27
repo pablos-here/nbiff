@@ -48,7 +48,7 @@ the desired method to install the necessary libraries:
 |----------|--------------------------------------------------------------|
 | `pip`    | <pre lang="shell">pip3 install PyQt5 psutil</pre>            |
 | Packages | <ul><li>python**X**-psutil</li><li>python**X**-qt5</li></ul> |
-|          | where **X** matches the installed versions.                  |
+|          | where **X** matches the installed version of `Python`.       |
 
 *Note:  Depending on your system, additional libraries may be
 required.  When `nbiff` is run, there must be no errors.*
