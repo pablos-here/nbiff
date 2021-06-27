@@ -41,13 +41,14 @@ For online help, join the `nbiff`
 
 ## Software requirements
 
-`Python 3` is required along with some additional libraries:
+`Python 3` is required along with some additional libraries.  Choose
+the desired method to install the necessary libraries:
 
-```shell
-pip3 install PyQt5 psutil
-```
-
-You may need to install `pip3` (or try `pip`).
+| Method   | Information                                                  |
+|----------|--------------------------------------------------------------|
+| `pip`    | <pre lang="shell">pip3 install PyQt5 psutil</pre>            |
+| Packages | <ul><li>python**X**-psutil</li><li>python**X**-qt5</li></ul> |
+|          | where **X** matches the installed versions.                  |
 
 ### Wayland support on GNOME
 
