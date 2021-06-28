@@ -41,8 +41,8 @@ For online help, join the `nbiff`
 
 ## Software requirements
 
-`Python 3` is required along with some additional libraries.  Choose
-the desired method to install the necessary libraries:
+`Python 3` is required along with some additional modules.  Choose
+the desired method to install them:
 
 | Method   | Information                                                  |
 |----------|--------------------------------------------------------------|
@@ -50,7 +50,7 @@ the desired method to install the necessary libraries:
 | Packages | <ul><li>python**X**-psutil</li><li>python**X**-qt5</li></ul> |
 |          | where **X** matches the installed version of `Python`.       |
 
-*Note:  Depending on your system, additional libraries may be
+*Note:  Depending on your system, additional modules may be
 required.  When `nbiff` is run, there must be no errors.*
 
 ### Wayland support on GNOME
