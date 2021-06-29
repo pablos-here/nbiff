@@ -41,7 +41,7 @@ For online help, join the `nbiff`
 
 ## Software requirements
 
-`Python 3` is required along with some additional modules.  Choose
+`python3` is required along with some additional modules.  Choose
 the desired method to install them:
 
 | Method   | Information                                                  |
