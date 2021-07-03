@@ -25,6 +25,9 @@ TBIRD_NEW_MSGS_CONF="../$CONF_DIR/tbird_new_msgs.conf"
 #
 TBIRD_NEW_MSGS='tbird_new_msgs'
 
+# and in .../systray
+TBIRD_AFFECT_WINDOW='tbird_affect_window'
+
 #
 # Install/upgrade related variables
 #
