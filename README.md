@@ -150,8 +150,8 @@ The default **Status Tray Plugin** setting is to present an **Xfce**
 configuration menu on one of the clicks.  Only middle-click is enabled
 and it behaves like KDE's *click* (see above).
 
-To enable (opinion) proper mouse clicks, uncheck the **Menu is primary
-action**:
+To enable proper (*opinion*) mouse clicks, uncheck the **Menu is
+primary action**:
 
 * Right-click on `nbiff` systray icon to obtain the **Status Tray
   Plugin** menu. 
