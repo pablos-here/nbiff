@@ -161,11 +161,11 @@ primary action**:
   
 To revert the setting:
 
-* Right-click systray panel, **Panel -> Panel preferences ...**
-* Click the **Items** tab
-* Select **Status Tray Plugin (external)** and
-* Click the **gear** at the bottom of the list
-* Check **Menu is primary action**
+* Right-click on the systray panel and click on **Panel -> Panel preferences ...**.
+* Select the **Items** tab.
+* Select the **Status Tray Plugin (external)** and
+* Click the **gear** at the bottom of the list.
+* Check **Menu is primary action**.
 
 ### Swap mouse-click actions
 
