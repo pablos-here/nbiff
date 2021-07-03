@@ -70,7 +70,7 @@ required.  When `nbiff` is run, there must be no errors.*
 | **Fedora** | <pre lang="shell">libX11-xcb libxcb xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm</pre>                     |
 | Others     | <pre lang="shell">ibxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-xinerama0</pre> |
 
-Optionally install `xdotool` for window activation/iconify:
+Optionally install `xdotool` for window iconifying/activation.
 
 ```shell
 xdotool
