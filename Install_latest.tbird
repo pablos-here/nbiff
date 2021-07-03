@@ -23,10 +23,6 @@
 # with the Software or the use or other dealings in the Software. 
 # 
 
-#
-# If cloning to create a new installer, see `initial_conf_setting()'
-#
-
 ########################################################
 # Bootstrap our Globals
 ########################################################
@@ -198,34 +194,43 @@ install_tree()
    fi
 }
 
-initial_conf_setting()
+undo_install()
+{
+   printf "$(basename $0) - undoing install"
+   rm -rf $INSTALL_DIR
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - failed to clean up partial install rm -rf $INSTALL_DIR\n"
+   fi
+   exit 1
+}
+
+initial_conf_settings()
 {
    # Configure `tbird_new_msgs.conf'
    printf "Configuring $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$TBIRD_NEW_MSGS_CONF\n"
    printf '\n'
-   printf '\tSetting TBIRD_DIR="'$PROFILE_DIR"'\n"
+   printf '\tSetting TBIRD_DIR="'$PROFILE_DIR'"'"\n"
    echo 'TBIRD_DIR="'$PROFILE_DIR'"' >> $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$TBIRD_NEW_MSGS_CONF
    if [ $? -ne 0 ] ; then
       printf "$(basename $0) - failed to create TBIRD_DIR=...\n"
-      printf "$(basename $0) - undoing install"
-      rm -rf $INSTALL_DIR
-      if [ $? -ne 0 ] ; then
-         printf "$(basename $0) - failed to clean up partial install rm -rf $INSTALL_DIR\n"
-      fi
+      undo_install
    fi
 
    printf '\n'
    printf "Configuring $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF\n"
    printf '\n'
-   printf '\tSetting DEFAULT_GEN_NEW_MSGS="'$TBIRD_NEW_MSGS"'\n"
+   printf '\tSetting DEFAULT_GEN_NEW_MSGS="'$TBIRD_NEW_MSGS'"'"\n"
    echo 'DEFAULT_GEN_NEW_MSGS="'$TBIRD_NEW_MSGS'"' >> $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF
    if [ $? -ne 0 ] ; then
       printf "$(basename $0) - failed to create DEFAULT_GEN_NEW_MSGS= ...\n"
-      printf "$(basename $0) - undoing install"
-      rm -rf $INSTALL_DIR
-      if [ $? -ne 0 ] ; then
-         printf "$(basename $0) - failed to clean up partial install rm -rf $INSTALL_DIR\n"
-      fi
+      undo_install
+   fi
+
+   printf '\tSetting MUA_AFFECT_WINDOW="'$TBIRD_AFFECT_WINDOW'"'"\n"
+   echo 'MUA_AFFECT_WINDOW="'$TBIRD_AFFECT_WINDOW'"' >> $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF
+   if [ $? -ne 0 ] ; then
+      printf "$(basename $0) - failed to create MUA_AFFECT_WINDOW= ...\n"
+      undo_install
    fi
 
    printf '\n'
@@ -272,7 +277,7 @@ post_install_notes()
 upgrade_tree()
 {
    print_section_separator
-   printf "Upgrading $INSTALL_DIR\n"
+   printf "Upgrading software in $INSTALL_DIR\n"
 
    # Step 1:  exclude the entire $LOCAL_DIR
    rsync -a --delete --exclude $LOCAL_DIR $SRC_DIR/ $INSTALL_DIR/
@@ -300,7 +305,57 @@ upgrade_tree()
    fi
    
    printf '\n'
-   printf "Upgrade complete, press ENTER to continue ... "
+   printf "Software upgrade complete, press ENTER to continue ... "
+   read IT
+}
+
+#
+# o All code written below must be able to be re-runnable N-times without affecting more than
+#   one change.
+# o If/when necessary, upgrade the local configuration settings.
+# o The code has to be written to keep previous versions in mind.
+#
+upgrade_conf_settings()
+{
+   print_section_separator
+   printf "Upgrading $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF\n"
+   printf '\n'
+
+   # Fix typo?
+   grep --silent 'Installtion' "$INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF" > /dev/null 2>&1
+   STATUS=$?
+   if [ $STATUS -eq 0 ] ; then
+      printf "\tFixing typo: ^Installtion^Installation^\n"
+      sed -i 's/Installtion/Installation/g' "$INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF"
+      if [ $? -ne 0 ] ; then
+         printf "$(basename $0) - typo fix failed.\n"
+      fi
+   fi
+
+   # Add MUA_AFFECT_WINDOW?
+   grep --silent '^MUA_AFFECT_WINDOW=' "$INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF" > /dev/null 2>&1
+   STATUS=$?
+   if [ $STATUS -eq 1 ] ; then
+      printf '\tSetting MUA_AFFECT_WINDOW="'$TBIRD_AFFECT_WINDOW'"'"\n"
+      echo 'MUA_AFFECT_WINDOW="'$TBIRD_AFFECT_WINDOW'"' >> $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF
+      if [ $? -ne 0 ] ; then
+         printf "$(basename $0) - failed to create MUA_AFFECT_WINDOW=\n"
+      fi
+   fi
+
+   # Add SWAP_MOUSE_ACTION?
+   grep --silent 'SWAP_MOUSE_ACTION=' "$INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF" > /dev/null 2>&1
+   STATUS=$?
+   if [ $STATUS -eq 1 ] ; then
+      printf "\tAdding #SWAP_MOUSE_ACTION=1\n"
+      echo '#SWAP_MOUSE_ACTION=1 # default is 0, non-zero swaps' >> $INSTALL_DIR/$LOCAL_DIR/$CONF_DIR/$NBIFF_CONF
+      if [ $? -ne 0 ] ; then
+         printf "$(basename $0) - failed to create SWAP_MOUSE_ACTION=\n"
+      fi
+   fi
+
+   printf '\n'
+   printf "Upgraded conf, press ENTER to continue ... "
    read IT
 }
 
@@ -338,10 +393,11 @@ is_install_or_upgrade
 if [ "$SW" == 'install' ] ; then
    get_tbird_profile_dir
    install_tree
-   initial_conf_setting
+   initial_conf_settings
    post_install_notes
 else
    upgrade_tree
+   upgrade_conf_settings
    post_upgrade_notes
 fi
 
