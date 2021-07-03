@@ -119,12 +119,11 @@ per-specification, exit status and messags.
 
 It understands the following arguments:
 
-| Main argument    | Additional argument(s) | Action                                                 | Exit status | Return string      |
-|------------------|------------------------|--------------------------------------------------------|-------------|--------------------|
-| iconify/activate |                        | * If not on the main `thunderbird` window, activate it | 10          | Current desktop    |
-|                  |                        | * Otherwise honor the iconify/activate                 | 0           | **NULL**           |
-| swap             | Target desktop         | * Swap between the current and the main window.        | 11          | Current desktop or |
-|                  | or '' for main         |                                                        |             | '' when on main    |
+| Main argument    | Additional argument(s)        | Action                                                 | Exit status | Return string                     |
+|------------------|-------------------------------|--------------------------------------------------------|-------------|-----------------------------------|
+| iconify/activate |                               | * If not on the main `thunderbird` window, activate it | 10          | Current desktop                   |
+|                  |                               | * Otherwise honor the iconify/activate                 | 0           | **NULL**                          |
+| swap             | Target desktop or '' for main | * Swap between the current and the main window.        | 11          | Current desktop or'' when on main |
 
 * **activate** means to switch to that desktop and de-iconify all `Thunderbird` windows.
 * A -1 **exit status** is an error.  Additional data may be in the
