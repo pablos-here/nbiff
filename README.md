@@ -173,7 +173,7 @@ To accommodate different tastes, it is possible to swap the
 mouse-click actions.  For example, with **KDE**, **click** and
 **middle-click** actions can be exchanged.
 
-First, view the current setting:
+Before making any changes, view the current setting:
 
 ```shell
 fgrep SWAP_MOUSE_ACTION= ~/.nbiff/local/conf/nbiff.conf
