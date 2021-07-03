@@ -29,10 +29,13 @@
 # Arg # Description
 # ===== =============================================================================
 #  1    Script/program which provides `unread message' count - see below
-#  2    Image file: `0 unread messages' icon
-#  3    Image file: `+1 unread messages' icon
-#  4    Image file: `unexpected issue' icon (e.g. the count was not an integer)
-#  5    Image file: MUA is not running
+#  2    Debug flag (0 or greater than zero)
+#  3    Image file: `0 unread messages' icon
+#  4    Image file: `+1 unread messages' icon
+#  5    Image file: `unexpected issue' icon (e.g. the count was not an integer)
+#  6    Image file: MUA is not running
+#  7    Script/program mouse-click handler for the MUA
+#  8    Flag to swap mouse-click mapping
 #
 # Processing
 # ==========
@@ -49,6 +52,27 @@
 # 
 # All other strings are ignored.
 #
+# Mouse-clicks
+# ============
+# o No DE handles mouse-clicks the same.  Of course.  :[
+# o Generally then:
+#   + click:        Swap desktops between the current and main Thunderbird
+#                   desktop.  If needed, de-iconify all Thunderbird windows.
+#
+#   + middle-click: o If not on the main Thunderbird desktop, switch to it and
+#                     de-iconify all Thunderbird windows.  If `click`, return
+#                     to the desktop.
+#                   o If on the main Thunderbird desktop, iconify/activate.
+#
+# Mouse-handler
+# =============
+# Exit status | Description               | Return string
+# ------------+---------------------------+--------------
+#     0       | On main, iconify/activate | // ignore //
+#    10       | Not on main, activate     | The non-Main desktop number
+#    11       | Swap                      | Either the non-Main desktop number
+#             |                           | or '' (when returning from Main)
+#
 
 #
 # Cobbled together from several posts with a wee bit of special sauce tossed in
@@ -64,7 +88,7 @@
 from PyQt5.QtWidgets import QApplication, QMenu, QSystemTrayIcon, qApp, QMessageBox, QMainWindow
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QProcess, QTimer
-import sys, signal, locale, os.path, psutil
+import sys, signal, locale, os.path, psutil, subprocess
 
 #
 # Find the starting index of `sl' within `l'
@@ -110,17 +134,17 @@ class MainWindow():
         self.unread_msgs_count = 0
         self.unread_msgs_is_int = 1
         self.MUA_state = 'Down'
-        self.tooltip_msg = "Unread messages count is "
-        self.tooltip_error_msg_not_int = "Non-integer received:  "
+        self.tooltip_msg = 'Unread messages count is '
+        self.tooltip_error_msg_not_int = 'Non-integer received:  '
         self.process_name = os.path.basename(sys.argv[1])
 
         self.tooltip_error_msg_process_died = "'" + self.process_name + "' stopped running"
-        self.tooltip_error_msg_MUA_is_down = "The mail client is not running"
+        self.tooltip_error_msg_MUA_is_down = 'The mail client is not running'
 
         # The strings we can process
-        self.unread_count = "Unread count ="
-        self.MUA_is_down = "MUA is down"
-        self.MUA_is_up = "MUA is up"
+        self.unread_count = 'Unread count ='
+        self.MUA_is_down = 'MUA is down'
+        self.MUA_is_up = 'MUA is up'
 
         self.menu = None
         self.process_state = None
@@ -128,19 +152,29 @@ class MainWindow():
         # Create the icon menus
         self.gen_menu()
 
-        self.icon_read        = sys.argv[2]
-        self.icon_unread      = sys.argv[3]
-        self.icon_error       = sys.argv[4]
-        self.icon_MUA_is_down = sys.argv[5]
+        self.icon_read         = sys.argv[3]
+        self.icon_unread       = sys.argv[4]
+        self.icon_error        = sys.argv[5]
+        self.icon_MUA_is_down  = sys.argv[6]
+        self.MUA_affect_window = sys.argv[7]
+        self.swap_mouse_action = sys.argv[8]
         self.icon = QIcon(self.icon_read)
 
         # Creating tray
         self.trayIcon = QSystemTrayIcon(self.icon, app)
         self.trayIcon.setContextMenu(self.menu)
 
-        # Initialize the tool tip
+        # Initialize the tool tip, show the icon and ready it for mouse events
         self.trayIcon.setToolTip(self.tooltip_msg + str(self.unread_msgs_count))
         self.trayIcon.show()
+        self.trayIcon.activated.connect(self.mouse_click)
+
+        # Either 'iconify' or not ('activate')
+        self.MUA_window_iconify  = 'iconify'
+        self.MUA_window_activate = 'activate'
+        self.MUA_window_swap     = 'swap'
+        self.last_desktop        = ''
+        self.MUA_window_now = self.MUA_window_activate
 
         # Number formatting
         locale.setlocale(locale.LC_ALL, '')
@@ -156,11 +190,65 @@ class MainWindow():
         signal.signal(signal.SIGTERM, self.signal_handler)
 
     #
+    # If any mouse click is caught, we'll iconify/activate the MUA
+    # window(s).
+    #
+    def mouse_click(self, reason):
+        print_debug('> mouse_click()')
+        if reason == QSystemTrayIcon.Trigger:
+            print_debug('> mouse_click() > Trigger')
+        elif reason == QSystemTrayIcon.DoubleClick:
+            print_debug('> mouse_click() > Double-click')
+        elif reason == QSystemTrayIcon.MiddleClick:
+            print_debug('> mouse_click() > Middle-click')
+        elif reason == QSystemTrayIcon.Context:
+            print_debug('> mouse_click() > Context')
+        elif reason == QSystemTrayIcon.Unknown:
+            print_debug('> mouse_click() > Unknown')
+
+        # Process the type of mouse-click
+        if self.swap_mouse_action == '0': # default mouse actions
+            if reason != QSystemTrayIcon.MiddleClick and reason != QSystemTrayIcon.DoubleClick:
+                self.MUA_window_now = self.MUA_window_swap
+            elif self.MUA_window_now == self.MUA_window_iconify:
+                self.MUA_window_now = self.MUA_window_activate
+            else:
+                self.MUA_window_now = self.MUA_window_iconify
+        else:                            # flipped the mouse actions
+            if reason == QSystemTrayIcon.MiddleClick or reason == QSystemTrayIcon.DoubleClick:
+                self.MUA_window_now = self.MUA_window_swap
+            elif self.MUA_window_now == self.MUA_window_iconify:
+                self.MUA_window_now = self.MUA_window_activate
+            else:
+                self.MUA_window_now = self.MUA_window_iconify
+
+        run_status = subprocess.run([self.MUA_affect_window, self.MUA_window_now, self.last_desktop], capture_output=True)
+        if run_status.stdout is None:
+            run_stdout = ''
+        else:
+            run_stdout = bytes(run_status.stdout).decode('utf8')
+            run_stdout = run_stdout.rstrip()
+
+        print_debug('> mouse_click() > ' + self.MUA_window_now + '; Exit status = ' + str(run_status.returncode) +
+                    '; Return to desktop ' + (run_stdout if run_stdout != '' else 'main' ))
+
+        if run_status.returncode == 10:   # We were on a different Desktop as main:  we activated
+            print_debug('> mouse_click() > flipped to the main Desktop, staying activated; can return to ' +
+                        (run_stdout if run_stdout != '' else 'main' ))
+            self.MUA_window_now = self.MUA_window_activate
+            self.last_desktop = run_stdout
+        elif run_status.returncode == 11: # `swap' desktop
+            self.last_desktop = run_stdout
+            print_debug('> mouse_click() > will return to ' + (run_stdout if run_stdout != '' else 'main' ) )
+        elif run_status.returncode == 1:  # Ooops
+            print_debug('> mouse_click() > exit status 1 - ' + run_stdout)
+
+    #
     # For some DEs, there is no tool tip.  We set up a NULL menu entry to also provide the tool tip
     # details.  ;)
     #
     def gen_menu(self):
-        print_debug("> gen_menu()")
+        print_debug('> gen_menu()')
         if self.menu is None:
             self.menu = QMenu()
         else:
@@ -171,7 +259,8 @@ class MainWindow():
         elif self.MUA_state == 'Down':
             self.unreadAction = self.menu.addAction(self.tooltip_error_msg_MUA_is_down)
         elif self.unread_msgs_is_int == 1:
-            self.unreadAction = self.menu.addAction(self.tooltip_msg + str(locale.format_string('%d', self.unread_msgs_count, grouping=True, monetary=True)))
+            self.unreadAction = self.menu.addAction(self.tooltip_msg +
+                                                    str(locale.format_string('%d', self.unread_msgs_count, grouping=True, monetary=True)))
         else:
             self.unreadAction = self.menu.addAction(self.tooltip_error_msg_not_int + str(self.unread_msgs_count))
         
@@ -180,7 +269,7 @@ class MainWindow():
         self.quitAction.triggered.connect(self.quit_cleanup)
 
     def start_process(self):
-        print_debug("> start_process()")
+        print_debug('> start_process()')
         if self.p is None:  # No process running.
             self.p = QProcess()  # Keep a reference to the QProcess (e.g. on self) while it's running.
             self.p.readyReadStandardOutput.connect(self.handle_stdout)
@@ -191,20 +280,20 @@ class MainWindow():
             self.p.waitForStarted(5000)
 
     def handle_stderr(self):
-        print_debug("> handle_stderr()")
+        print_debug('> handle_stderr()')
         data = self.p.readAllStandardError()
-        stderr = bytes(data).decode("utf8")
+        stderr = bytes(data).decode('utf8')
 
     #
     # This is where we process the output of the script/program - see our tombstone for details.
     #
     def handle_stdout(self):
-        print_debug("> handle_stdout()")
+        print_debug('> handle_stdout()')
         if self.p is None:  # we're probably in the process of dying ...
             return
         data = self.p.readAllStandardOutput()
-        stdout = bytes(data).decode("utf8")
-        print_debug(">> " + stdout.rstrip())
+        stdout = bytes(data).decode('utf8')
+        print_debug('>> ' + stdout.rstrip())
         if self.MUA_is_down in stdout:      # Flip to our down state and set all corresponding user alerts
             self.trayIcon.setIcon(QIcon(self.icon_MUA_is_down))
             self.trayIcon.setToolTip(self.tooltip_error_msg_MUA_is_down)
@@ -239,7 +328,8 @@ class MainWindow():
                 self.trayIcon.setIcon(QIcon(self.icon_unread))
             else:
                 self.trayIcon.setIcon(QIcon(self.icon_read))
-            self.trayIcon.setToolTip(self.tooltip_msg + str(locale.format_string('%d', self.unread_msgs_count, grouping=True, monetary=True)))
+            self.trayIcon.setToolTip(self.tooltip_msg +
+                                     str(locale.format_string('%d', self.unread_msgs_count, grouping=True, monetary=True)))
         else:
             self.trayIcon.setIcon(QIcon(self.icon_error))
             self.trayIcon.setToolTip(self.tooltip_error_msg_not_int + str(self.unread_msgs_count))
@@ -247,25 +337,25 @@ class MainWindow():
         self.gen_menu()
             
     def handle_state(self, state):
-        print_debug("> handle_state()")
+        print_debug('> handle_state()')
         states = {
             QProcess.NotRunning: 'Not running',
             QProcess.Starting:   'Starting',
             QProcess.Running:    'Running',
         }
         self.process_state = states[state]
-        print_debug("state changed to " + self.process_state)
+        print_debug('state changed to ' + self.process_state)
         if self.in_quit_cleanup == 0 and self.process_state == 'Not running': # if we didn't intend to die ...
             self.trayIcon.setIcon(QIcon(self.icon_error))
             self.trayIcon.setToolTip(self.tooltip_error_msg_process_died)
             self.gen_menu()
 
     def process_finished(self):
-        print_debug("> process_finished()")
+        print_debug('> process_finished()')
         self.p = None
 
     def quit_cleanup(self):
-        print_debug("> quit_cleanup()")
+        print_debug('> quit_cleanup()')
         if self.p is not None:
             self.in_quit_cleanup = 1
             self.p.terminate()
@@ -278,13 +368,16 @@ class MainWindow():
         app.quit()
 
     def signal_handler(self, signum, frame):
-        print_debug("> signal_handler()")
+        print_debug('> signal_handler()')
         MainWindow.quit_cleanup(self)
 
-debug = 0
+debug = int(sys.argv[2])
 app = QApplication(sys.argv)
+
+# Let the python interpreter run to catch signals
 timer = QTimer()
 timer.start(500) # Set the timer to 500ms ...
-timer.timeout.connect(lambda: None) # Let the python interpreter run to process any signals
+timer.timeout.connect(lambda: None)
+
 w = MainWindow()
 app.exec_()
