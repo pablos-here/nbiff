@@ -7,6 +7,7 @@
 - [Get 'unread messages'](#get-unread-messages)
   - [Standardized output](#standardized-output)
 - ['systray' visualizer](#systray-visualizer)
+- [MUA affect window](#mua-affect-window)
 - [Icon development](#icon-development)
 - [Development configuration](#development-configuration)
 - [Local directory](#local-directory)
@@ -32,54 +33,11 @@ Please read and understand the user documenation before proceeding.
 
 ## Source tree
 
-<pre>
-└─▬ $ tree -F --dirsfirst src/
-src/
-├── conf/
-│   ├── nbiff.conf
-│   └── tbird_new_msgs.conf
-├── gen_new_msgs/
-│   ├── Test/
-│   │   ├── big_unread_count*
-│   │   ├── cycle_icons*
-│   │   ├── death_sim*
-│   │   ├── MUA_up_down*
-│   │   ├── README.md
-│   │   ├── read_unread*
-│   │   ├── sleep_4ever*
-│   │   └── test_suite*
-│   └── tbird_new_msgs*
-├── icons/
-│   ├── src/
-│   │   └── 01.read.src.png
-│   ├── 01.error.png
-│   ├── 01.MUA_is_down.png
-│   ├── 01.no_unread_msgs.png
-│   ├── 01.unread_msgs.big_red_dot.png
-│   ├── 01.unread_msgs.w2r.png
-│   ├── README.md
-│   └── Update_local_symlinks*
-├── local/
-│   ├── conf/
-│   │   ├── nbiff.conf
-│   │   └── tbird_new_msgs.conf
-│   └── icons/
-│       ├── 01.error.png -> ../../icons/01.error.png
-│       ├── 01.MUA_is_down.png -> ../../icons/01.MUA_is_down.png
-│       ├── 01.no_unread_msgs.png -> ../../icons/01.no_unread_msgs.png
-│       ├── 01.unread_msgs.big_red_dot.png -> ../../icons/01.unread_msgs.big_red_dot.png
-│       ├── 01.unread_msgs.w2r.png -> ../../icons/01.unread_msgs.w2r.png
-│       └── unread_msgs.png
-├── systray/
-│   ├── nbiff_qt5.py*
-│   ├── Run_nbiff*
-│   └── Run_tbird_nbiff*
-├── Globals
-├── LICENSE
-└── README.md
+Visualize the source tree using the `tree` command:
 
-9 directories, 33 files
-</pre>
+```
+tree -F --dirsfirst src/
+```
 
 ## Architectural overview
 <pre>
@@ -90,13 +48,19 @@ src/
      |    +-----------------------+    +----------------------+
      +--> | Get 'Unread messages' | -> | 'systray' visualizer |
           +-----------------------+    +----------------------+
-                      1                           2
+                      1                           2  |
+                                                     v
+                                       +----------------------+
+                                       |   MUA affect window  |
+                                       +----------------------+
+                                                  3
 </pre>
 
 `nbiff` is divided into two components:
 
 1. The backend engine to get **unread messages** and
 2. The front-end **systray** visualizer.
+3. Mouse-click handler.
 
 Each can be developed independently.
 
@@ -146,6 +110,25 @@ the `python` script with the correct arguments.
 The overarching wrapper script `Run_tbird_nbiff` calls the previous
 wrapper script and is specific to `Thunderbird`.  Each different
 **email client** will have its own wrapper script.
+
+## MUA affect window
+
+This `Bourne shell` script processes mouse-clicks and
+per-specification, exit status and messags.
+
+It understands the following arguments:
+
+|                  | Additional     |                                                        |             |                    |
+| Main argument    | argument(s)    | Action                                                 | Exit status | Return string      |
+|------------------|----------------|--------------------------------------------------------|-------------|--------------------|
+| iconify/activate |                | * If not on the main `thunderbird` window, activate it | 10          | Current desktop    |
+|                  |                | * Otherwise honor the iconify/activate                 | 0           | **NULL**           |
+| swap             | Target desktop | * Swap between the current and the main window.        | 11          | Current desktop or |
+|                  | or '' for main |                                                        |             | '' when on main    |
+
+* **activate** means to switch to that desktop and de-iconify all `Thunderbird` windows.
+* A -1 **exit status** is an error.  Additional data may be in the
+  **return string**.
 
 ## Icon development
 

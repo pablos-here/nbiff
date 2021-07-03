@@ -6,9 +6,15 @@
 - [Features](#features)
 - [Online help](#online-help)
 - [Software requirements](#software-requirements)
+  - [Python](#python)
+  - [Additional packages](#additional-packages)
   - [Wayland support on GNOME](#wayland-support-on-gnome)
 - [Installing / upgrading](#installing--upgrading)
 - [Uninstalling](#uninstalling)
+- [Mouse-clicks](#mouse-clicks)
+  - [Desktop Environments](#desktop-environments)
+  - [Xfce](#xfce)
+  - [Swap mouse-click actions](#swap-mouse-click-actions)
 - [Customizing](#customizing)
 - [Troubleshooting](#troubleshooting)
 - [Development](#development)
@@ -32,6 +38,8 @@ Linux, yet it may (eventually) work on Windows.
   messages**.
 - Further details are available by clicking on the icon and when
   supported, as a **tool tip**.
+- Use mouse-clicks to Iconify/activate `Thunderbird` windows with
+  smart (Virtual) desktop swapping.
 - User customizable systray icons.
 
 ## Online help
@@ -40,6 +48,8 @@ For online help, join the `nbiff`
 [subreddit](https://www.reddit.com/r/nbiff).
 
 ## Software requirements
+
+### Python
 
 `python3` is required along with some additional modules.  Choose
 the desired method to install them:
@@ -52,6 +62,19 @@ the desired method to install them:
 
 *Note:  Depending on your system, additional modules may be
 required.  When `nbiff` is run, there must be no errors.*
+
+### Additional packages
+
+| Distro     | Packages                                                                                                                               |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| **Fedora** | <pre lang="shell">libX11-xcb libxcb xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm</pre>                     |
+| Others     | <pre lang="shell">ibxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-xinerama0</pre> |
+
+Optionally install `xdotool` for window activation/iconify:
+
+```shell
+xdotool
+```
 
 ### Wayland support on GNOME
 
@@ -85,6 +108,91 @@ Below is how to install/upgrade:
 ```shell
 rm -rf ~/.nbiff
 ```
+
+## Mouse-clicks
+
+If the necessary package is installed, mouse-clicks on the systray
+`nbiff` icon have actions.
+
+The systray icon has at least one context-menu which display `nbiff`
+data.  Typically it is accessed by a right-click or left-click.
+
+In the table below, window activation is mentioned.  In this
+documentation it means the following:
+
+* If needed, switch the desktop to where the main `Thunderbird` window
+  is located.
+* If needed, de-iconify all of the `Thunderbird` windows.  Any
+  children windows on the main desktop are de-iconified last so they
+  stack above the parent.
+
+Using **KDE** as the gold standard, the following is supported:
+
+| Mouse action | Result                                                                      |
+|--------------|-----------------------------------------------------------------------------|
+| click        | * If not on the main `Thunderbird` window, activate it.                     |
+|              | * Otherwise, return to the original desktop.                                |
+| middle-click | * if not on main, activate.  Save the current desktop in case of **click**. |
+|              | * Otherwise, activate/iconify `Thunderbird` window(s).                      |
+
+### Desktop Environments
+
+As each **Desktop Environment** seems to implement mouse-clicks
+differently, it is best to try the different mouse-click combinations
+and see what happens ... :p:
+
+* left-click
+* right-click
+* double-click
+* middle-click
+
+### Xfce
+
+The default **Status Tray Plugin** setting is to present an **Xfce**
+configuration menu on one of the clicks.  Only middle-click is enabled
+and it behaves like KDE's *click* (see above).
+
+To enable (opinion) proper mouse clicks, uncheck the **Menu is primary
+action**:
+
+* Right-click on `nbiff` systray icon to obtain the **Status Tray
+  Plugin** menu. 
+* Select **Properties**
+* In new **Status Tray Items** window, under **Features**, uncheck
+  **Menu is primary action**
+  
+To revert the setting:
+
+* Right-click systray panel, **Panel -> Panel preferences ...**
+* Click the **Items** tab
+* Select **Status Tray Plugin (external)** and
+* Click the **gear** at the bottom of the list
+* Check **Menu is primary action**
+
+### Swap mouse-click actions
+
+View the current setting before switching the mouse-click acions:
+
+```shell
+fgrep SWAP_MOUSE_ACTION= ~/.nbiff/local/conf/nbiff.conf
+```
+
+If the line is preceded with an **#**, it is commented out.  The
+system default applies.
+
+To swap mouse-click actions - remove the **#**:
+
+```shell
+sed -i 's/^#SWAP_MOUSE_ACTION=/SWAP_MOUSE_ACTION=/' ~/.nbiff/local/conf/nbiff.conf
+```
+
+To restore the system default:
+
+```shell
+sed -i 's/^SWAP_MOUSE_ACTION=/#SWAP_MOUSE_ACTION=/' ~/.nbiff/local/conf/nbiff.conf
+```
+
+After making the above changes, restart `nbiff`.
 
 ## Customizing
 
