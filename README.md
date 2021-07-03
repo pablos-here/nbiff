@@ -137,7 +137,7 @@ Using **KDE** as the gold standard, the following is supported:
 
 As each **Desktop Environment** seems to implement mouse-clicks
 differently, it is best to try the different mouse-click combinations
-and see what happens ... :p:
+and see what happens ... :p
 
 * left-click
 * right-click
