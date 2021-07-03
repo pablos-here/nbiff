@@ -179,10 +179,9 @@ Before making any changes, view the current setting:
 fgrep SWAP_MOUSE_ACTION= ~/.nbiff/local/conf/nbiff.conf
 ```
 
-If the line is preceded with an **#**, it is commented out.  The
-system default applies.
+A commented line is preceded with a **#**.
 
-To swap mouse-click actions - remove the **#**:
+To swap mouse-click actions, remove the **#**:
 
 ```shell
 sed -i 's/^#SWAP_MOUSE_ACTION=/SWAP_MOUSE_ACTION=/' ~/.nbiff/local/conf/nbiff.conf
