@@ -57,7 +57,7 @@ tree -F --dirsfirst src/
                                                   3
 </pre>
 
-`nbiff` is divided into two components:
+`nbiff` functionality is abstracted into the following components:
 
 1. The backend engine to get **unread messages** and
 2. The front-end **systray** visualizer.
