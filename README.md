@@ -128,12 +128,10 @@ documentation it means the following:
 
 Using **KDE** as the gold standard, the following is supported:
 
-| Mouse action | Result                                                                      |
-|--------------|-----------------------------------------------------------------------------|
-| click        | * If not on the main `Thunderbird` window, activate it.                     |
-|              | * Otherwise, return to the original desktop.                                |
-| middle-click | * if not on main, activate.  Save the current desktop in case of **click**. |
-|              | * Otherwise, activate/iconify `Thunderbird` window(s).                      |
+| Mouse action | Result                                                                                                                                                   |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| click        | <ul><li>If not on the main `Thunderbird` window, activate it.</li><li>Otherwise, return to the original desktop.</li></ul>                               |
+| middle-click | <ul><li>if not on main, activate.  Save the current desktop in case of **click**.</li><li>Otherwise, activate/iconify `Thunderbird` window(s).</li></ul> |
 
 ### Desktop Environments
 
