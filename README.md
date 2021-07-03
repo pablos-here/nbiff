@@ -38,7 +38,7 @@ Linux, yet it may (eventually) work on Windows.
   messages**.
 - Further details are available by clicking on the icon and when
   supported, as a **tool tip**.
-- Use mouse-clicks to Iconify/activate `Thunderbird` windows with
+- Use mouse-clicks to iconify/activate `Thunderbird` windows with
   smart (Virtual) desktop swapping.
 - User customizable systray icons.
 
