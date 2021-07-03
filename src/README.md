@@ -126,8 +126,7 @@ It understands the following arguments:
 | swap             | Target desktop or '' for main | * Swap between the current and the main window.        | 11          | Current desktop or '' when on main |
 
 * **Activate** means to switch to that desktop and de-iconify all `Thunderbird` windows.
-* A `-1` **exit status** is an error.  Additional data may be in the
-  **return string**.
+* A `-1` **exit status** is an error.  Additional data may be in the **return string**.
 
 ## Icon development
 
