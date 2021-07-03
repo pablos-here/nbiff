@@ -120,11 +120,11 @@ data.  Typically it is accessed by a right-click or left-click.
 In the table below, window activation is mentioned.  In this
 documentation it means the following:
 
-1 If needed, switch the desktop to where the main `Thunderbird` window
-  is located.
-2 If needed, de-iconify all of the `Thunderbird` windows.  Any
+1. If needed, switch the desktop to where the main `Thunderbird`
+   window is located.
+2. If needed, de-iconify all of the `Thunderbird` windows.  Any
   children windows on the main desktop are de-iconified last so they
-  stack above the parent.
+  stack above the parent. 
 
 Using **KDE** as the gold standard, the following is supported:
 
