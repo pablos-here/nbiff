@@ -153,11 +153,11 @@ and it behaves like KDE's *click* (see above).
 To enable proper (*opinion*) mouse clicks, uncheck the **Menu is
 primary action**:
 
-* Right-click on `nbiff` systray icon to obtain the **Status Tray
+* Right-click on the `nbiff` systray icon to obtain the **Status Tray
   Plugin** menu. 
-* Select **Properties**
-* In new **Status Tray Items** window, under **Features**, uncheck
-  **Menu is primary action**
+* Select **Properties**.
+* In the **Status Tray Items** window, under **Features**, uncheck
+  **Menu is primary action**.
   
 To revert the setting:
 
