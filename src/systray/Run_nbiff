@@ -41,9 +41,10 @@ fi
 ########################################################
 usage()
 {
-   printf "usage: $(basename $0) [ -c -f 'new_msg_gen args' ] nbiff\n"
+   printf "usage: $(basename $0) [ -c -d -f 'new_msg_gen args' ] nbiff\n"
    printf "\n"
    printf -- "-c\tcheck .conf and exit\n"
+   printf -- "-d\twrite debug to stdout\n"
    printf -- "-f\t'new_msg_gen args'\n"
 }
 
@@ -63,6 +64,18 @@ check_config()
       exit 1
    fi
    GEN_NEW_MSGS="$GEN_NEW_MSGS_DIR/$DEFAULT_GEN_NEW_MSGS"
+
+   if [ -z "$MUA_AFFECT_WINDOW" ] ; then
+      printf "$(basename $0) - MUA_AFFECT_WINDOW= is not set\n"
+      exit 1
+   fi
+   MUA_AFFECT_WINDOW="$THIS_SCRIPT_DIR/$MUA_AFFECT_WINDOW"
+   is_executable "$MUA_AFFECT_WINDOW"
+
+   if [ -z "$SWAP_MOUSE_ACTION" ] ; then
+      printf "$(basename $0) - SWAP_MOUSE_ACTION= is not set\n"
+      exit 1
+   fi
 
    is_directory "$ICONS_DIR"
    for ICON in "$ICON_UNREAD_MSGS" "$ICON_NO_UNREAD_MSGS" "$ICON_ERROR" "$ICON_MUA_IS_DOWN" ; do
@@ -95,9 +108,11 @@ cleanup()
 # Process arguments
 #
 CHECK_CONFIG_FLAG=0
-while getopts cf: ARG ; do
+NBIFF_DEBUG=0
+while getopts dcf: ARG ; do
    case $ARG in
       c) CHECK_CONFIG_FLAG=1;;
+      d) NBIFF_DEBUG=1;;
       f) USER_GEN_NEW_MSGS="$OPTARG";; # take as-is
       ?) usage
          exit 1;;
@@ -119,9 +134,9 @@ is_executable "$NBIFF"
 check_config
 
 if [ -z "$USER_GEN_NEW_MSGS" ] ; then # use the default
-   PROG="$GEN_NEW_MSGS"
+   MY_GEN_NEW_MSGS="$GEN_NEW_MSGS"
 else
-   PROG="$USER_GEN_NEW_MSGS"
+   MY_GEN_NEW_MSGS="$USER_GEN_NEW_MSGS"
 fi
 
 ########################################################
@@ -130,11 +145,15 @@ fi
 trap 'cleanup; exit 0' 0 1 2 3 15
 
 # Background so PyQt can handle signals
-./$NBIFF "$PROG" \
+./$NBIFF "$MY_GEN_NEW_MSGS" \
+         $NBIFF_DEBUG \
          "$ICONS_DIR/$ICON_NO_UNREAD_MSGS" \
          "$ICONS_DIR/$ICON_UNREAD_MSGS" \
          "$ICONS_DIR/$ICON_ERROR" \
-         "$ICONS_DIR/$ICON_MUA_IS_DOWN" &
+         "$ICONS_DIR/$ICON_MUA_IS_DOWN" \
+         "$MUA_AFFECT_WINDOW" \
+         "$SWAP_MOUSE_ACTION" \
+         &
 wait
 
 exit $?
