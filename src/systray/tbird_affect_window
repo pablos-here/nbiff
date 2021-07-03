@@ -1,0 +1,223 @@
+#!/bin/bash
+
+#
+# Copyright © 2021 Pablo Sanchez
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# The Software is provided "as is", without warranty of any kind,
+# express or implied, including but not limited to the warranties of
+# merchantability, fitness for a particular purpose and
+# noninfringement. In no event shall the authors or copyright holders be
+# liable for any claim, damages or other liability, whether in an action
+# of contract, tort or otherwise, arising from, out of or in connection
+# with the Software or the use or other dealings in the Software.
+#
+
+#
+# This script handles various Use Cases based on the (virtual) desktop the
+# user is on and the action requested.
+#
+# To simplify the explanation, we'll distinguish between the main Thunderbird
+# window's desktop (we'll call it main) versus not:  `on main` vs `not`:
+#
+# |                  | Current |
+# | Request          | Desktop | Action
+# +------------------+---------+----------------
+# | Iconify/Activate | On main | Honor request
+# |                  | Not     | Activate - remember desktop
+# | Swap             | On main | 1) Initiated here?  Stay
+# |                  |         | 2) Swap back
+# |                  | Not     | Swap to main - remember desktop
+#
+# * Activate = switch to the main Thunderbird window and de-iconify
+#
+# Notes
+# =====
+# o Activate causes de-iconify and desktop switch
+# o The parent window has the substring `Mozilla Thunderbird'.
+#   We activate it first so subsequent windows overlay it.
+# o Exit status and data per the parent python script.
+#
+# Quirks
+# ======
+# o On KDE, we need to be on the iconifying desktop before we
+#   iconize otherwise the inconify request seems to get queued
+#   until focus is on that desktop.
+#
+
+########################################################
+# Functions
+########################################################
+
+#
+# Process the children windows that are not on the same
+# desktop as the main window.
+#
+# We sort the by desktop to minimize the number of times
+# we switch desktops.
+#
+children_not_on_main()
+{
+   MY_ACTION=$1
+
+   # Step 1
+   PREV_DESKTOP=""
+   for WIN_KEY in "${!CHILDREN_WIN[@]}" ; do
+      echo ${CHILDREN_WIN[$WIN_KEY]} $WIN_KEY
+   done | sort -n | while read DESKTOP WID ; do
+      if [ "$PREV_DESKTOP" != "$DESKTOP" ] ; then
+         xdotool set_desktop $DESKTOP
+         PREV_DESKTOP="$DESKTOP"
+      fi
+      if [ "$MY_ACTION" = 'iconify' ] ; then
+         xdotool windowminimize $WID
+      else
+         xdotool windowactivate $WID
+      fi
+   done
+
+}
+
+#
+# Process the children that are on the same desktop
+# as the main window.
+#
+children_on_main()
+{
+   MY_ACTION=$1
+
+   for WID in "${!BOTH_WIN[@]}" ; do
+      if [ "$MY_ACTION" = 'iconify' ] ; then
+         xdotool windowminimize $WID
+      else
+         xdotool windowactivate $WID
+      fi
+   done
+}
+
+activate_all()
+{
+   children_not_on_main 'activate'
+
+   xdotool set_desktop $MAIN_DESKTOP
+   xdotool windowactivate $MAIN_WID
+
+   # Ensure that the children are on top of the parent
+   children_on_main 'activate'
+}
+
+usage()
+{
+   printf "usage: $(basename $0) activate | iconify | swap DESKTOP\n"
+   printf "\n"
+   printf "activate - de-iconify and switch to the main window desktop\n"
+   printf "iconify - the main and children windows\n"
+   printf "swap - to the DESKTOP specified\n"
+}
+
+
+########################################################
+# Initialize
+########################################################
+
+ACTION=$1
+case "$ACTION" in
+   iconify | activate | swap_desktop) KNOWN='yup';;
+   *)
+esac
+
+# We have a functional dependency on the existence of xdotool
+which xdotool > /dev/null 2>&1
+if [ $? -ne 0 ] ; then
+   printf "$(basename $0) - xdotool not in PATH\n"
+   exit 1
+fi
+
+#
+# Main's `window id' and `desktop'.
+#
+MAIN='.*- Mozilla Thunderbird$'
+MAIN_WID=$(xdotool search --name "$MAIN" 2>/dev/null)
+
+# Exit if Thunderbird is not running.
+if [ -z "$MAIN_WID" ] ; then
+   exit 0
+fi
+
+MAIN_DESKTOP=$(xdotool get_desktop_for_window $MAIN_WID 2>/dev/null)
+CURR_DESKTOP=$(xdotool get_desktop)
+
+#
+# An array of potential children (`window id', `desktop') pairs.
+#
+# A slight optimization, separate children windows that are on
+# the same desktop as the main window.
+#
+declare -A CHILDREN_WIN BOTH_WIN
+CHILDREN='.*- Thunderbird$'
+for WID in $(xdotool search --name "$CHILDREN") ; do
+   DESKTOP=$(xdotool get_desktop_for_window $WID 2>/dev/null)
+   if [ "$DESKTOP" != "$MAIN_DESKTOP" ] ; then
+      CHILDREN_WIN[$WID]+="$DESKTOP"
+   else
+      BOTH_WIN[$WID]+="$DESKTOP"
+   fi
+done
+
+RTN_DESKTOP=-1
+
+########################################################
+# Main
+########################################################
+
+if [ "$ACTION" = "swap" ] ; then
+   SWAP_DESKTOP="$2"
+   # if the SWAP target desktop is not main and is the same as current, go to main!  :)
+
+   if [ -z "$SWAP_DESKTOP" ] ; then # head over to main's desktop
+      if [ "$CURR_DESKTOP" != "$MAIN_DESKTOP" ] ; then
+         activate_all
+      fi
+      RTN_DESKTOP=$CURR_DESKTOP
+   elif [ -n "$SWAP_DESKTOP" -a "$CURR_DESKTOP" != "$MAIN_DESKTOP" ] ; then
+      activate_all
+
+      RTN_DESKTOP=$CURR_DESKTOP
+   else                             # return from main to where we came from
+      if [ "$CURR_DESKTOP" != "$SWAP_DESKTOP" ] ; then
+         xdotool set_desktop $SWAP_DESKTOP
+      fi
+      RTN_DESKTOP=''
+   fi
+   STATUS=11
+elif [ "$CURR_DESKTOP" = "$MAIN_DESKTOP" ] ; then # handle iconify/activate
+   children_not_on_main "$ACTION"
+
+   xdotool set_desktop $MAIN_DESKTOP
+   if [ "$ACTION" = 'iconify' ] ; then
+      xdotool windowminimize $MAIN_WID
+   else
+      xdotool windowactivate $MAIN_WID
+   fi
+   children_on_main "$ACTION"
+
+   STATUS=0
+else # A slight workflow optimization:  go to main's desktop and activate all the windows
+   activate_all
+
+   RTN_DESKTOP=$CURR_DESKTOP
+   STATUS=10
+fi
+
+echo $RTN_DESKTOP
+exit $STATUS
