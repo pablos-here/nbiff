@@ -120,9 +120,9 @@ data.  Typically it is accessed by a right-click or left-click.
 In the table below, window activation is mentioned.  In this
 documentation it means the following:
 
-* If needed, switch the desktop to where the main `Thunderbird` window
+1 If needed, switch the desktop to where the main `Thunderbird` window
   is located.
-* If needed, de-iconify all of the `Thunderbird` windows.  Any
+2 If needed, de-iconify all of the `Thunderbird` windows.  Any
   children windows on the main desktop are de-iconified last so they
   stack above the parent.
 
