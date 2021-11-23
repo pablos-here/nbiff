@@ -43,7 +43,7 @@ architecture](#high-level-architecture) section.
 ## Where to begin
 
 - Ensure that `nbiff` can create its icons independent of `gen_new_msgs`:
-  - See [previewing changes](#previewing-changes).
+  - See [previewing changes](CUSTOMIZING.md##previewing-changes).
   - Invoking `nbiff` using this method is independent of
     `gen_new_msgs`.
 - Ensure that `gen_new_msgs` is working properly:
