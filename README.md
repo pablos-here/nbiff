@@ -4,7 +4,6 @@
 
 - [nbiff](#nbiff)
 - [Features](#features)
-- [Online help](#online-help)
 - [Software requirements](#software-requirements)
   - [Python](#python)
   - [Additional packages](#additional-packages)
@@ -42,11 +41,6 @@ Thunderbird.
 - Use mouse-clicks to iconify/activate `Thunderbird` windows with
   smart (Virtual) desktop swapping.
 - User customizable systray icons.
-
-## Online help
-
-For online help, join the `nbiff`
-[subreddit](https://www.reddit.com/r/nbiff).
 
 ## Software requirements
 
