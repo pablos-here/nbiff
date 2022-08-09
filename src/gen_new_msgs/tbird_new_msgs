@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright © 2021 Pablo Sanchez
+# Copyright © 2022 Pablo Sanchez
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -513,8 +513,11 @@ while [ 1 ] ; do
    while read MSF MOD_STAMP ; do
       # Flip (tac), check, flip again (tac)
       #
+      # Which column tracks the number of new messages?
+      NUM_NEW_MSGS_COLUMN=$(grep -m1 -oE '[a-zA-Z0-9][a-zA-Z0-9]=numNewMsgs' "$MSF" | cut -d= -f1)
+      
       # Search for the string that starts with ^ - so we need to escape it as it's an RE
-      FOLDER_COUNT=$(tac "$MSF" 2> /dev/null | grep -m1 -oE '\^A2=[0-9a-f]+' | tac | cut -d= -f2)
+      FOLDER_COUNT=$(tac "$MSF" 2> /dev/null | grep -m1 -oE '\^'$NUM_NEW_MSGS_COLUMN'=[0-9a-f]+' | tac | cut -d= -f2)
       if [ -z "$FOLDER_COUNT" ] ; then
          FOLDER_COUNT=0
       fi
