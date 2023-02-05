@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 #
-# Copyright © 2022 Pablo Sanchez
+# Copyright © 2023 Pablo Sanchez
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
