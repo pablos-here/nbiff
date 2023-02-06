@@ -2,26 +2,26 @@
 
 #
 # Copyright © 2023 Pablo Sanchez
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
 # without limitation the rights to use, copy, modify, merge, publish,
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
-# the following conditions: 
-# 
+# the following conditions:
+#
 # The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software. 
-# 
+# included in all copies or substantial portions of the Software.
+#
 # The Software is provided "as is", without warranty of any kind,
 # express or implied, including but not limited to the warranties of
 # merchantability, fitness for a particular purpose and
 # noninfringement. In no event shall the authors or copyright holders be
 # liable for any claim, damages or other liability, whether in an action
 # of contract, tort or otherwise, arising from, out of or in connection
-# with the Software or the use or other dealings in the Software. 
-# 
+# with the Software or the use or other dealings in the Software.
+#
 
 #
 # We rely on the shell wrapper to handle parameter validation.
@@ -49,7 +49,7 @@
 #    Unread count = N
 #
 #       Note:  We expect, but do not fail, if N is not provided or not an integer.
-# 
+#
 # All other strings are ignored.
 #
 # Mouse-clicks
@@ -85,7 +85,7 @@
 # o https://stackoverflow.com/questions/16670125/python-format-string-thousand-separator-with-spaces
 #
 
-from PyQt5.QtWidgets import QApplication, QMenu, QSystemTrayIcon, qApp, QMessageBox, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QProcess, QTimer
 import sys, signal, locale, os.path, psutil, subprocess
@@ -108,7 +108,7 @@ def find_sub_list(sl,l):
 #
 # https://stackoverflow.com/questions/22291434/pyqt-application-closes-successfully-but-process-is-not-killed/22305331
 #
-def kill_proc_tree(pid, including_parent=False):    
+def kill_proc_tree(pid, including_parent=False):
     parent = psutil.Process(pid)
     for child in parent.children(recursive=True):
         child.kill()
@@ -178,7 +178,7 @@ class MainWindow():
 
         # Number formatting
         locale.setlocale(locale.LC_ALL, '')
-        locale._override_localeconv = {'mon_thousands_sep': ','}
+        locale._override_localeconv["mon_thousands_sep"] = ","
 
         # Start the `new_msgs' process
         self.start_process()
@@ -263,7 +263,7 @@ class MainWindow():
                                                     str(locale.format_string('%d', self.unread_msgs_count, grouping=True, monetary=True)))
         else:
             self.unreadAction = self.menu.addAction(self.tooltip_error_msg_not_int + str(self.unread_msgs_count))
-        
+
         self.separator = self.menu.addSeparator()
         self.quitAction = self.menu.addAction("Quit")
         self.quitAction.triggered.connect(self.quit_cleanup)
@@ -335,7 +335,7 @@ class MainWindow():
             self.trayIcon.setToolTip(self.tooltip_error_msg_not_int + str(self.unread_msgs_count))
 
         self.gen_menu()
-            
+
     def handle_state(self, state):
         print_debug('> handle_state()')
         states = {
